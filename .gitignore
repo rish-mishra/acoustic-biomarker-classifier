@@ -1,0 +1,14 @@
+# Data & Large Files
+data/*
+!data/splits.json
+*.pt
+*.bin
+*.wav
+*.mp3
+
+# Python Environment & Cache
+__pycache__/
+*.pyc
+.venv/
+.env
+.DS_Store
