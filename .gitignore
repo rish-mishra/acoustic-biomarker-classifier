@@ -1,14 +1,18 @@
-# Data & Large Files
-data/*
-!data/splits.json
-*.pt
-*.bin
+# Python Environment & Cache
+.venv/
+__pycache__/
+*.pyc
+.env
+
+# Raw Medical Data / Audio
+data/raw/
 *.wav
 *.mp3
 
-# Python Environment & Cache
-__pycache__/
-*.pyc
-.venv/
-.env
+# Large Model Files
+*.pt
+*.pth
+*.bin
+
+# System Files
 .DS_Store
