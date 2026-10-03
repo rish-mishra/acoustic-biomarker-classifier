@@ -16,3 +16,5 @@ data/raw/
 
 # System Files
 .DS_Store
+# Generated metadata
+data/metadata.csv
