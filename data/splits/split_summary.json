@@ -1,0 +1,288 @@
+{
+  "method": "patient-balanced",
+  "seed": 42,
+  "candidates": 5000,
+  "target_ratios": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "ratio_basis": "patients",
+  "metadata": "metadata.csv",
+  "diagnosis_used_for_split": false,
+  "score_weights": {
+    "label_tvd": 1.0,
+    "device_tvd": 1.0,
+    "sample_rate_tvd": 0.25,
+    "cycle_share_gap": 0.25
+  },
+  "score": {
+    "label_tvd": 0.0715,
+    "device_tvd": 0.0334,
+    "sample_rate_tvd": 0.0122,
+    "cycle_share_gap": 0.0127,
+    "total": 0.1111
+  },
+  "splits": {
+    "train": {
+      "patients": 88,
+      "patient_fraction": 0.6984,
+      "recordings": 613,
+      "cycles": 4741,
+      "cycle_fraction": 0.6873,
+      "cycle_labels": {
+        "normal": 2487,
+        "crackle": 1272,
+        "wheeze": 664,
+        "both": 318
+      },
+      "cycle_label_fractions": {
+        "normal": 0.5246,
+        "crackle": 0.2683,
+        "wheeze": 0.1401,
+        "both": 0.0671
+      },
+      "cycles_by_device": {
+        "AKGC417L": 2995,
+        "Litt3200": 357,
+        "LittC2SE": 392,
+        "Meditron": 997
+      },
+      "cycle_fractions_by_device": {
+        "AKGC417L": 0.6317,
+        "Litt3200": 0.0753,
+        "LittC2SE": 0.0827,
+        "Meditron": 0.2103
+      },
+      "recordings_by_device": {
+        "AKGC417L": 430,
+        "Litt3200": 42,
+        "LittC2SE": 58,
+        "Meditron": 83
+      },
+      "cycles_by_sample_rate": {
+        "4000": 704,
+        "10000": 61,
+        "44100": 3976
+      },
+      "cycle_fractions_by_sample_rate": {
+        "4000": 0.1485,
+        "10000": 0.0129,
+        "44100": 0.8386
+      },
+      "patients_by_diagnosis": {
+        "Bronchiectasis": 4,
+        "Bronchiolitis": 3,
+        "COPD": 46,
+        "Healthy": 21,
+        "LRTI": 1,
+        "Pneumonia": 5,
+        "URTI": 8
+      },
+      "recordings_by_diagnosis": {
+        "Bronchiectasis": 7,
+        "Bronchiolitis": 7,
+        "COPD": 532,
+        "Healthy": 30,
+        "LRTI": 1,
+        "Pneumonia": 24,
+        "URTI": 12
+      }
+    },
+    "val": {
+      "patients": 19,
+      "patient_fraction": 0.1508,
+      "recordings": 138,
+      "cycles": 1077,
+      "cycle_fraction": 0.1561,
+      "cycle_labels": {
+        "normal": 508,
+        "crackle": 337,
+        "wheeze": 122,
+        "both": 110
+      },
+      "cycle_label_fractions": {
+        "normal": 0.4717,
+        "crackle": 0.3129,
+        "wheeze": 0.1133,
+        "both": 0.1021
+      },
+      "cycles_by_device": {
+        "AKGC417L": 647,
+        "Litt3200": 74,
+        "LittC2SE": 119,
+        "Meditron": 237
+      },
+      "cycle_fractions_by_device": {
+        "AKGC417L": 0.6007,
+        "Litt3200": 0.0687,
+        "LittC2SE": 0.1105,
+        "Meditron": 0.2201
+      },
+      "recordings_by_device": {
+        "AKGC417L": 88,
+        "Litt3200": 9,
+        "LittC2SE": 14,
+        "Meditron": 27
+      },
+      "cycles_by_sample_rate": {
+        "4000": 155,
+        "10000": 0,
+        "44100": 922
+      },
+      "cycle_fractions_by_sample_rate": {
+        "4000": 0.1439,
+        "10000": 0.0,
+        "44100": 0.8561
+      },
+      "patients_by_diagnosis": {
+        "Bronchiectasis": 2,
+        "Bronchiolitis": 2,
+        "COPD": 8,
+        "Healthy": 3,
+        "Pneumonia": 1,
+        "URTI": 3
+      },
+      "recordings_by_diagnosis": {
+        "Bronchiectasis": 8,
+        "Bronchiolitis": 4,
+        "COPD": 105,
+        "Healthy": 3,
+        "Pneumonia": 13,
+        "URTI": 5
+      }
+    },
+    "test": {
+      "patients": 19,
+      "patient_fraction": 0.1508,
+      "recordings": 169,
+      "cycles": 1080,
+      "cycle_fraction": 0.1566,
+      "cycle_labels": {
+        "normal": 647,
+        "crackle": 255,
+        "wheeze": 100,
+        "both": 78
+      },
+      "cycle_label_fractions": {
+        "normal": 0.5991,
+        "crackle": 0.2361,
+        "wheeze": 0.0926,
+        "both": 0.0722
+      },
+      "cycles_by_device": {
+        "AKGC417L": 704,
+        "Litt3200": 71,
+        "LittC2SE": 83,
+        "Meditron": 222
+      },
+      "cycle_fractions_by_device": {
+        "AKGC417L": 0.6519,
+        "Litt3200": 0.0657,
+        "LittC2SE": 0.0769,
+        "Meditron": 0.2056
+      },
+      "recordings_by_device": {
+        "AKGC417L": 128,
+        "Litt3200": 9,
+        "LittC2SE": 15,
+        "Meditron": 17
+      },
+      "cycles_by_sample_rate": {
+        "4000": 157,
+        "10000": 0,
+        "44100": 923
+      },
+      "cycle_fractions_by_sample_rate": {
+        "4000": 0.1454,
+        "10000": 0.0,
+        "44100": 0.8546
+      },
+      "patients_by_diagnosis": {
+        "Asthma": 1,
+        "Bronchiectasis": 1,
+        "Bronchiolitis": 1,
+        "COPD": 10,
+        "Healthy": 2,
+        "LRTI": 1,
+        "URTI": 3
+      },
+      "recordings_by_diagnosis": {
+        "Asthma": 1,
+        "Bronchiectasis": 1,
+        "Bronchiolitis": 2,
+        "COPD": 156,
+        "Healthy": 2,
+        "LRTI": 1,
+        "URTI": 6
+      }
+    },
+    "all": {
+      "patients": 126,
+      "patient_fraction": 1.0,
+      "recordings": 920,
+      "cycles": 6898,
+      "cycle_fraction": 1.0,
+      "cycle_labels": {
+        "normal": 3642,
+        "crackle": 1864,
+        "wheeze": 886,
+        "both": 506
+      },
+      "cycle_label_fractions": {
+        "normal": 0.528,
+        "crackle": 0.2702,
+        "wheeze": 0.1284,
+        "both": 0.0734
+      },
+      "cycles_by_device": {
+        "AKGC417L": 4346,
+        "Litt3200": 502,
+        "LittC2SE": 594,
+        "Meditron": 1456
+      },
+      "cycle_fractions_by_device": {
+        "AKGC417L": 0.63,
+        "Litt3200": 0.0728,
+        "LittC2SE": 0.0861,
+        "Meditron": 0.2111
+      },
+      "recordings_by_device": {
+        "AKGC417L": 646,
+        "Litt3200": 60,
+        "LittC2SE": 87,
+        "Meditron": 127
+      },
+      "cycles_by_sample_rate": {
+        "4000": 1016,
+        "10000": 61,
+        "44100": 5821
+      },
+      "cycle_fractions_by_sample_rate": {
+        "4000": 0.1473,
+        "10000": 0.0088,
+        "44100": 0.8439
+      },
+      "patients_by_diagnosis": {
+        "Asthma": 1,
+        "Bronchiectasis": 7,
+        "Bronchiolitis": 6,
+        "COPD": 64,
+        "Healthy": 26,
+        "LRTI": 2,
+        "Pneumonia": 6,
+        "URTI": 14
+      },
+      "recordings_by_diagnosis": {
+        "Asthma": 1,
+        "Bronchiectasis": 16,
+        "Bronchiolitis": 13,
+        "COPD": 793,
+        "Healthy": 35,
+        "LRTI": 2,
+        "Pneumonia": 37,
+        "URTI": 23
+      }
+    }
+  }
+}
