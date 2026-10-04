@@ -1,0 +1,215 @@
+{
+  "run_name": "baseline_cnn_v4",
+  "status": "completed",
+  "started_utc": "2026-10-04T17:26:32+00:00",
+  "seed": 42,
+  "config": {
+    "run_name": "baseline_cnn_v4",
+    "seed": 42,
+    "max_epochs": 60,
+    "patience": 10,
+    "batch_size": 32,
+    "lr": 0.0003,
+    "weight_decay": 0.01,
+    "dropout": 0.2,
+    "channels": [
+      16,
+      32,
+      64,
+      128
+    ],
+    "grad_clip_norm": 5.0,
+    "use_bucketing": true,
+    "bucket_pool_multiplier": 50,
+    "num_workers": 0,
+    "device": "cuda",
+    "checkpoint_dir": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\models",
+    "reports_dir": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\reports\\runs",
+    "extra": {}
+  },
+  "max_train_batches": null,
+  "model": {
+    "class": "BaselineCNN",
+    "parameter_count": 294740
+  },
+  "class_names": [
+    "normal",
+    "crackle",
+    "wheeze",
+    "both"
+  ],
+  "class_weights": {
+    "normal": 0.4765782058238983,
+    "crackle": 0.9318003058433533,
+    "wheeze": 1.7850151062011719,
+    "both": 3.727201223373413
+  },
+  "class_weight_source": "train split label counts: N / (K * n_c)",
+  "optimizer": {
+    "type": "AdamW",
+    "lr": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.01,
+    "amsgrad": false,
+    "maximize": false,
+    "capturable": false,
+    "differentiable": false,
+    "decoupled_weight_decay": true
+  },
+  "loss": "CrossEntropyLoss(weight=class_weights)",
+  "selection_metric": "val_macro_f1",
+  "test_split_evaluated": false,
+  "data": {
+    "metadata": {
+      "path": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\metadata.csv",
+      "sha256": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf"
+    },
+    "split_file": {
+      "path": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\splits\\patient_split.csv",
+      "sha256": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4"
+    },
+    "normalization_stats": {
+      "path": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\normalization\\logmel_primary_train_band_stats.json",
+      "sha256": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c"
+    },
+    "audio_dir": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\raw\\Respiratory_Sound_Database\\Respiratory_Sound_Database\\audio_and_txt_files",
+    "checks": {
+      "normalizer_used_matches_stats_file": true,
+      "stats_file_fitted_on_current_split_file": true,
+      "stats_file_fitted_on_current_metadata": true,
+      "val_uses_same_split_file": true
+    },
+    "datasets": {
+      "train": {
+        "cycles": 4741,
+        "patients": 88,
+        "label_counts": {
+          "normal": 2487,
+          "crackle": 1272,
+          "wheeze": 664,
+          "both": 318
+        }
+      },
+      "val": {
+        "cycles": 1077,
+        "patients": 19,
+        "label_counts": {
+          "normal": 508,
+          "crackle": 337,
+          "wheeze": 122,
+          "both": 110
+        }
+      }
+    },
+    "log_mel_config": {
+      "sample_rate": 16000,
+      "win_length": 512,
+      "hop_length": 160,
+      "n_fft": 512,
+      "f_min": 50.0,
+      "f_max": 2000.0,
+      "n_mels": 64,
+      "log_floor": 1e-10
+    }
+  },
+  "code": {
+    "git_commit": "37e3a8782bbfb7ecdace98243ace1deb8ad3d143",
+    "git_dirty": true,
+    "git_uncommitted_paths": [
+      "reports/",
+      "src/evaluation/analyze_run.py",
+      "src/evaluation/compare_runs.py",
+      "tests/test_run_analysis.py"
+    ]
+  },
+  "environment": {
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.11.0+cu130",
+    "torchaudio": "2.11.0+cu130",
+    "numpy": "2.4.6",
+    "soundfile": "0.14.0",
+    "torch_cuda_build": "13.0",
+    "cudnn": 91900,
+    "cuda_available": true,
+    "device": "cuda",
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false,
+    "deterministic_algorithms": true,
+    "cublas_workspace_config": ":4096:8",
+    "gpu_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "gpu_total_memory_mb": 6140,
+    "gpu_compute_capability": "8.9",
+    "nvidia_driver": "595.97"
+  },
+  "checkpoint": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\models\\baseline_cnn_v4\\best.pt",
+  "finished_utc": "2026-10-04T17:53:00+00:00",
+  "epochs_completed": 26,
+  "stop_reason": "early_stopping: no val macro-F1 improvement for 10 epochs",
+  "total_training_time_s": 1588.006477,
+  "best_epoch": 15,
+  "best_validation": {
+    "per_class": {
+      "normal": {
+        "precision": 0.6442516268980477,
+        "recall": 0.5846456692913385,
+        "f1": 0.6130030959752322,
+        "support": 508
+      },
+      "crackle": {
+        "precision": 0.5331230283911672,
+        "recall": 0.5014836795252225,
+        "f1": 0.5168195718654435,
+        "support": 337
+      },
+      "wheeze": {
+        "precision": 0.2703862660944206,
+        "recall": 0.5163934426229508,
+        "f1": 0.35492957746478876,
+        "support": 122
+      },
+      "both": {
+        "precision": 0.2878787878787879,
+        "recall": 0.17272727272727273,
+        "f1": 0.2159090909090909,
+        "support": 110
+      }
+    },
+    "macro_f1": 0.42516533405363877,
+    "balanced_accuracy": 0.44381251604169614,
+    "accuracy": 0.5088207985143919,
+    "confusion_matrix": [
+      [
+        297,
+        124,
+        74,
+        13
+      ],
+      [
+        100,
+        169,
+        47,
+        21
+      ],
+      [
+        38,
+        8,
+        63,
+        13
+      ],
+      [
+        26,
+        16,
+        49,
+        19
+      ]
+    ],
+    "n": 1077,
+    "loss": 1.301554888846593
+  },
+  "peak_gpu_memory_mb": 3478.8330078125
+}

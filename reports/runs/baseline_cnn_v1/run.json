@@ -1,0 +1,210 @@
+{
+  "run_name": "baseline_cnn_v1",
+  "status": "completed",
+  "started_utc": "2026-10-04T04:09:36+00:00",
+  "seed": 42,
+  "config": {
+    "run_name": "baseline_cnn_v1",
+    "seed": 42,
+    "max_epochs": 60,
+    "patience": 10,
+    "batch_size": 32,
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "dropout": 0.3,
+    "channels": [
+      16,
+      32,
+      64,
+      128
+    ],
+    "grad_clip_norm": 5.0,
+    "use_bucketing": true,
+    "bucket_pool_multiplier": 50,
+    "num_workers": 0,
+    "device": "cuda",
+    "checkpoint_dir": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\models",
+    "reports_dir": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\reports\\runs",
+    "extra": {}
+  },
+  "max_train_batches": null,
+  "model": {
+    "class": "BaselineCNN",
+    "parameter_count": 294740
+  },
+  "class_names": [
+    "normal",
+    "crackle",
+    "wheeze",
+    "both"
+  ],
+  "class_weights": {
+    "normal": 0.4765782058238983,
+    "crackle": 0.9318003058433533,
+    "wheeze": 1.7850151062011719,
+    "both": 3.727201223373413
+  },
+  "class_weight_source": "train split label counts: N / (K * n_c)",
+  "optimizer": {
+    "type": "AdamW",
+    "lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.01,
+    "amsgrad": false,
+    "maximize": false,
+    "capturable": false,
+    "differentiable": false,
+    "decoupled_weight_decay": true
+  },
+  "loss": "CrossEntropyLoss(weight=class_weights)",
+  "selection_metric": "val_macro_f1",
+  "test_split_evaluated": false,
+  "data": {
+    "metadata": {
+      "path": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\metadata.csv",
+      "sha256": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf"
+    },
+    "split_file": {
+      "path": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\splits\\patient_split.csv",
+      "sha256": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4"
+    },
+    "normalization_stats": {
+      "path": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\normalization\\logmel_primary_train_band_stats.json",
+      "sha256": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c"
+    },
+    "audio_dir": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\raw\\Respiratory_Sound_Database\\Respiratory_Sound_Database\\audio_and_txt_files",
+    "checks": {
+      "normalizer_used_matches_stats_file": true,
+      "stats_file_fitted_on_current_split_file": true,
+      "stats_file_fitted_on_current_metadata": true,
+      "val_uses_same_split_file": true
+    },
+    "datasets": {
+      "train": {
+        "cycles": 4741,
+        "patients": 88,
+        "label_counts": {
+          "normal": 2487,
+          "crackle": 1272,
+          "wheeze": 664,
+          "both": 318
+        }
+      },
+      "val": {
+        "cycles": 1077,
+        "patients": 19,
+        "label_counts": {
+          "normal": 508,
+          "crackle": 337,
+          "wheeze": 122,
+          "both": 110
+        }
+      }
+    },
+    "log_mel_config": {
+      "sample_rate": 16000,
+      "win_length": 512,
+      "hop_length": 160,
+      "n_fft": 512,
+      "f_min": 50.0,
+      "f_max": 2000.0,
+      "n_mels": 64,
+      "log_floor": 1e-10
+    }
+  },
+  "code": {
+    "git_commit": "37e3a8782bbfb7ecdace98243ace1deb8ad3d143",
+    "git_dirty": false,
+    "git_uncommitted_paths": []
+  },
+  "environment": {
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.11.0+cu130",
+    "torchaudio": "2.11.0+cu130",
+    "numpy": "2.4.6",
+    "soundfile": "0.14.0",
+    "torch_cuda_build": "13.0",
+    "cudnn": 91900,
+    "cuda_available": true,
+    "device": "cuda",
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false,
+    "deterministic_algorithms": true,
+    "cublas_workspace_config": ":4096:8",
+    "gpu_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "gpu_total_memory_mb": 6140,
+    "gpu_compute_capability": "8.9",
+    "nvidia_driver": "595.97"
+  },
+  "checkpoint": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\models\\baseline_cnn_v1\\best.pt",
+  "finished_utc": "2026-10-04T04:51:00+00:00",
+  "epochs_completed": 40,
+  "stop_reason": "early_stopping: no val macro-F1 improvement for 10 epochs",
+  "total_training_time_s": 2483.9982963999937,
+  "best_epoch": 29,
+  "best_validation": {
+    "per_class": {
+      "normal": {
+        "precision": 0.5850202429149798,
+        "recall": 0.5688976377952756,
+        "f1": 0.5768463073852296,
+        "support": 508
+      },
+      "crackle": {
+        "precision": 0.49236641221374045,
+        "recall": 0.3827893175074184,
+        "f1": 0.4307178631051753,
+        "support": 337
+      },
+      "wheeze": {
+        "precision": 0.2625482625482625,
+        "recall": 0.5573770491803278,
+        "f1": 0.35695538057742787,
+        "support": 122
+      },
+      "both": {
+        "precision": 0.25806451612903225,
+        "recall": 0.14545454545454545,
+        "f1": 0.18604651162790697,
+        "support": 110
+      }
+    },
+    "macro_f1": 0.3876415156739349,
+    "balanced_accuracy": 0.41362963748439185,
+    "accuracy": 0.4661095636025998,
+    "confusion_matrix": [
+      [
+        289,
+        112,
+        97,
+        10
+      ],
+      [
+        133,
+        129,
+        49,
+        26
+      ],
+      [
+        33,
+        11,
+        68,
+        10
+      ],
+      [
+        39,
+        10,
+        45,
+        16
+      ]
+    ],
+    "n": 1077,
+    "loss": 1.3337502337874587
+  },
+  "peak_gpu_memory_mb": 3478.9814453125
+}

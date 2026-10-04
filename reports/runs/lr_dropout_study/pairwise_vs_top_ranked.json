@@ -1,0 +1,59 @@
+{
+  "note": "Supplementary paired patient-level bootstrap vs the top-ranked run (baseline_cnn_v3). Not used for ranking.",
+  "bootstrap": {
+    "n_bootstrap": 2000,
+    "seed": 0,
+    "unit": "patient",
+    "n_patients": 19,
+    "runs": {
+      "baseline_cnn_v1": {
+        "macro_f1_ci95": [
+          0.30936695624195626,
+          0.4424811312960494
+        ],
+        "diff_vs_baseline_cnn_v3_mean": -0.03634459893790495,
+        "diff_vs_baseline_cnn_v3_ci95": [
+          -0.07451140510474236,
+          -0.00867668221854756
+        ],
+        "p_better_than_baseline_cnn_v3": 0.005
+      },
+      "baseline_cnn_v2": {
+        "macro_f1_ci95": [
+          0.3333070175983413,
+          0.5072301546593628
+        ],
+        "diff_vs_baseline_cnn_v3_mean": -0.0013691323981528422,
+        "diff_vs_baseline_cnn_v3_ci95": [
+          -0.031997245334512314,
+          0.029186366141082665
+        ],
+        "p_better_than_baseline_cnn_v3": 0.452
+      },
+      "baseline_cnn_v3": {
+        "macro_f1_ci95": [
+          0.33309583225317024,
+          0.5021399804853245
+        ],
+        "diff_vs_baseline_cnn_v3_mean": 0.0,
+        "diff_vs_baseline_cnn_v3_ci95": [
+          0.0,
+          0.0
+        ],
+        "p_better_than_baseline_cnn_v3": 0.0
+      },
+      "baseline_cnn_v4": {
+        "macro_f1_ci95": [
+          0.3003553761278326,
+          0.5190043751079386
+        ],
+        "diff_vs_baseline_cnn_v3_mean": -0.001169966691428495,
+        "diff_vs_baseline_cnn_v3_ci95": [
+          -0.04650646934034597,
+          0.04061394974616894
+        ],
+        "p_better_than_baseline_cnn_v3": 0.482
+      }
+    }
+  }
+}

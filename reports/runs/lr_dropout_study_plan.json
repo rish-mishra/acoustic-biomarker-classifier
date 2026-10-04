@@ -1,0 +1,17 @@
+{
+  "study": "baseline_cnn learning-rate / dropout study (validation only)",
+  "declared_utc": "2026-10-04",
+  "reference_run": "baseline_cnn_v1",
+  "base_commit": "37e3a8782bbfb7ecdace98243ace1deb8ad3d143",
+  "selection_metric": "validation macro F1 (best epoch, early stopping patience 10, max 60 epochs)",
+  "fixed": ["architecture BaselineCNN (16-32-64-128)", "preprocessing / Log-Mel PRIMARY_CONFIG", "frozen patient split",
+            "train-only band normalization", "class weights from train counts", "AdamW weight_decay 0.01",
+            "batch size 32", "length bucketing (pool x50)", "grad clip 5.0", "seed 42", "max_epochs 60", "patience 10"],
+  "experiments": {
+    "baseline_cnn_v1": {"lr": 0.001, "dropout": 0.3, "status": "already trained"},
+    "baseline_cnn_v2": {"lr": 0.0003, "dropout": 0.3},
+    "baseline_cnn_v3": {"lr": 0.0001, "dropout": 0.3},
+    "baseline_cnn_v4": {"lr": 0.0003, "dropout": 0.2}
+  },
+  "rules": ["no experiments added based on intermediate results", "test split never loaded or evaluated"]
+}
