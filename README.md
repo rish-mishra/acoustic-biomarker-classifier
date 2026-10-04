@@ -43,6 +43,25 @@ The primary experiments use one fixed, patient-level train / validation / test s
 - **Device shift will be tested separately.** Robustness to unseen devices will be measured in a later, dedicated experiment (e.g., holding out one device), not in the primary split.
 - **The test split is frozen.** It will not be regenerated, re-seeded, or adjusted based on model performance. Model selection and tuning use the validation split only.
 
+### Predeclared sensitivity analyses (audio quality)
+
+Many ICBHI recordings are clipped. No cycle is removed or repaired. Instead, every cycle carries clipping metrics computed from the original waveform at its native sample rate (`src/features/audio_preprocessing.py`):
+
+- `original_clipped_fraction`: share of samples with |x| ≥ 0.999.
+- `clipped_plateau_count`: number of contiguous clipped runs (|x| ≥ 0.999) lasting at least 32 ms.
+- `max_clipped_plateau_ms`: longest clipped run, in milliseconds.
+- `clipped_plateau_fraction`: share of samples inside clipped runs of at least 32 ms.
+
+Results will be reported for three fixed evaluation groups:
+
+| Group | Definition | Role |
+| :--- | :--- | :--- |
+| 1. All data | Every cycle | **Primary result** |
+| 2. Moderately clean | `original_clipped_fraction <= 0.10` | Sensitivity analysis |
+| 3. Clean | `original_clipped_fraction <= 0.01` **and** no clipped plateau lasting 32 ms or more (`clipped_plateau_count == 0`) | Sensitivity analysis |
+
+These definitions were fixed on 2026-10-03, before any model was trained. They will not be changed based on model performance. The groups filter evaluation cycles within the frozen split; they do not change the split itself.
+
 ---
 
 ## Planned Scope

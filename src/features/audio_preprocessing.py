@@ -4,8 +4,20 @@ Pipeline for one cycle:
   1. Read the WAV with soundfile as float32 in [-1, 1] (16- and 24-bit PCM).
   2. Downmix to mono by averaging channels (ICBHI files are already mono).
   3. Slice [cycle_start_s, cycle_end_s) at the *original* sample rate.
-  4. Resample the slice to 16 kHz with torchaudio.functional.resample
+  4. Trim leading exact digital zeros (see below).
+  5. Resample to 16 kHz with torchaudio.functional.resample
      (windowed-sinc, deterministic).
+
+Leading digital silence:
+  Most AKGC417L recordings (and no other device's) begin with ~90 ms of
+  samples that are exactly 0.0, which Log-Mel turns into floor-level frames
+  that would identify the device. Before resampling (while zeros are still
+  exact), every cycle, on every device, has its contiguous run of leading
+  samples equal to exactly 0.0 removed, capped at MAX_LEADING_SILENCE_S
+  (150 ms) and always keeping at least one sample. Non-zero samples, however
+  quiet, are never removed, and zeros after the first non-zero sample are
+  kept. cycle_start_s / cycle_end_s / original_num_samples still describe the
+  annotated cycle; ``leading_zeros_removed`` records the trimmed samples.
 
 No padding, cropping, normalization, augmentation, or caching is done here.
 Resampling filters can produce values slightly outside [-1, 1]; these are
@@ -50,6 +62,19 @@ TARGET_SAMPLE_RATE = 16_000
 # Same tolerance build_metadata.py allows for annotations ending past the audio.
 DURATION_TOLERANCE_S = 0.01
 
+# |x| at or above this (on the original-rate float samples, full scale = 1.0)
+# counts as near-full-scale / likely clipped.
+CLIP_THRESHOLD = 0.999
+
+# Upper limit on leading exact-zero samples removed from a cycle.
+MAX_LEADING_SILENCE_S = 0.150
+
+# A clipped plateau is a contiguous run of samples with |x| >= CLIP_THRESHOLD
+# lasting at least this long at the original sample rate. 32 ms matches the
+# Log-Mel analysis window: a plateau this long can fill a whole frame, which
+# then looks like near-silence after DC removal.
+MIN_CLIPPED_PLATEAU_S = 0.032
+
 
 class AudioLoadError(Exception):
     """Raised when an audio file is missing, unreadable, or empty."""
@@ -64,10 +89,22 @@ class RespiratoryCycle:
     waveform: torch.Tensor  # shape (1, num_samples), float32, mono
     sample_rate: int  # rate of ``waveform`` (the target rate)
     original_sample_rate: int
-    original_num_samples: int  # samples in the cycle before resampling
-    cycle_start_s: float
+    original_num_samples: int  # samples in the annotated cycle at the original rate (before trimming)
+    cycle_start_s: float  # annotated times, unchanged by trimming
     cycle_end_s: float
     source: str  # recording filename
+    # Measured on the annotated original-rate cycle, before resampling smears clipped samples.
+    original_peak_abs: float = float("nan")
+    original_clipped_fraction: float = float("nan")  # fraction of samples with |x| >= CLIP_THRESHOLD
+    leading_zeros_removed: int = 0  # leading exact-zero samples trimmed, at the original rate
+    # Clipped plateaus (see ClippingStats), measured on the annotated original-rate cycle.
+    clipped_plateau_count: int = 0
+    max_clipped_plateau_ms: float = 0.0
+    clipped_plateau_fraction: float = 0.0
+
+    @property
+    def leading_silence_removed_ms(self) -> float:
+        return 1000.0 * self.leading_zeros_removed / self.original_sample_rate
 
     @property
     def num_samples(self) -> int:
@@ -133,6 +170,63 @@ def extract_cycle(waveform: torch.Tensor, sample_rate: int, start_s: float, end_
     return waveform[..., start:end].clone()
 
 
+@dataclass(frozen=True)
+class ClippingStats:
+    """Clipping metrics for one original-rate waveform. The audio is never modified.
+
+    clipped_fraction          share of samples with |x| >= CLIP_THRESHOLD
+    clipped_plateau_count     number of clipped runs lasting >= MIN_CLIPPED_PLATEAU_S
+    max_clipped_plateau_ms    longest clipped run of any length (0 if none), so
+                              "no plateau >= 32 ms" is max_clipped_plateau_ms < 32
+    clipped_plateau_fraction  share of samples inside runs lasting >= MIN_CLIPPED_PLATEAU_S
+    """
+    peak_abs: float
+    clipped_fraction: float
+    clipped_plateau_count: int
+    max_clipped_plateau_ms: float
+    clipped_plateau_fraction: float
+
+
+def clipped_runs(waveform: torch.Tensor, threshold: float = CLIP_THRESHOLD) -> list[tuple[int, int]]:
+    """(start, length) of each contiguous run of samples with |x| >= threshold."""
+    mask = (waveform.reshape(-1).abs() >= threshold).to(torch.int8)
+    edges = torch.diff(torch.cat([mask.new_zeros(1), mask, mask.new_zeros(1)]))
+    starts = torch.nonzero(edges == 1).flatten()
+    ends = torch.nonzero(edges == -1).flatten()
+    return [(int(s), int(e - s)) for s, e in zip(starts, ends)]
+
+
+def min_plateau_samples(sample_rate: int, min_duration_s: float = MIN_CLIPPED_PLATEAU_S) -> int:
+    """Smallest run length (samples) lasting at least ``min_duration_s``."""
+    return math.ceil(min_duration_s * sample_rate - 1e-9)
+
+
+def clipping_stats(waveform: torch.Tensor, sample_rate: int) -> ClippingStats:
+    """Clipping and clipped-plateau metrics for an original-rate waveform."""
+    n = waveform.numel()
+    runs = clipped_runs(waveform)
+    min_len = min_plateau_samples(sample_rate)
+    plateaus = [length for _, length in runs if length >= min_len]
+    return ClippingStats(
+        peak_abs=float(waveform.abs().max()),
+        clipped_fraction=sum(length for _, length in runs) / n,
+        clipped_plateau_count=len(plateaus),
+        max_clipped_plateau_ms=1000.0 * max((length for _, length in runs), default=0) / sample_rate,
+        clipped_plateau_fraction=sum(plateaus) / n,
+    )
+
+
+def count_leading_zeros(waveform: torch.Tensor, max_samples: int) -> int:
+    """Length of the leading run of exact 0.0 samples, capped at ``max_samples``.
+
+    Never counts the final sample, so trimming always leaves at least one.
+    """
+    num_samples = waveform.shape[-1]
+    nonzero = torch.nonzero(waveform[0] != 0)
+    run = int(nonzero[0, 0]) if len(nonzero) else num_samples
+    return max(0, min(run, max_samples, num_samples - 1))
+
+
 def resample(waveform: torch.Tensor, orig_sample_rate: int, target_sample_rate: int = TARGET_SAMPLE_RATE) -> torch.Tensor:
     """Resample with torchaudio's windowed-sinc resampler. Returns a new tensor."""
     if orig_sample_rate <= 0 or target_sample_rate <= 0:
@@ -143,30 +237,41 @@ def resample(waveform: torch.Tensor, orig_sample_rate: int, target_sample_rate: 
 
 
 def load_cycle(path: str | Path, start_s: float, end_s: float,
-               target_sample_rate: int = TARGET_SAMPLE_RATE) -> RespiratoryCycle:
-    """Load one respiratory cycle from a recording and resample it."""
+               target_sample_rate: int = TARGET_SAMPLE_RATE,
+               trim_leading_zeros: bool = True) -> RespiratoryCycle:
+    """Load one respiratory cycle, trim leading digital zeros, and resample it."""
     path = Path(path)
     waveform, sample_rate = load_audio(path)
     cycle = extract_cycle(waveform, sample_rate, start_s, end_s)
+    trimmed = count_leading_zeros(cycle, round(MAX_LEADING_SILENCE_S * sample_rate)) if trim_leading_zeros else 0
+    clipping = clipping_stats(cycle, sample_rate)  # annotated cycle, before trimming and resampling
     return RespiratoryCycle(
-        waveform=resample(cycle, sample_rate, target_sample_rate),
+        waveform=resample(cycle[..., trimmed:], sample_rate, target_sample_rate),
         sample_rate=target_sample_rate,
         original_sample_rate=sample_rate,
         original_num_samples=cycle.shape[-1],
         cycle_start_s=float(start_s),
         cycle_end_s=float(end_s),
         source=path.name,
+        original_peak_abs=clipping.peak_abs,
+        original_clipped_fraction=clipping.clipped_fraction,
+        leading_zeros_removed=trimmed,
+        clipped_plateau_count=clipping.clipped_plateau_count,
+        max_clipped_plateau_ms=clipping.max_clipped_plateau_ms,
+        clipped_plateau_fraction=clipping.clipped_plateau_fraction,
     )
 
 
 def load_cycle_from_metadata(row: Mapping[str, object], audio_dir: str | Path = DEFAULT_AUDIO_DIR,
-                             target_sample_rate: int = TARGET_SAMPLE_RATE) -> RespiratoryCycle:
+                             target_sample_rate: int = TARGET_SAMPLE_RATE,
+                             trim_leading_zeros: bool = True) -> RespiratoryCycle:
     """Load the cycle described by one data/metadata.csv row.
 
     If the row has a ``sample_rate`` field, it must match the file on disk.
     """
     cycle = load_cycle(Path(audio_dir) / str(row["recording_filename"]),
-                       float(row["cycle_start_s"]), float(row["cycle_end_s"]), target_sample_rate)
+                       float(row["cycle_start_s"]), float(row["cycle_end_s"]), target_sample_rate,
+                       trim_leading_zeros)
     expected = row.get("sample_rate")
     if expected not in (None, "") and int(expected) != cycle.original_sample_rate:
         raise AudioLoadError(
