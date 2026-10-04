@@ -242,6 +242,18 @@ def load_cycle(path: str | Path, start_s: float, end_s: float,
     """Load one respiratory cycle, trim leading digital zeros, and resample it."""
     path = Path(path)
     waveform, sample_rate = load_audio(path)
+    return cycle_from_waveform(waveform, sample_rate, start_s, end_s, path.name,
+                               target_sample_rate, trim_leading_zeros)
+
+
+def cycle_from_waveform(waveform: torch.Tensor, sample_rate: int, start_s: float, end_s: float, source: str,
+                        target_sample_rate: int = TARGET_SAMPLE_RATE,
+                        trim_leading_zeros: bool = True) -> RespiratoryCycle:
+    """Same as load_cycle, but from an already-loaded (1, n) recording.
+
+    The input waveform is not modified, so one loaded recording can be reused
+    for all of its cycles.
+    """
     cycle = extract_cycle(waveform, sample_rate, start_s, end_s)
     trimmed = count_leading_zeros(cycle, round(MAX_LEADING_SILENCE_S * sample_rate)) if trim_leading_zeros else 0
     clipping = clipping_stats(cycle, sample_rate)  # annotated cycle, before trimming and resampling
@@ -252,7 +264,7 @@ def load_cycle(path: str | Path, start_s: float, end_s: float,
         original_num_samples=cycle.shape[-1],
         cycle_start_s=float(start_s),
         cycle_end_s=float(end_s),
-        source=path.name,
+        source=source,
         original_peak_abs=clipping.peak_abs,
         original_clipped_fraction=clipping.clipped_fraction,
         leading_zeros_removed=trimmed,

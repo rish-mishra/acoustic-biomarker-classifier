@@ -356,14 +356,25 @@ class TestClippedPlateaus(TempAudioMixin, unittest.TestCase):
                              (b.clipped_plateau_count, b.max_clipped_plateau_ms, b.clipped_plateau_fraction))
 
 
-@unittest.skipUnless(METADATA.exists() and ap.DEFAULT_AUDIO_DIR.exists(), "ICBHI data or metadata not present")
+SPLIT_FILE = REPO_ROOT / "data" / "splits" / "patient_split.csv"
+
+
+def development_rows(rows):
+    """Metadata rows of train/val patients only: the test split's audio is never loaded."""
+    with open(SPLIT_FILE, newline="", encoding="utf-8") as f:
+        split = {r["patient_id"]: r["split"] for r in csv.DictReader(f)}
+    return [r for r in rows if split[r["patient_id"]] in ("train", "val")]
+
+
+@unittest.skipUnless(METADATA.exists() and SPLIT_FILE.exists() and ap.DEFAULT_AUDIO_DIR.exists(),
+                     "ICBHI data, metadata, or split not present")
 class TestRealDataset(unittest.TestCase):
-    """Smoke test on real ICBHI cycles: the first and last cycle of each source rate."""
+    """Smoke test on real ICBHI cycles (train/val patients only): first and last cycle of each source rate."""
 
     @classmethod
     def setUpClass(cls):
         with open(METADATA, newline="", encoding="utf-8") as f:
-            rows = list(csv.DictReader(f))
+            rows = development_rows(list(csv.DictReader(f)))
         by_rate = {}
         for r in rows:
             by_rate.setdefault(int(r["sample_rate"]), []).append(r)
