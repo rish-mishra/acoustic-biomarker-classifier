@@ -1,0 +1,54 @@
+{
+  "study": "Architecture comparison 2: ImageNet-pretrained MobileNetV3-Small vs from-scratch models (validation only)",
+  "declared": "2026-10-04, before any MobileNetV3 training",
+  "research_question": "Can pretrained visual feature representations applied to Log-Mel spectrograms improve respiratory-sound classification compared with models trained from scratch?",
+  "reference_runs": {
+    "baseline_cnn_v3": "frozen CNN baseline, val macro-F1 0.4271",
+    "crnn_v1": "frozen negative CRNN comparison, val macro-F1 0.4153"
+  },
+  "experiment": "mobilenetv3_pretrained_v1 (exactly one full run; no alternatives based on its result)",
+  "model": {
+    "module": "src/models/mobilenet_transfer.py:MobileNetV3Transfer",
+    "backbone": "torchvision mobilenet_v3_small, MobileNet_V3_Small_Weights.IMAGENET1K_V1 (sha256 047dcff4addef86ea5bc2eff13c9614dc11f47ab1160d0a71a25e7db994f4e1f; ImageNet acc@1 67.668)",
+    "first_conv_conversion": "1-channel kernel = sum over RGB input channels of the pretrained 3-channel kernel (W_gray = W_R + W_G + W_B); equivalent to feeding the grayscale image replicated to (x, x, x); no ImageNet input normalization (inputs already train-standardized per mel band)",
+    "classifier": "pretrained Linear(576,1024)+Hardswish kept; Dropout(0.3); new Linear(1024,4)",
+    "padding_awareness": "block-wise masked forward; MaskedBatchNorm2d (valid-position batch statistics in training, ImageNet-initialized running statistics updated with momentum 0.01, running statistics at inference); masked squeeze-excitation and masked global average pooling; padded positions zeroed after every layer",
+    "input": "frozen (B,1,64,T) Log-Mel, variable length, no resizing",
+    "parameters": 1521668,
+    "pretrained_tensors_reused_unchanged": "241 of 244 (first conv derived by RGB sum; final layer new)"
+  },
+  "transfer_protocol": {
+    "strategy": "initialize from ImageNet weights, replace classifier, fine-tune end-to-end (all layers trainable, single learning rate)",
+    "learning_rate": 0.0001,
+    "learning_rate_rationale": "conservative end-to-end fine-tuning rate for an ImageNet CNN with Adam-type optimizers (1e-4 is the common default; a lower rate than typical from-scratch training limits destruction of pretrained features). It also equals the frozen baseline's rate, so the comparison isolates architecture/pretraining.",
+    "optimizer": "AdamW weight_decay 0.01 (as baseline)"
+  },
+  "protocol_identical_to_baseline_cnn_v3": {
+    "loss": "weighted cross-entropy, train-count class weights",
+    "seed": 42,
+    "batch_size": 32,
+    "max_epochs": 60,
+    "patience": 10,
+    "selection": "validation macro F1",
+    "grad_clip_norm": 5.0,
+    "length_bucketing": "pool x50",
+    "split": "frozen patient split",
+    "normalization": "frozen train-only band stats",
+    "preprocessing": "frozen PRIMARY_CONFIG Log-Mel"
+  },
+  "comparison": [
+    "vs baseline_cnn_v3 and crnn_v1: parameter count, best validation macro F1, balanced accuracy, accuracy, per-class F1, confusion matrix, best epoch, training time",
+    "paired patient-bootstrap 95% CI of macro-F1 difference vs baseline_cnn_v3",
+    "device and sample-rate subgroups for analysis only (not for selection)"
+  ],
+  "rules": [
+    "no tuning after seeing validation results",
+    "test split never loaded or evaluated"
+  ],
+  "pre_training_diagnostics": {
+    "recorded": "2026-10-04, before the full run; protocol NOT changed",
+    "padding_invariance": "exact in float64 on real validation cycles (max diff 5.3e-16); float32 GPU diff up to 1.6e-3 from rounding, identical predictions",
+    "tiny_overfit_32_train_cycles_lr_1e-3": "train loss -> 0 and 100% accuracy with batch statistics and after BN running-stat recalibration; eval-mode accuracy with running statistics lagged (0.47-0.72) because BatchNorm momentum 0.01 (torchvision default) tracks rapidly changing activations slowly",
+    "risk_noted": "validation (running statistics) may lag training in early epochs; kept as predeclared (no change to momentum)"
+  }
+}

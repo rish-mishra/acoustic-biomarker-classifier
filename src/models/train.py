@@ -71,6 +71,7 @@ import normalization as nz  # noqa: E402
 import respiratory_dataset as rd  # noqa: E402
 from baseline_cnn import BaselineCNN, count_parameters  # noqa: E402
 from crnn import CRNN  # noqa: E402
+from mobilenet_transfer import MobileNetV3Transfer  # noqa: E402
 from classification_metrics import classification_report, confusion_matrix  # noqa: E402
 from length_bucketing import LengthBucketBatchSampler, approximate_frame_lengths  # noqa: E402
 
@@ -79,7 +80,7 @@ DEFAULT_CHECKPOINT_DIR = REPO_ROOT / "models"
 DEFAULT_REPORTS_DIR = REPO_ROOT / "reports" / "runs"
 
 
-MODELS = ("baseline_cnn", "crnn")
+MODELS = ("baseline_cnn", "crnn", "mobilenetv3_pretrained")
 
 
 @dataclass
@@ -112,7 +113,25 @@ def build_model(config: dict | TrainConfig) -> nn.Module:
         return BaselineCNN(len(rd.CLASS_NAMES), tuple(cfg["channels"]), dropout=cfg["dropout"])
     if name == "crnn":
         return CRNN(len(rd.CLASS_NAMES), dropout=cfg["dropout"])
+    if name == "mobilenetv3_pretrained":
+        return MobileNetV3Transfer(len(rd.CLASS_NAMES), dropout=cfg["dropout"], pretrained=True)
     raise ValueError(f"unknown model {name!r}; expected one of {MODELS}")
+
+
+def pretrained_weights_info(model_name: str) -> dict:
+    """Provenance of pretrained weights (empty for models trained from scratch)."""
+    if model_name != "mobilenetv3_pretrained":
+        return {}
+    import torchvision
+    from mobilenet_transfer import PRETRAINED_WEIGHTS
+
+    path = Path(torch.hub.get_dir()) / "checkpoints" / Path(PRETRAINED_WEIGHTS.url).name
+    return {"pretrained_weights": {
+        "name": str(PRETRAINED_WEIGHTS), "url": PRETRAINED_WEIGHTS.url,
+        "file_sha256": sha256_file(path) if path.exists() else None,
+        "torchvision": torchvision.__version__,
+        "imagenet_metrics": PRETRAINED_WEIGHTS.meta["_metrics"]["ImageNet-1K"],
+    }}
 
 
 def sha256_file(path: Path) -> str:
@@ -347,7 +366,7 @@ def fit(cfg: TrainConfig, train_ds, val_ds, max_train_batches: int | None = None
         "config": asdict(cfg),
         "max_train_batches": max_train_batches,
         "model": {"name": cfg.model, "class": type(model).__name__, "parameter_count": count_parameters(model),
-                  "architecture": str(model)},
+                  "architecture": str(model), **pretrained_weights_info(cfg.model)},
         "class_names": list(rd.CLASS_NAMES),
         "class_weights": dict(zip(rd.CLASS_NAMES, weights.tolist())),
         "class_weight_source": "train split label counts: N / (K * n_c)",

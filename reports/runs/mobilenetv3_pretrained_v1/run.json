@@ -1,0 +1,229 @@
+{
+  "run_name": "mobilenetv3_pretrained_v1",
+  "status": "completed",
+  "started_utc": "2026-10-04T18:51:05+00:00",
+  "seed": 42,
+  "config": {
+    "run_name": "mobilenetv3_pretrained_v1",
+    "model": "mobilenetv3_pretrained",
+    "seed": 42,
+    "max_epochs": 60,
+    "patience": 10,
+    "batch_size": 32,
+    "lr": 0.0001,
+    "weight_decay": 0.01,
+    "dropout": 0.3,
+    "channels": [
+      16,
+      32,
+      64,
+      128
+    ],
+    "grad_clip_norm": 5.0,
+    "use_bucketing": true,
+    "bucket_pool_multiplier": 50,
+    "num_workers": 0,
+    "device": "cuda",
+    "checkpoint_dir": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\models",
+    "reports_dir": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\reports\\runs",
+    "extra": {}
+  },
+  "max_train_batches": null,
+  "model": {
+    "name": "mobilenetv3_pretrained",
+    "class": "MobileNetV3Transfer",
+    "parameter_count": 1521668,
+    "architecture": "MobileNetV3Transfer(\n  (features): Sequential(\n    (0): Conv2dNormActivation(\n      (0): Conv2d(1, 16, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)\n      (1): MaskedBatchNorm2d()\n      (2): Hardswish()\n    )\n    (1): InvertedResidual(\n      (block): Sequential(\n        (0): Conv2dNormActivation(\n          (0): Conv2d(16, 16, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=16, bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): ReLU(inplace=True)\n        )\n        (1): SqueezeExcitation(\n          (avgpool): AdaptiveAvgPool2d(output_size=1)\n          (fc1): Conv2d(16, 8, kernel_size=(1, 1), stride=(1, 1))\n          (fc2): Conv2d(8, 16, kernel_size=(1, 1), stride=(1, 1))\n          (activation): ReLU()\n          (scale_activation): Hardsigmoid()\n        )\n        (2): Conv2dNormActivation(\n          (0): Conv2d(16, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n        )\n      )\n    )\n    (2): InvertedResidual(\n      (block): Sequential(\n        (0): Conv2dNormActivation(\n          (0): Conv2d(16, 72, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): ReLU(inplace=True)\n        )\n        (1): Conv2dNormActivation(\n          (0): Conv2d(72, 72, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=72, bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): ReLU(inplace=True)\n        )\n        (2): Conv2dNormActivation(\n          (0): Conv2d(72, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n        )\n      )\n    )\n    (3): InvertedResidual(\n      (block): Sequential(\n        (0): Conv2dNormActivation(\n          (0): Conv2d(24, 88, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): ReLU(inplace=True)\n        )\n        (1): Conv2dNormActivation(\n          (0): Conv2d(88, 88, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=88, bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): ReLU(inplace=True)\n        )\n        (2): Conv2dNormActivation(\n          (0): Conv2d(88, 24, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n        )\n      )\n    )\n    (4): InvertedResidual(\n      (block): Sequential(\n        (0): Conv2dNormActivation(\n          (0): Conv2d(24, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (1): Conv2dNormActivation(\n          (0): Conv2d(96, 96, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), groups=96, bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (2): SqueezeExcitation(\n          (avgpool): AdaptiveAvgPool2d(output_size=1)\n          (fc1): Conv2d(96, 24, kernel_size=(1, 1), stride=(1, 1))\n          (fc2): Conv2d(24, 96, kernel_size=(1, 1), stride=(1, 1))\n          (activation): ReLU()\n          (scale_activation): Hardsigmoid()\n        )\n        (3): Conv2dNormActivation(\n          (0): Conv2d(96, 40, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n        )\n      )\n    )\n    (5): InvertedResidual(\n      (block): Sequential(\n        (0): Conv2dNormActivation(\n          (0): Conv2d(40, 240, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (1): Conv2dNormActivation(\n          (0): Conv2d(240, 240, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=240, bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (2): SqueezeExcitation(\n          (avgpool): AdaptiveAvgPool2d(output_size=1)\n          (fc1): Conv2d(240, 64, kernel_size=(1, 1), stride=(1, 1))\n          (fc2): Conv2d(64, 240, kernel_size=(1, 1), stride=(1, 1))\n          (activation): ReLU()\n          (scale_activation): Hardsigmoid()\n        )\n        (3): Conv2dNormActivation(\n          (0): Conv2d(240, 40, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n        )\n      )\n    )\n    (6): InvertedResidual(\n      (block): Sequential(\n        (0): Conv2dNormActivation(\n          (0): Conv2d(40, 240, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (1): Conv2dNormActivation(\n          (0): Conv2d(240, 240, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=240, bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (2): SqueezeExcitation(\n          (avgpool): AdaptiveAvgPool2d(output_size=1)\n          (fc1): Conv2d(240, 64, kernel_size=(1, 1), stride=(1, 1))\n          (fc2): Conv2d(64, 240, kernel_size=(1, 1), stride=(1, 1))\n          (activation): ReLU()\n          (scale_activation): Hardsigmoid()\n        )\n        (3): Conv2dNormActivation(\n          (0): Conv2d(240, 40, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n        )\n      )\n    )\n    (7): InvertedResidual(\n      (block): Sequential(\n        (0): Conv2dNormActivation(\n          (0): Conv2d(40, 120, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (1): Conv2dNormActivation(\n          (0): Conv2d(120, 120, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=120, bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (2): SqueezeExcitation(\n          (avgpool): AdaptiveAvgPool2d(output_size=1)\n          (fc1): Conv2d(120, 32, kernel_size=(1, 1), stride=(1, 1))\n          (fc2): Conv2d(32, 120, kernel_size=(1, 1), stride=(1, 1))\n          (activation): ReLU()\n          (scale_activation): Hardsigmoid()\n        )\n        (3): Conv2dNormActivation(\n          (0): Conv2d(120, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n        )\n      )\n    )\n    (8): InvertedResidual(\n      (block): Sequential(\n        (0): Conv2dNormActivation(\n          (0): Conv2d(48, 144, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (1): Conv2dNormActivation(\n          (0): Conv2d(144, 144, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=144, bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (2): SqueezeExcitation(\n          (avgpool): AdaptiveAvgPool2d(output_size=1)\n          (fc1): Conv2d(144, 40, kernel_size=(1, 1), stride=(1, 1))\n          (fc2): Conv2d(40, 144, kernel_size=(1, 1), stride=(1, 1))\n          (activation): ReLU()\n          (scale_activation): Hardsigmoid()\n        )\n        (3): Conv2dNormActivation(\n          (0): Conv2d(144, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n        )\n      )\n    )\n    (9): InvertedResidual(\n      (block): Sequential(\n        (0): Conv2dNormActivation(\n          (0): Conv2d(48, 288, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (1): Conv2dNormActivation(\n          (0): Conv2d(288, 288, kernel_size=(5, 5), stride=(2, 2), padding=(2, 2), groups=288, bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (2): SqueezeExcitation(\n          (avgpool): AdaptiveAvgPool2d(output_size=1)\n          (fc1): Conv2d(288, 72, kernel_size=(1, 1), stride=(1, 1))\n          (fc2): Conv2d(72, 288, kernel_size=(1, 1), stride=(1, 1))\n          (activation): ReLU()\n          (scale_activation): Hardsigmoid()\n        )\n        (3): Conv2dNormActivation(\n          (0): Conv2d(288, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n        )\n      )\n    )\n    (10): InvertedResidual(\n      (block): Sequential(\n        (0): Conv2dNormActivation(\n          (0): Conv2d(96, 576, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (1): Conv2dNormActivation(\n          (0): Conv2d(576, 576, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=576, bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (2): SqueezeExcitation(\n          (avgpool): AdaptiveAvgPool2d(output_size=1)\n          (fc1): Conv2d(576, 144, kernel_size=(1, 1), stride=(1, 1))\n          (fc2): Conv2d(144, 576, kernel_size=(1, 1), stride=(1, 1))\n          (activation): ReLU()\n          (scale_activation): Hardsigmoid()\n        )\n        (3): Conv2dNormActivation(\n          (0): Conv2d(576, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n        )\n      )\n    )\n    (11): InvertedResidual(\n      (block): Sequential(\n        (0): Conv2dNormActivation(\n          (0): Conv2d(96, 576, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (1): Conv2dNormActivation(\n          (0): Conv2d(576, 576, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2), groups=576, bias=False)\n          (1): MaskedBatchNorm2d()\n          (2): Hardswish()\n        )\n        (2): SqueezeExcitation(\n          (avgpool): AdaptiveAvgPool2d(output_size=1)\n          (fc1): Conv2d(576, 144, kernel_size=(1, 1), stride=(1, 1))\n          (fc2): Conv2d(144, 576, kernel_size=(1, 1), stride=(1, 1))\n          (activation): ReLU()\n          (scale_activation): Hardsigmoid()\n        )\n        (3): Conv2dNormActivation(\n          (0): Conv2d(576, 96, kernel_size=(1, 1), stride=(1, 1), bias=False)\n          (1): MaskedBatchNorm2d()\n        )\n      )\n    )\n    (12): Conv2dNormActivation(\n      (0): Conv2d(96, 576, kernel_size=(1, 1), stride=(1, 1), bias=False)\n      (1): MaskedBatchNorm2d()\n      (2): Hardswish()\n    )\n  )\n  (classifier): Sequential(\n    (0): Linear(in_features=576, out_features=1024, bias=True)\n    (1): Hardswish()\n    (2): Dropout(p=0.3, inplace=False)\n    (3): Linear(in_features=1024, out_features=4, bias=True)\n  )\n)",
+    "pretrained_weights": {
+      "name": "MobileNet_V3_Small_Weights.IMAGENET1K_V1",
+      "url": "https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth",
+      "file_sha256": "047dcff4addef86ea5bc2eff13c9614dc11f47ab1160d0a71a25e7db994f4e1f",
+      "torchvision": "0.26.0+cu130",
+      "imagenet_metrics": {
+        "acc@1": 67.668,
+        "acc@5": 87.402
+      }
+    }
+  },
+  "class_names": [
+    "normal",
+    "crackle",
+    "wheeze",
+    "both"
+  ],
+  "class_weights": {
+    "normal": 0.4765782058238983,
+    "crackle": 0.9318003058433533,
+    "wheeze": 1.7850151062011719,
+    "both": 3.727201223373413
+  },
+  "class_weight_source": "train split label counts: N / (K * n_c)",
+  "optimizer": {
+    "type": "AdamW",
+    "lr": 0.0001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.01,
+    "amsgrad": false,
+    "maximize": false,
+    "capturable": false,
+    "differentiable": false,
+    "decoupled_weight_decay": true
+  },
+  "loss": "CrossEntropyLoss(weight=class_weights)",
+  "selection_metric": "val_macro_f1",
+  "test_split_evaluated": false,
+  "data": {
+    "metadata": {
+      "path": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\metadata.csv",
+      "sha256": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf"
+    },
+    "split_file": {
+      "path": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\splits\\patient_split.csv",
+      "sha256": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4"
+    },
+    "normalization_stats": {
+      "path": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\normalization\\logmel_primary_train_band_stats.json",
+      "sha256": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c"
+    },
+    "audio_dir": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\raw\\Respiratory_Sound_Database\\Respiratory_Sound_Database\\audio_and_txt_files",
+    "checks": {
+      "normalizer_used_matches_stats_file": true,
+      "stats_file_fitted_on_current_split_file": true,
+      "stats_file_fitted_on_current_metadata": true,
+      "val_uses_same_split_file": true
+    },
+    "datasets": {
+      "train": {
+        "cycles": 4741,
+        "patients": 88,
+        "label_counts": {
+          "normal": 2487,
+          "crackle": 1272,
+          "wheeze": 664,
+          "both": 318
+        }
+      },
+      "val": {
+        "cycles": 1077,
+        "patients": 19,
+        "label_counts": {
+          "normal": 508,
+          "crackle": 337,
+          "wheeze": 122,
+          "both": 110
+        }
+      }
+    },
+    "log_mel_config": {
+      "sample_rate": 16000,
+      "win_length": 512,
+      "hop_length": 160,
+      "n_fft": 512,
+      "f_min": 50.0,
+      "f_max": 2000.0,
+      "n_mels": 64,
+      "log_floor": 1e-10
+    }
+  },
+  "code": {
+    "git_commit": "15b0946eec5cd5f18daf5116d3130b1e9097b718",
+    "git_dirty": true,
+    "git_uncommitted_paths": [
+      "rc/models/train.py",
+      "reports/runs/mobilenetv3_pretrained_v1/",
+      "reports/runs/mobilenetv3_pretrained_v1_plan.json",
+      "src/models/mobilenet_transfer.py",
+      "tests/test_mobilenet_transfer.py"
+    ]
+  },
+  "environment": {
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.11.0+cu130",
+    "torchaudio": "2.11.0+cu130",
+    "numpy": "2.4.6",
+    "soundfile": "0.14.0",
+    "torch_cuda_build": "13.0",
+    "cudnn": 91900,
+    "cuda_available": true,
+    "device": "cuda",
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false,
+    "deterministic_algorithms": true,
+    "cublas_workspace_config": ":4096:8",
+    "gpu_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "gpu_total_memory_mb": 6140,
+    "gpu_compute_capability": "8.9",
+    "nvidia_driver": "595.97"
+  },
+  "checkpoint": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\models\\mobilenetv3_pretrained_v1\\best.pt",
+  "finished_utc": "2026-10-04T19:01:44+00:00",
+  "epochs_completed": 13,
+  "stop_reason": "early_stopping: no val macro-F1 improvement for 10 epochs",
+  "total_training_time_s": 639.0378082999996,
+  "best_epoch": 2,
+  "best_validation": {
+    "per_class": {
+      "normal": {
+        "precision": 0.5916666666666667,
+        "recall": 0.6988188976377953,
+        "f1": 0.6407942238267148,
+        "support": 508
+      },
+      "crackle": {
+        "precision": 0.5510204081632653,
+        "recall": 0.5608308605341247,
+        "f1": 0.5558823529411766,
+        "support": 337
+      },
+      "wheeze": {
+        "precision": 0.37373737373737376,
+        "recall": 0.30327868852459017,
+        "f1": 0.33484162895927605,
+        "support": 122
+      },
+      "both": {
+        "precision": 0.45714285714285713,
+        "recall": 0.14545454545454545,
+        "f1": 0.2206896551724138,
+        "support": 110
+      }
+    },
+    "macro_f1": 0.4380519652248953,
+    "balanced_accuracy": 0.4270957480377639,
+    "accuracy": 0.5543175487465181,
+    "confusion_matrix": [
+      [
+        355,
+        125,
+        21,
+        7
+      ],
+      [
+        123,
+        189,
+        18,
+        7
+      ],
+      [
+        67,
+        13,
+        37,
+        5
+      ],
+      [
+        55,
+        16,
+        23,
+        16
+      ]
+    ],
+    "n": 1077,
+    "loss": 1.2574601952633375
+  },
+  "peak_gpu_memory_mb": 1979.1865234375
+}
