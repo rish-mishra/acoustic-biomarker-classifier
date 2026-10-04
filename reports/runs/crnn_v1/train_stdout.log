@@ -1,0 +1,22 @@
+device=cuda params=353,365 class_weights=[0.477, 0.932, 1.785, 3.727]
+epoch   0 | train loss 1.3410 | val loss 1.3498 macro-F1 0.3078 bal-acc 0.3129 acc 0.4067 | 59.5s pad 4.2% *
+epoch   1 | train loss 1.2810 | val loss 1.3660 macro-F1 0.3092 bal-acc 0.3132 acc 0.4513 | 69.6s pad 4.9% *
+epoch   2 | train loss 1.2337 | val loss 1.3682 macro-F1 0.3262 bal-acc 0.3363 acc 0.4661 | 64.6s pad 4.3% *
+epoch   3 | train loss 1.1778 | val loss 1.4229 macro-F1 0.3651 bal-acc 0.3805 acc 0.4531 | 74.2s pad 5.3% *
+epoch   4 | train loss 1.1133 | val loss 1.4168 macro-F1 0.3560 bal-acc 0.3731 acc 0.4410 | 76.8s pad 5.6%
+epoch   5 | train loss 1.0592 | val loss 1.3321 macro-F1 0.3972 bal-acc 0.4123 acc 0.4810 | 68.1s pad 5.5% *
+epoch   6 | train loss 1.0075 | val loss 1.2983 macro-F1 0.3929 bal-acc 0.3984 acc 0.4940 | 68.3s pad 5.9%
+epoch   7 | train loss 0.9523 | val loss 1.3811 macro-F1 0.4153 bal-acc 0.4149 acc 0.5645 | 64.4s pad 5.6% *
+epoch   8 | train loss 0.9149 | val loss 1.3606 macro-F1 0.3963 bal-acc 0.4014 acc 0.5051 | 65.6s pad 5.5%
+epoch   9 | train loss 0.8776 | val loss 1.4906 macro-F1 0.3982 bal-acc 0.3932 acc 0.5320 | 65.1s pad 4.9%
+epoch  10 | train loss 0.8468 | val loss 1.4902 macro-F1 0.3739 bal-acc 0.3745 acc 0.4568 | 64.9s pad 5.4%
+epoch  11 | train loss 0.8138 | val loss 1.5456 macro-F1 0.3730 bal-acc 0.3830 acc 0.4522 | 65.5s pad 5.9%
+epoch  12 | train loss 0.7786 | val loss 1.6101 macro-F1 0.3846 bal-acc 0.3872 acc 0.4940 | 65.7s pad 5.5%
+epoch  13 | train loss 0.7487 | val loss 1.5828 macro-F1 0.4122 bal-acc 0.4142 acc 0.5395 | 66.1s pad 5.6%
+epoch  14 | train loss 0.7106 | val loss 1.6989 macro-F1 0.3820 bal-acc 0.3839 acc 0.4782 | 64.3s pad 5.2%
+epoch  15 | train loss 0.6784 | val loss 1.6810 macro-F1 0.3881 bal-acc 0.3916 acc 0.4865 | 58.8s pad 4.5%
+epoch  16 | train loss 0.6469 | val loss 1.7897 macro-F1 0.4129 bal-acc 0.4054 acc 0.5283 | 65.4s pad 5.2%
+epoch  17 | train loss 0.5922 | val loss 1.9010 macro-F1 0.3847 bal-acc 0.3855 acc 0.5014 | 63.8s pad 5.3%
+early_stopping: no val macro-F1 improvement for 10 epochs
+best epoch 7: val macro-F1 0.4153; early_stopping: no val macro-F1 improvement for 10 epochs
+reports: C:\Users\HiRis\Documents\acoustic-biomarker-classifier\reports\runs\crnn_v1  checkpoint: C:\Users\HiRis\Documents\acoustic-biomarker-classifier\models\crnn_v1\best.pt

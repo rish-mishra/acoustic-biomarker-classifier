@@ -1,0 +1,1717 @@
+{
+  "selection_metric": "validation macro F1 (best epoch)",
+  "ranking": [
+    "baseline_cnn_v3",
+    "crnn_v1"
+  ],
+  "runs": {
+    "baseline_cnn_v3": {
+      "lr": 0.0001,
+      "dropout": 0.3,
+      "seed": 42,
+      "parameter_count": 294740,
+      "best_epoch": 13,
+      "epochs_completed": 24,
+      "stop_reason": "early_stopping: no val macro-F1 improvement for 10 epochs",
+      "training_time_s": 1482.8077375999999,
+      "val_macro_f1": 0.42710643878965393,
+      "val_balanced_accuracy": 0.4567628278464798,
+      "val_accuracy": 0.5097493036211699,
+      "val_loss_at_best": 1.2334883760941062,
+      "per_class": {
+        "normal": {
+          "precision": 0.6589147286821705,
+          "recall": 0.5019685039370079,
+          "f1": 0.5698324022346368,
+          "support": 508
+        },
+        "crackle": {
+          "precision": 0.525,
+          "recall": 0.6231454005934718,
+          "f1": 0.5698778833107192,
+          "support": 337
+        },
+        "wheeze": {
+          "precision": 0.2875,
+          "recall": 0.5655737704918032,
+          "f1": 0.38121546961325964,
+          "support": 122
+        },
+        "both": {
+          "precision": 0.3,
+          "recall": 0.13636363636363635,
+          "f1": 0.18749999999999997,
+          "support": 110
+        }
+      },
+      "confusion_matrix": [
+        [
+          255,
+          160,
+          83,
+          10
+        ],
+        [
+          67,
+          210,
+          44,
+          16
+        ],
+        [
+          34,
+          10,
+          69,
+          9
+        ],
+        [
+          31,
+          20,
+          44,
+          15
+        ]
+      ],
+      "overfitting": {
+        "train_loss_at_best": 0.9002315207539519,
+        "val_loss_at_best": 1.2334883760941062,
+        "val_minus_train_loss_at_best": 0.33325685534015437,
+        "min_val_loss": 1.210146929670952,
+        "min_val_loss_epoch": 8,
+        "train_loss_last": 0.681874667635147,
+        "val_loss_last": 1.3934313626674557,
+        "train_loss_drop_best_to_last": 0.21835685311880482,
+        "val_loss_change_best_to_last": 0.1599429865733495,
+        "val_macro_f1_epoch_to_epoch_abs_change_mean": 0.028265590597384795
+      },
+      "curves": {
+        "train_loss": [
+          1.395734812282505,
+          1.357353048067107,
+          1.3063946677974145,
+          1.2745162532490986,
+          1.2059620698024844,
+          1.1585220205610347,
+          1.0884197101238986,
+          1.0431971381017866,
+          1.0218573432007914,
+          0.9696504382286563,
+          0.9491425848942572,
+          0.9347202216515282,
+          0.9216048721521872,
+          0.9002315207539519,
+          0.860946191574194,
+          0.8244955454715519,
+          0.8062264786770363,
+          0.7790071807991877,
+          0.7627697912003767,
+          0.7327529262626405,
+          0.7471612297113222,
+          0.7100767990477199,
+          0.6658879909126146,
+          0.681874667635147
+        ],
+        "val_loss": [
+          1.3429383116954992,
+          1.3632793671130692,
+          1.352639340645977,
+          1.3748221532437352,
+          1.5164699910853676,
+          1.318617407657974,
+          1.3359148202389617,
+          1.3150262896839733,
+          1.210146929670952,
+          1.3361316557382144,
+          1.223701525420753,
+          1.2660986824841443,
+          1.2735552929459397,
+          1.2334883760941062,
+          1.3040706550178423,
+          1.2358245534153038,
+          1.348293465713494,
+          1.306205088160275,
+          1.5403816230671208,
+          1.5074759089736443,
+          1.3418850095159165,
+          1.308036014340825,
+          1.4347972232319186,
+          1.3934313626674557
+        ],
+        "val_macro_f1": [
+          0.27669041055894755,
+          0.2984694422880031,
+          0.2849908189451092,
+          0.3051858850341279,
+          0.2792250973281943,
+          0.39351929446787454,
+          0.3561205994464516,
+          0.3733998602639067,
+          0.39090230591779607,
+          0.36007811139271045,
+          0.39060362944915955,
+          0.40377051739558983,
+          0.4255111855767014,
+          0.42710643878965393,
+          0.40529305309205327,
+          0.4098854570214822,
+          0.4100484580857354,
+          0.4163893002134313,
+          0.3391027406483119,
+          0.3904460192819972,
+          0.41602421012256197,
+          0.41361741664435236,
+          0.37283022015811196,
+          0.4268865226537855
+        ]
+      },
+      "subgroups": {
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "label_counts": {
+              "normal": 211,
+              "crackle": 303,
+              "wheeze": 45,
+              "both": 88
+            },
+            "accuracy": 0.45131375579598143,
+            "balanced_accuracy_present_classes": 0.38627679414860916,
+            "macro_f1_present_classes": 0.35338167089775463,
+            "recall": {
+              "normal": 0.27014218009478674,
+              "crackle": 0.6600660066006601,
+              "wheeze": 0.4444444444444444,
+              "both": 0.17045454545454544
+            },
+            "confusion_matrix": [
+              [
+                57,
+                122,
+                22,
+                10
+              ],
+              [
+                52,
+                200,
+                35,
+                16
+              ],
+              [
+                8,
+                8,
+                20,
+                9
+              ],
+              [
+                20,
+                17,
+                36,
+                15
+              ]
+            ]
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "label_counts": {
+              "normal": 42,
+              "crackle": 4,
+              "wheeze": 23,
+              "both": 5
+            },
+            "accuracy": 0.32432432432432434,
+            "balanced_accuracy_present_classes": 0.21661490683229814,
+            "macro_f1_present_classes": 0.1699367088607595,
+            "recall": {
+              "normal": 0.21428571428571427,
+              "crackle": 0.0,
+              "wheeze": 0.6521739130434783,
+              "both": 0.0
+            },
+            "confusion_matrix": [
+              [
+                9,
+                0,
+                33,
+                0
+              ],
+              [
+                1,
+                0,
+                3,
+                0
+              ],
+              [
+                8,
+                0,
+                15,
+                0
+              ],
+              [
+                0,
+                0,
+                5,
+                0
+              ]
+            ]
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "label_counts": {
+              "normal": 112,
+              "crackle": 7,
+              "wheeze": 0,
+              "both": 0
+            },
+            "accuracy": 0.6722689075630253,
+            "balanced_accuracy_present_classes": 0.5580357142857143,
+            "macro_f1_present_classes": 0.5481203007518797,
+            "recall": {
+              "normal": 0.6875,
+              "crackle": 0.42857142857142855
+            },
+            "confusion_matrix": [
+              [
+                77,
+                11,
+                24,
+                0
+              ],
+              [
+                1,
+                3,
+                3,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "label_counts": {
+              "normal": 143,
+              "crackle": 23,
+              "wheeze": 54,
+              "both": 17
+            },
+            "accuracy": 0.6455696202531646,
+            "balanced_accuracy_present_classes": 0.4292985597333424,
+            "macro_f1_present_classes": 0.41847318921051646,
+            "recall": {
+              "normal": 0.7832167832167832,
+              "crackle": 0.30434782608695654,
+              "wheeze": 0.6296296296296297,
+              "both": 0.0
+            },
+            "confusion_matrix": [
+              [
+                112,
+                27,
+                4,
+                0
+              ],
+              [
+                13,
+                7,
+                3,
+                0
+              ],
+              [
+                18,
+                2,
+                34,
+                0
+              ],
+              [
+                11,
+                3,
+                3,
+                0
+              ]
+            ]
+          }
+        },
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "label_counts": {
+              "normal": 93,
+              "crackle": 20,
+              "wheeze": 32,
+              "both": 10
+            },
+            "accuracy": 0.432258064516129,
+            "balanced_accuracy_present_classes": 0.34146505376344083,
+            "macro_f1_present_classes": 0.2995920745920746,
+            "recall": {
+              "normal": 0.44086021505376344,
+              "crackle": 0.3,
+              "wheeze": 0.625,
+              "both": 0.0
+            },
+            "confusion_matrix": [
+              [
+                41,
+                16,
+                36,
+                0
+              ],
+              [
+                9,
+                6,
+                5,
+                0
+              ],
+              [
+                11,
+                1,
+                20,
+                0
+              ],
+              [
+                2,
+                1,
+                7,
+                0
+              ]
+            ]
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "label_counts": {
+              "normal": 415,
+              "crackle": 317,
+              "wheeze": 90,
+              "both": 100
+            },
+            "accuracy": 0.5227765726681128,
+            "balanced_accuracy_present_classes": 0.46341005451881123,
+            "macro_f1_present_classes": 0.43548785467202145,
+            "recall": {
+              "normal": 0.5156626506024097,
+              "crackle": 0.6435331230283912,
+              "wheeze": 0.5444444444444444,
+              "both": 0.15
+            },
+            "confusion_matrix": [
+              [
+                214,
+                144,
+                47,
+                10
+              ],
+              [
+                58,
+                204,
+                39,
+                16
+              ],
+              [
+                23,
+                9,
+                49,
+                9
+              ],
+              [
+                29,
+                19,
+                37,
+                15
+              ]
+            ]
+          }
+        },
+        "duration": {
+          "1.5-2.5s": {
+            "n_cycles": 424,
+            "n_patients": 15,
+            "label_counts": {
+              "normal": 210,
+              "crackle": 113,
+              "wheeze": 37,
+              "both": 64
+            },
+            "accuracy": 0.47641509433962265,
+            "balanced_accuracy_present_classes": 0.4172025286585574,
+            "macro_f1_present_classes": 0.39395514766827344,
+            "recall": {
+              "normal": 0.5428571428571428,
+              "crackle": 0.5486725663716814,
+              "wheeze": 0.40540540540540543,
+              "both": 0.171875
+            },
+            "confusion_matrix": [
+              [
+                114,
+                47,
+                41,
+                8
+              ],
+              [
+                23,
+                62,
+                21,
+                7
+              ],
+              [
+                16,
+                5,
+                15,
+                1
+              ],
+              [
+                13,
+                16,
+                24,
+                11
+              ]
+            ]
+          },
+          "2.5-4s": {
+            "n_cycles": 481,
+            "n_patients": 15,
+            "label_counts": {
+              "normal": 172,
+              "crackle": 192,
+              "wheeze": 72,
+              "both": 45
+            },
+            "accuracy": 0.501039501039501,
+            "balanced_accuracy_present_classes": 0.44002947351421184,
+            "macro_f1_present_classes": 0.41608693683610376,
+            "recall": {
+              "normal": 0.36046511627906974,
+              "crackle": 0.671875,
+              "wheeze": 0.6388888888888888,
+              "both": 0.08888888888888889
+            },
+            "confusion_matrix": [
+              [
+                62,
+                84,
+                24,
+                2
+              ],
+              [
+                36,
+                129,
+                19,
+                8
+              ],
+              [
+                14,
+                4,
+                46,
+                8
+              ],
+              [
+                17,
+                4,
+                20,
+                4
+              ]
+            ]
+          },
+          "<1.5s": {
+            "n_cycles": 94,
+            "n_patients": 13,
+            "label_counts": {
+              "normal": 77,
+              "crackle": 9,
+              "wheeze": 8,
+              "both": 0
+            },
+            "accuracy": 0.6170212765957447,
+            "balanced_accuracy_present_classes": 0.5966810966810967,
+            "macro_f1_present_classes": 0.47794707297514033,
+            "recall": {
+              "normal": 0.6233766233766234,
+              "crackle": 0.6666666666666666,
+              "wheeze": 0.5
+            },
+            "confusion_matrix": [
+              [
+                48,
+                14,
+                15,
+                0
+              ],
+              [
+                0,
+                6,
+                2,
+                1
+              ],
+              [
+                4,
+                0,
+                4,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          },
+          ">=4s": {
+            "n_cycles": 78,
+            "n_patients": 9,
+            "label_counts": {
+              "normal": 49,
+              "crackle": 23,
+              "wheeze": 5,
+              "both": 1
+            },
+            "accuracy": 0.6153846153846154,
+            "balanced_accuracy_present_classes": 0.4994676131322094,
+            "macro_f1_present_classes": 0.44201444622792935,
+            "recall": {
+              "normal": 0.6326530612244898,
+              "crackle": 0.5652173913043478,
+              "wheeze": 0.8,
+              "both": 0.0
+            },
+            "confusion_matrix": [
+              [
+                31,
+                15,
+                3,
+                0
+              ],
+              [
+                8,
+                13,
+                2,
+                0
+              ],
+              [
+                0,
+                1,
+                4,
+                0
+              ],
+              [
+                1,
+                0,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "quality_group": {
+          "all": {
+            "n_cycles": 1077,
+            "n_patients": 19,
+            "label_counts": {
+              "normal": 508,
+              "crackle": 337,
+              "wheeze": 122,
+              "both": 110
+            },
+            "accuracy": 0.5097493036211699,
+            "balanced_accuracy_present_classes": 0.4567628278464798,
+            "macro_f1_present_classes": 0.42710643878965393,
+            "recall": {
+              "normal": 0.5019685039370079,
+              "crackle": 0.6231454005934718,
+              "wheeze": 0.5655737704918032,
+              "both": 0.13636363636363635
+            },
+            "confusion_matrix": [
+              [
+                255,
+                160,
+                83,
+                10
+              ],
+              [
+                67,
+                210,
+                44,
+                16
+              ],
+              [
+                34,
+                10,
+                69,
+                9
+              ],
+              [
+                31,
+                20,
+                44,
+                15
+              ]
+            ]
+          },
+          "moderately_clean": {
+            "n_cycles": 1065,
+            "n_patients": 19,
+            "label_counts": {
+              "normal": 500,
+              "crackle": 335,
+              "wheeze": 120,
+              "both": 110
+            },
+            "accuracy": 0.5098591549295775,
+            "balanced_accuracy_present_classes": 0.45722772501130715,
+            "macro_f1_present_classes": 0.42735820103235095,
+            "recall": {
+              "normal": 0.502,
+              "crackle": 0.6238805970149254,
+              "wheeze": 0.5666666666666667,
+              "both": 0.13636363636363635
+            },
+            "confusion_matrix": [
+              [
+                251,
+                157,
+                82,
+                10
+              ],
+              [
+                67,
+                209,
+                43,
+                16
+              ],
+              [
+                33,
+                10,
+                68,
+                9
+              ],
+              [
+                31,
+                20,
+                44,
+                15
+              ]
+            ]
+          },
+          "not_moderately_clean": {
+            "n_cycles": 12,
+            "n_patients": 4,
+            "label_counts": {
+              "normal": 8,
+              "crackle": 2,
+              "wheeze": 2,
+              "both": 0
+            },
+            "accuracy": 0.5,
+            "balanced_accuracy_present_classes": 0.5,
+            "macro_f1_present_classes": 0.4495726495726496,
+            "recall": {
+              "normal": 0.5,
+              "crackle": 0.5,
+              "wheeze": 0.5
+            },
+            "confusion_matrix": [
+              [
+                4,
+                3,
+                1,
+                0
+              ],
+              [
+                0,
+                1,
+                1,
+                0
+              ],
+              [
+                1,
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          },
+          "clean": {
+            "n_cycles": 979,
+            "n_patients": 19,
+            "label_counts": {
+              "normal": 462,
+              "crackle": 300,
+              "wheeze": 112,
+              "both": 105
+            },
+            "accuracy": 0.5045965270684372,
+            "balanced_accuracy_present_classes": 0.4527895021645022,
+            "macro_f1_present_classes": 0.42294650756711866,
+            "recall": {
+              "normal": 0.5086580086580087,
+              "crackle": 0.6066666666666667,
+              "wheeze": 0.5625,
+              "both": 0.13333333333333333
+            },
+            "confusion_matrix": [
+              [
+                235,
+                138,
+                80,
+                9
+              ],
+              [
+                60,
+                182,
+                43,
+                15
+              ],
+              [
+                33,
+                8,
+                63,
+                8
+              ],
+              [
+                30,
+                19,
+                42,
+                14
+              ]
+            ]
+          },
+          "not_clean": {
+            "n_cycles": 98,
+            "n_patients": 6,
+            "label_counts": {
+              "normal": 46,
+              "crackle": 37,
+              "wheeze": 10,
+              "both": 5
+            },
+            "accuracy": 0.5612244897959183,
+            "balanced_accuracy_present_classes": 0.49788484136310224,
+            "macro_f1_present_classes": 0.4808080808080808,
+            "recall": {
+              "normal": 0.43478260869565216,
+              "crackle": 0.7567567567567568,
+              "wheeze": 0.6,
+              "both": 0.2
+            },
+            "confusion_matrix": [
+              [
+                20,
+                22,
+                3,
+                1
+              ],
+              [
+                7,
+                28,
+                1,
+                1
+              ],
+              [
+                1,
+                2,
+                6,
+                1
+              ],
+              [
+                1,
+                1,
+                2,
+                1
+              ]
+            ]
+          }
+        }
+      },
+      "analysis_reproduces_logged_metrics": true,
+      "git_commit": "37e3a8782bbfb7ecdace98243ace1deb8ad3d143",
+      "data_sha256": {
+        "metadata": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf",
+        "split_file": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4",
+        "normalization_stats": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c"
+      }
+    },
+    "crnn_v1": {
+      "lr": 0.0001,
+      "dropout": 0.3,
+      "seed": 42,
+      "parameter_count": 353365,
+      "best_epoch": 7,
+      "epochs_completed": 18,
+      "stop_reason": "early_stopping: no val macro-F1 improvement for 10 epochs",
+      "training_time_s": 1190.7314781999994,
+      "val_macro_f1": 0.41530251679069885,
+      "val_balanced_accuracy": 0.4148851958635606,
+      "val_accuracy": 0.564531104921077,
+      "val_loss_at_best": 1.3810540120028298,
+      "per_class": {
+        "normal": {
+          "precision": 0.6134301270417423,
+          "recall": 0.6653543307086615,
+          "f1": 0.6383380547686497,
+          "support": 508
+        },
+        "crackle": {
+          "precision": 0.5756097560975609,
+          "recall": 0.7002967359050445,
+          "f1": 0.6318607764390897,
+          "support": 337
+        },
+        "wheeze": {
+          "precision": 0.30357142857142855,
+          "recall": 0.13934426229508196,
+          "f1": 0.19101123595505615,
+          "support": 122
+        },
+        "both": {
+          "precision": 0.2833333333333333,
+          "recall": 0.15454545454545454,
+          "f1": 0.19999999999999998,
+          "support": 110
+        }
+      },
+      "confusion_matrix": [
+        [
+          338,
+          147,
+          15,
+          8
+        ],
+        [
+          69,
+          236,
+          15,
+          17
+        ],
+        [
+          76,
+          11,
+          17,
+          18
+        ],
+        [
+          68,
+          16,
+          9,
+          17
+        ]
+      ],
+      "overfitting": {
+        "train_loss_at_best": 0.9523434434805055,
+        "val_loss_at_best": 1.3810540120028298,
+        "val_minus_train_loss_at_best": 0.42871056852232436,
+        "min_val_loss": 1.2983191887759011,
+        "min_val_loss_epoch": 6,
+        "train_loss_last": 0.5921613740609231,
+        "val_loss_last": 1.9010004244585665,
+        "train_loss_drop_best_to_last": 0.3601820694195824,
+        "val_loss_change_best_to_last": 0.5199464124557367,
+        "val_macro_f1_epoch_to_epoch_abs_change_mean": 0.01816597440873667
+      },
+      "curves": {
+        "train_loss": [
+          1.3410021634927607,
+          1.280971385725589,
+          1.2337416099662193,
+          1.1778431838636432,
+          1.1133093023269998,
+          1.0591792990401485,
+          1.0074794434515442,
+          0.9523434434805055,
+          0.9149377278400559,
+          0.8776376949435823,
+          0.846834738366188,
+          0.8137837918441876,
+          0.7785943433268365,
+          0.7486949705469083,
+          0.710599169911425,
+          0.6783700685816911,
+          0.6468688168843268,
+          0.5921613740609231
+        ],
+        "val_loss": [
+          1.3497826431012308,
+          1.3660185878323314,
+          1.368207235300884,
+          1.4228786884244107,
+          1.416821828016885,
+          1.332063343752947,
+          1.2983191887759011,
+          1.3810540120028298,
+          1.360600871295982,
+          1.4905812271015446,
+          1.4902035647669432,
+          1.5455830645096336,
+          1.6101172395403338,
+          1.5828316072235533,
+          1.6988764193286028,
+          1.6809658327917314,
+          1.7896602129427062,
+          1.9010004244585665
+        ],
+        "val_macro_f1": [
+          0.3077656196103834,
+          0.30919434424753633,
+          0.3261939444947332,
+          0.3650786550882285,
+          0.35603164168061835,
+          0.39721413272151296,
+          0.3928796662055821,
+          0.41530251679069885,
+          0.39626691405550063,
+          0.39819168817685685,
+          0.3739223059697518,
+          0.3730490854239599,
+          0.384563734561606,
+          0.4121683555352447,
+          0.3820086508847152,
+          0.38812458368150377,
+          0.41292383257716453,
+          0.3846992607197536
+        ]
+      },
+      "subgroups": {
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "label_counts": {
+              "normal": 211,
+              "crackle": 303,
+              "wheeze": 45,
+              "both": 88
+            },
+            "accuracy": 0.47913446676970634,
+            "balanced_accuracy_present_classes": 0.35893445683430897,
+            "macro_f1_present_classes": 0.3571879411171608,
+            "recall": {
+              "normal": 0.2843601895734597,
+              "crackle": 0.735973597359736,
+              "wheeze": 0.2222222222222222,
+              "both": 0.19318181818181818
+            },
+            "confusion_matrix": [
+              [
+                60,
+                133,
+                13,
+                5
+              ],
+              [
+                48,
+                223,
+                15,
+                17
+              ],
+              [
+                7,
+                10,
+                10,
+                18
+              ],
+              [
+                49,
+                15,
+                7,
+                17
+              ]
+            ]
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "label_counts": {
+              "normal": 42,
+              "crackle": 4,
+              "wheeze": 23,
+              "both": 5
+            },
+            "accuracy": 0.5540540540540541,
+            "balanced_accuracy_present_classes": 0.24404761904761904,
+            "macro_f1_present_classes": 0.17982456140350878,
+            "recall": {
+              "normal": 0.9761904761904762,
+              "crackle": 0.0,
+              "wheeze": 0.0,
+              "both": 0.0
+            },
+            "confusion_matrix": [
+              [
+                41,
+                0,
+                1,
+                0
+              ],
+              [
+                4,
+                0,
+                0,
+                0
+              ],
+              [
+                23,
+                0,
+                0,
+                0
+              ],
+              [
+                4,
+                0,
+                1,
+                0
+              ]
+            ]
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "label_counts": {
+              "normal": 112,
+              "crackle": 7,
+              "wheeze": 0,
+              "both": 0
+            },
+            "accuracy": 0.8823529411764706,
+            "balanced_accuracy_present_classes": 0.6696428571428571,
+            "macro_f1_present_classes": 0.6178899082568807,
+            "recall": {
+              "normal": 0.9107142857142857,
+              "crackle": 0.42857142857142855
+            },
+            "confusion_matrix": [
+              [
+                102,
+                10,
+                0,
+                0
+              ],
+              [
+                4,
+                3,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "label_counts": {
+              "normal": 143,
+              "crackle": 23,
+              "wheeze": 54,
+              "both": 17
+            },
+            "accuracy": 0.6413502109704642,
+            "balanced_accuracy_present_classes": 0.37711704559530645,
+            "macro_f1_present_classes": 0.3755220473970474,
+            "recall": {
+              "normal": 0.9440559440559441,
+              "crackle": 0.43478260869565216,
+              "wheeze": 0.12962962962962962,
+              "both": 0.0
+            },
+            "confusion_matrix": [
+              [
+                135,
+                4,
+                1,
+                3
+              ],
+              [
+                13,
+                10,
+                0,
+                0
+              ],
+              [
+                46,
+                1,
+                7,
+                0
+              ],
+              [
+                15,
+                1,
+                1,
+                0
+              ]
+            ]
+          }
+        },
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "label_counts": {
+              "normal": 93,
+              "crackle": 20,
+              "wheeze": 32,
+              "both": 10
+            },
+            "accuracy": 0.6580645161290323,
+            "balanced_accuracy_present_classes": 0.3979334677419355,
+            "macro_f1_present_classes": 0.4114220383275261,
+            "recall": {
+              "normal": 0.9354838709677419,
+              "crackle": 0.5,
+              "wheeze": 0.15625,
+              "both": 0.0
+            },
+            "confusion_matrix": [
+              [
+                87,
+                1,
+                2,
+                3
+              ],
+              [
+                10,
+                10,
+                0,
+                0
+              ],
+              [
+                27,
+                0,
+                5,
+                0
+              ],
+              [
+                7,
+                1,
+                2,
+                0
+              ]
+            ]
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "label_counts": {
+              "normal": 415,
+              "crackle": 317,
+              "wheeze": 90,
+              "both": 100
+            },
+            "accuracy": 0.5488069414316703,
+            "balanced_accuracy_present_classes": 0.40527159109624616,
+            "macro_f1_present_classes": 0.4062771070660541,
+            "recall": {
+              "normal": 0.6048192771084338,
+              "crackle": 0.7129337539432177,
+              "wheeze": 0.13333333333333333,
+              "both": 0.17
+            },
+            "confusion_matrix": [
+              [
+                251,
+                146,
+                13,
+                5
+              ],
+              [
+                59,
+                226,
+                15,
+                17
+              ],
+              [
+                49,
+                11,
+                12,
+                18
+              ],
+              [
+                61,
+                15,
+                7,
+                17
+              ]
+            ]
+          }
+        },
+        "duration": {
+          "1.5-2.5s": {
+            "n_cycles": 424,
+            "n_patients": 15,
+            "label_counts": {
+              "normal": 210,
+              "crackle": 113,
+              "wheeze": 37,
+              "both": 64
+            },
+            "accuracy": 0.5212264150943396,
+            "balanced_accuracy_present_classes": 0.39335598932529237,
+            "macro_f1_present_classes": 0.3914495351575101,
+            "recall": {
+              "normal": 0.638095238095238,
+              "crackle": 0.6283185840707964,
+              "wheeze": 0.13513513513513514,
+              "both": 0.171875
+            },
+            "confusion_matrix": [
+              [
+                134,
+                68,
+                7,
+                1
+              ],
+              [
+                24,
+                71,
+                9,
+                9
+              ],
+              [
+                23,
+                8,
+                5,
+                1
+              ],
+              [
+                38,
+                11,
+                4,
+                11
+              ]
+            ]
+          },
+          "2.5-4s": {
+            "n_cycles": 481,
+            "n_patients": 15,
+            "label_counts": {
+              "normal": 172,
+              "crackle": 192,
+              "wheeze": 72,
+              "both": 45
+            },
+            "accuracy": 0.5488565488565489,
+            "balanced_accuracy_present_classes": 0.4087370801033592,
+            "macro_f1_present_classes": 0.40834033085205573,
+            "recall": {
+              "normal": 0.5988372093023255,
+              "crackle": 0.75,
+              "wheeze": 0.1527777777777778,
+              "both": 0.13333333333333333
+            },
+            "confusion_matrix": [
+              [
+                103,
+                60,
+                5,
+                4
+              ],
+              [
+                40,
+                144,
+                2,
+                6
+              ],
+              [
+                41,
+                3,
+                11,
+                17
+              ],
+              [
+                29,
+                5,
+                5,
+                6
+              ]
+            ]
+          },
+          "<1.5s": {
+            "n_cycles": 94,
+            "n_patients": 13,
+            "label_counts": {
+              "normal": 77,
+              "crackle": 9,
+              "wheeze": 8,
+              "both": 0
+            },
+            "accuracy": 0.6382978723404256,
+            "balanced_accuracy_present_classes": 0.3578643578643579,
+            "macro_f1_present_classes": 0.3334975369458128,
+            "recall": {
+              "normal": 0.7402597402597403,
+              "crackle": 0.3333333333333333,
+              "wheeze": 0.0
+            },
+            "confusion_matrix": [
+              [
+                57,
+                16,
+                3,
+                1
+              ],
+              [
+                3,
+                3,
+                1,
+                2
+              ],
+              [
+                8,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          },
+          ">=4s": {
+            "n_cycles": 78,
+            "n_patients": 9,
+            "label_counts": {
+              "normal": 49,
+              "crackle": 23,
+              "wheeze": 5,
+              "both": 1
+            },
+            "accuracy": 0.8076923076923077,
+            "balanced_accuracy_present_classes": 0.4701419698314108,
+            "macro_f1_present_classes": 0.48010101010101014,
+            "recall": {
+              "normal": 0.8979591836734694,
+              "crackle": 0.782608695652174,
+              "wheeze": 0.2,
+              "both": 0.0
+            },
+            "confusion_matrix": [
+              [
+                44,
+                3,
+                0,
+                2
+              ],
+              [
+                2,
+                18,
+                3,
+                0
+              ],
+              [
+                4,
+                0,
+                1,
+                0
+              ],
+              [
+                1,
+                0,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "quality_group": {
+          "all": {
+            "n_cycles": 1077,
+            "n_patients": 19,
+            "label_counts": {
+              "normal": 508,
+              "crackle": 337,
+              "wheeze": 122,
+              "both": 110
+            },
+            "accuracy": 0.564531104921077,
+            "balanced_accuracy_present_classes": 0.4148851958635606,
+            "macro_f1_present_classes": 0.41530251679069885,
+            "recall": {
+              "normal": 0.6653543307086615,
+              "crackle": 0.7002967359050445,
+              "wheeze": 0.13934426229508196,
+              "both": 0.15454545454545454
+            },
+            "confusion_matrix": [
+              [
+                338,
+                147,
+                15,
+                8
+              ],
+              [
+                69,
+                236,
+                15,
+                17
+              ],
+              [
+                76,
+                11,
+                17,
+                18
+              ],
+              [
+                68,
+                16,
+                9,
+                17
+              ]
+            ]
+          },
+          "moderately_clean": {
+            "n_cycles": 1065,
+            "n_patients": 19,
+            "label_counts": {
+              "normal": 500,
+              "crackle": 335,
+              "wheeze": 120,
+              "both": 110
+            },
+            "accuracy": 0.5661971830985916,
+            "balanced_accuracy_present_classes": 0.4161798959746721,
+            "macro_f1_present_classes": 0.41725552228135543,
+            "recall": {
+              "normal": 0.67,
+              "crackle": 0.6985074626865672,
+              "wheeze": 0.14166666666666666,
+              "both": 0.15454545454545454
+            },
+            "confusion_matrix": [
+              [
+                335,
+                143,
+                15,
+                7
+              ],
+              [
+                69,
+                234,
+                15,
+                17
+              ],
+              [
+                76,
+                10,
+                17,
+                17
+              ],
+              [
+                68,
+                16,
+                9,
+                17
+              ]
+            ]
+          },
+          "not_moderately_clean": {
+            "n_cycles": 12,
+            "n_patients": 4,
+            "label_counts": {
+              "normal": 8,
+              "crackle": 2,
+              "wheeze": 2,
+              "both": 0
+            },
+            "accuracy": 0.4166666666666667,
+            "balanced_accuracy_present_classes": 0.4583333333333333,
+            "macro_f1_present_classes": 0.32996632996632996,
+            "recall": {
+              "normal": 0.375,
+              "crackle": 1.0,
+              "wheeze": 0.0
+            },
+            "confusion_matrix": [
+              [
+                3,
+                4,
+                0,
+                1
+              ],
+              [
+                0,
+                2,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          },
+          "clean": {
+            "n_cycles": 979,
+            "n_patients": 19,
+            "label_counts": {
+              "normal": 462,
+              "crackle": 300,
+              "wheeze": 112,
+              "both": 105
+            },
+            "accuracy": 0.5607763023493361,
+            "balanced_accuracy_present_classes": 0.4075865800865801,
+            "macro_f1_present_classes": 0.4055047092056127,
+            "recall": {
+              "normal": 0.6774891774891775,
+              "crackle": 0.6933333333333334,
+              "wheeze": 0.10714285714285714,
+              "both": 0.1523809523809524
+            },
+            "confusion_matrix": [
+              [
+                313,
+                133,
+                12,
+                4
+              ],
+              [
+                63,
+                208,
+                14,
+                15
+              ],
+              [
+                75,
+                9,
+                12,
+                16
+              ],
+              [
+                66,
+                15,
+                8,
+                16
+              ]
+            ]
+          },
+          "not_clean": {
+            "n_cycles": 98,
+            "n_patients": 6,
+            "label_counts": {
+              "normal": 46,
+              "crackle": 37,
+              "wheeze": 10,
+              "both": 5
+            },
+            "accuracy": 0.6020408163265306,
+            "balanced_accuracy_present_classes": 0.5000587544065805,
+            "macro_f1_present_classes": 0.4876959930313589,
+            "recall": {
+              "normal": 0.5434782608695652,
+              "crackle": 0.7567567567567568,
+              "wheeze": 0.5,
+              "both": 0.2
+            },
+            "confusion_matrix": [
+              [
+                25,
+                14,
+                3,
+                4
+              ],
+              [
+                6,
+                28,
+                1,
+                2
+              ],
+              [
+                1,
+                2,
+                5,
+                2
+              ],
+              [
+                2,
+                1,
+                1,
+                1
+              ]
+            ]
+          }
+        }
+      },
+      "analysis_reproduces_logged_metrics": true,
+      "git_commit": "0a07fc54e806a00c19a33c8320c52441f2b902cc",
+      "data_sha256": {
+        "metadata": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf",
+        "split_file": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4",
+        "normalization_stats": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c"
+      }
+    }
+  },
+  "bootstrap": {
+    "n_bootstrap": 2000,
+    "seed": 0,
+    "unit": "patient",
+    "n_patients": 19,
+    "runs": {
+      "baseline_cnn_v3": {
+        "macro_f1_ci95": [
+          0.33309583225317024,
+          0.5021399804853245
+        ],
+        "diff_vs_baseline_cnn_v3_mean": 0.0,
+        "diff_vs_baseline_cnn_v3_ci95": [
+          0.0,
+          0.0
+        ],
+        "p_better_than_baseline_cnn_v3": 0.0
+      },
+      "crnn_v1": {
+        "macro_f1_ci95": [
+          0.32850503927054325,
+          0.4712177730447497
+        ],
+        "diff_vs_baseline_cnn_v3_mean": -0.015139094044488757,
+        "diff_vs_baseline_cnn_v3_ci95": [
+          -0.08460646292440005,
+          0.03768443328764809
+        ],
+        "p_better_than_baseline_cnn_v3": 0.348
+      }
+    }
+  },
+  "same_data_sha256_for_all_runs": true,
+  "test_split_evaluated": false
+}

@@ -70,6 +70,7 @@ for _sub in ("data", "features", "models", "evaluation"):
 import normalization as nz  # noqa: E402
 import respiratory_dataset as rd  # noqa: E402
 from baseline_cnn import BaselineCNN, count_parameters  # noqa: E402
+from crnn import CRNN  # noqa: E402
 from classification_metrics import classification_report, confusion_matrix  # noqa: E402
 from length_bucketing import LengthBucketBatchSampler, approximate_frame_lengths  # noqa: E402
 
@@ -78,9 +79,13 @@ DEFAULT_CHECKPOINT_DIR = REPO_ROOT / "models"
 DEFAULT_REPORTS_DIR = REPO_ROOT / "reports" / "runs"
 
 
+MODELS = ("baseline_cnn", "crnn")
+
+
 @dataclass
 class TrainConfig:
     run_name: str = "baseline_cnn"
+    model: str = "baseline_cnn"  # "crnn" uses CRNN's fixed default architecture; `channels` applies to baseline_cnn only
     seed: int = 42
     max_epochs: int = 60
     patience: int = 10
@@ -97,6 +102,17 @@ class TrainConfig:
     checkpoint_dir: str = str(DEFAULT_CHECKPOINT_DIR)
     reports_dir: str = str(DEFAULT_REPORTS_DIR)
     extra: dict = field(default_factory=dict)
+
+
+def build_model(config: dict | TrainConfig) -> nn.Module:
+    """Construct the network described by a TrainConfig (or a saved config dict)."""
+    cfg = asdict(config) if isinstance(config, TrainConfig) else config
+    name = cfg.get("model", "baseline_cnn")  # runs saved before this field existed are baseline_cnn
+    if name == "baseline_cnn":
+        return BaselineCNN(len(rd.CLASS_NAMES), tuple(cfg["channels"]), dropout=cfg["dropout"])
+    if name == "crnn":
+        return CRNN(len(rd.CLASS_NAMES), dropout=cfg["dropout"])
+    raise ValueError(f"unknown model {name!r}; expected one of {MODELS}")
 
 
 def sha256_file(path: Path) -> str:
@@ -313,7 +329,7 @@ def fit(cfg: TrainConfig, train_ds, val_ds, max_train_batches: int | None = None
 
     set_determinism(cfg.seed)
     device = torch.device(cfg.device if cfg.device == "cpu" or torch.cuda.is_available() else "cpu")
-    model = BaselineCNN(len(rd.CLASS_NAMES), cfg.channels, dropout=cfg.dropout).to(device)
+    model = build_model(cfg).to(device)
     weights = class_weights_from_train(train_ds).to(device)
     loss_fn = nn.CrossEntropyLoss(weight=weights)
     optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay)
@@ -330,7 +346,8 @@ def fit(cfg: TrainConfig, train_ds, val_ds, max_train_batches: int | None = None
         "seed": cfg.seed,
         "config": asdict(cfg),
         "max_train_batches": max_train_batches,
-        "model": {"class": type(model).__name__, "parameter_count": count_parameters(model)},
+        "model": {"name": cfg.model, "class": type(model).__name__, "parameter_count": count_parameters(model),
+                  "architecture": str(model)},
         "class_names": list(rd.CLASS_NAMES),
         "class_weights": dict(zip(rd.CLASS_NAMES, weights.tolist())),
         "class_weight_source": "train split label counts: N / (K * n_c)",
@@ -411,6 +428,7 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="Train the baseline CNN (train split) with validation model selection.")
     d = TrainConfig()
     p.add_argument("--run-name", default=d.run_name)
+    p.add_argument("--model", choices=MODELS, default=d.model)
     p.add_argument("--seed", type=int, default=d.seed)
     p.add_argument("--max-epochs", type=int, default=d.max_epochs)
     p.add_argument("--patience", type=int, default=d.patience)
@@ -427,7 +445,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--overwrite", action="store_true", help="replace an existing run with the same name")
     p.add_argument("--max-train-batches", type=int, default=None, help="limit batches per epoch (smoke tests)")
     a = p.parse_args(argv)
-    cfg = TrainConfig(run_name=a.run_name, seed=a.seed, max_epochs=a.max_epochs, patience=a.patience,
+    cfg = TrainConfig(run_name=a.run_name, model=a.model, seed=a.seed, max_epochs=a.max_epochs, patience=a.patience,
                       batch_size=a.batch_size, lr=a.lr, weight_decay=a.weight_decay, dropout=a.dropout,
                       use_bucketing=not a.no_bucketing, num_workers=a.num_workers, device=a.device,
                       checkpoint_dir=a.checkpoint_dir, reports_dir=a.reports_dir)

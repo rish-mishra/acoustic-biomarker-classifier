@@ -1,0 +1,1011 @@
+{
+  "run_name": "crnn_v1",
+  "split": "val",
+  "checkpoint_epoch": 7,
+  "data_sha256_matches_checkpoint": true,
+  "reproduces_logged_val_confusion_matrix": true,
+  "overall": {
+    "per_class": {
+      "normal": {
+        "precision": 0.6134301270417423,
+        "recall": 0.6653543307086615,
+        "f1": 0.6383380547686497,
+        "support": 508
+      },
+      "crackle": {
+        "precision": 0.5756097560975609,
+        "recall": 0.7002967359050445,
+        "f1": 0.6318607764390897,
+        "support": 337
+      },
+      "wheeze": {
+        "precision": 0.30357142857142855,
+        "recall": 0.13934426229508196,
+        "f1": 0.19101123595505615,
+        "support": 122
+      },
+      "both": {
+        "precision": 0.2833333333333333,
+        "recall": 0.15454545454545454,
+        "f1": 0.19999999999999998,
+        "support": 110
+      }
+    },
+    "macro_f1": 0.41530251679069885,
+    "balanced_accuracy": 0.4148851958635606,
+    "accuracy": 0.564531104921077,
+    "confusion_matrix": [
+      [
+        338,
+        147,
+        15,
+        8
+      ],
+      [
+        69,
+        236,
+        15,
+        17
+      ],
+      [
+        76,
+        11,
+        17,
+        18
+      ],
+      [
+        68,
+        16,
+        9,
+        17
+      ]
+    ],
+    "n": 1077
+  },
+  "subgroups": {
+    "device": {
+      "AKGC417L": {
+        "n_cycles": 647,
+        "n_patients": 4,
+        "label_counts": {
+          "normal": 211,
+          "crackle": 303,
+          "wheeze": 45,
+          "both": 88
+        },
+        "accuracy": 0.47913446676970634,
+        "balanced_accuracy_present_classes": 0.35893445683430897,
+        "macro_f1_present_classes": 0.3571879411171608,
+        "recall": {
+          "normal": 0.2843601895734597,
+          "crackle": 0.735973597359736,
+          "wheeze": 0.2222222222222222,
+          "both": 0.19318181818181818
+        },
+        "confusion_matrix": [
+          [
+            60,
+            133,
+            13,
+            5
+          ],
+          [
+            48,
+            223,
+            15,
+            17
+          ],
+          [
+            7,
+            10,
+            10,
+            18
+          ],
+          [
+            49,
+            15,
+            7,
+            17
+          ]
+        ]
+      },
+      "Litt3200": {
+        "n_cycles": 74,
+        "n_patients": 2,
+        "label_counts": {
+          "normal": 42,
+          "crackle": 4,
+          "wheeze": 23,
+          "both": 5
+        },
+        "accuracy": 0.5540540540540541,
+        "balanced_accuracy_present_classes": 0.24404761904761904,
+        "macro_f1_present_classes": 0.17982456140350878,
+        "recall": {
+          "normal": 0.9761904761904762,
+          "crackle": 0.0,
+          "wheeze": 0.0,
+          "both": 0.0
+        },
+        "confusion_matrix": [
+          [
+            41,
+            0,
+            1,
+            0
+          ],
+          [
+            4,
+            0,
+            0,
+            0
+          ],
+          [
+            23,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            0,
+            1,
+            0
+          ]
+        ]
+      },
+      "LittC2SE": {
+        "n_cycles": 119,
+        "n_patients": 2,
+        "label_counts": {
+          "normal": 112,
+          "crackle": 7,
+          "wheeze": 0,
+          "both": 0
+        },
+        "accuracy": 0.8823529411764706,
+        "balanced_accuracy_present_classes": 0.6696428571428571,
+        "macro_f1_present_classes": 0.6178899082568807,
+        "recall": {
+          "normal": 0.9107142857142857,
+          "crackle": 0.42857142857142855
+        },
+        "confusion_matrix": [
+          [
+            102,
+            10,
+            0,
+            0
+          ],
+          [
+            4,
+            3,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "Meditron": {
+        "n_cycles": 237,
+        "n_patients": 12,
+        "label_counts": {
+          "normal": 143,
+          "crackle": 23,
+          "wheeze": 54,
+          "both": 17
+        },
+        "accuracy": 0.6413502109704642,
+        "balanced_accuracy_present_classes": 0.37711704559530645,
+        "macro_f1_present_classes": 0.3755220473970474,
+        "recall": {
+          "normal": 0.9440559440559441,
+          "crackle": 0.43478260869565216,
+          "wheeze": 0.12962962962962962,
+          "both": 0.0
+        },
+        "confusion_matrix": [
+          [
+            135,
+            4,
+            1,
+            3
+          ],
+          [
+            13,
+            10,
+            0,
+            0
+          ],
+          [
+            46,
+            1,
+            7,
+            0
+          ],
+          [
+            15,
+            1,
+            1,
+            0
+          ]
+        ]
+      }
+    },
+    "original_sample_rate": {
+      "4000": {
+        "n_cycles": 155,
+        "n_patients": 3,
+        "label_counts": {
+          "normal": 93,
+          "crackle": 20,
+          "wheeze": 32,
+          "both": 10
+        },
+        "accuracy": 0.6580645161290323,
+        "balanced_accuracy_present_classes": 0.3979334677419355,
+        "macro_f1_present_classes": 0.4114220383275261,
+        "recall": {
+          "normal": 0.9354838709677419,
+          "crackle": 0.5,
+          "wheeze": 0.15625,
+          "both": 0.0
+        },
+        "confusion_matrix": [
+          [
+            87,
+            1,
+            2,
+            3
+          ],
+          [
+            10,
+            10,
+            0,
+            0
+          ],
+          [
+            27,
+            0,
+            5,
+            0
+          ],
+          [
+            7,
+            1,
+            2,
+            0
+          ]
+        ]
+      },
+      "44100": {
+        "n_cycles": 922,
+        "n_patients": 16,
+        "label_counts": {
+          "normal": 415,
+          "crackle": 317,
+          "wheeze": 90,
+          "both": 100
+        },
+        "accuracy": 0.5488069414316703,
+        "balanced_accuracy_present_classes": 0.40527159109624616,
+        "macro_f1_present_classes": 0.4062771070660541,
+        "recall": {
+          "normal": 0.6048192771084338,
+          "crackle": 0.7129337539432177,
+          "wheeze": 0.13333333333333333,
+          "both": 0.17
+        },
+        "confusion_matrix": [
+          [
+            251,
+            146,
+            13,
+            5
+          ],
+          [
+            59,
+            226,
+            15,
+            17
+          ],
+          [
+            49,
+            11,
+            12,
+            18
+          ],
+          [
+            61,
+            15,
+            7,
+            17
+          ]
+        ]
+      }
+    },
+    "duration": {
+      "1.5-2.5s": {
+        "n_cycles": 424,
+        "n_patients": 15,
+        "label_counts": {
+          "normal": 210,
+          "crackle": 113,
+          "wheeze": 37,
+          "both": 64
+        },
+        "accuracy": 0.5212264150943396,
+        "balanced_accuracy_present_classes": 0.39335598932529237,
+        "macro_f1_present_classes": 0.3914495351575101,
+        "recall": {
+          "normal": 0.638095238095238,
+          "crackle": 0.6283185840707964,
+          "wheeze": 0.13513513513513514,
+          "both": 0.171875
+        },
+        "confusion_matrix": [
+          [
+            134,
+            68,
+            7,
+            1
+          ],
+          [
+            24,
+            71,
+            9,
+            9
+          ],
+          [
+            23,
+            8,
+            5,
+            1
+          ],
+          [
+            38,
+            11,
+            4,
+            11
+          ]
+        ]
+      },
+      "2.5-4s": {
+        "n_cycles": 481,
+        "n_patients": 15,
+        "label_counts": {
+          "normal": 172,
+          "crackle": 192,
+          "wheeze": 72,
+          "both": 45
+        },
+        "accuracy": 0.5488565488565489,
+        "balanced_accuracy_present_classes": 0.4087370801033592,
+        "macro_f1_present_classes": 0.40834033085205573,
+        "recall": {
+          "normal": 0.5988372093023255,
+          "crackle": 0.75,
+          "wheeze": 0.1527777777777778,
+          "both": 0.13333333333333333
+        },
+        "confusion_matrix": [
+          [
+            103,
+            60,
+            5,
+            4
+          ],
+          [
+            40,
+            144,
+            2,
+            6
+          ],
+          [
+            41,
+            3,
+            11,
+            17
+          ],
+          [
+            29,
+            5,
+            5,
+            6
+          ]
+        ]
+      },
+      "<1.5s": {
+        "n_cycles": 94,
+        "n_patients": 13,
+        "label_counts": {
+          "normal": 77,
+          "crackle": 9,
+          "wheeze": 8,
+          "both": 0
+        },
+        "accuracy": 0.6382978723404256,
+        "balanced_accuracy_present_classes": 0.3578643578643579,
+        "macro_f1_present_classes": 0.3334975369458128,
+        "recall": {
+          "normal": 0.7402597402597403,
+          "crackle": 0.3333333333333333,
+          "wheeze": 0.0
+        },
+        "confusion_matrix": [
+          [
+            57,
+            16,
+            3,
+            1
+          ],
+          [
+            3,
+            3,
+            1,
+            2
+          ],
+          [
+            8,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      ">=4s": {
+        "n_cycles": 78,
+        "n_patients": 9,
+        "label_counts": {
+          "normal": 49,
+          "crackle": 23,
+          "wheeze": 5,
+          "both": 1
+        },
+        "accuracy": 0.8076923076923077,
+        "balanced_accuracy_present_classes": 0.4701419698314108,
+        "macro_f1_present_classes": 0.48010101010101014,
+        "recall": {
+          "normal": 0.8979591836734694,
+          "crackle": 0.782608695652174,
+          "wheeze": 0.2,
+          "both": 0.0
+        },
+        "confusion_matrix": [
+          [
+            44,
+            3,
+            0,
+            2
+          ],
+          [
+            2,
+            18,
+            3,
+            0
+          ],
+          [
+            4,
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    "quality_group": {
+      "all": {
+        "n_cycles": 1077,
+        "n_patients": 19,
+        "label_counts": {
+          "normal": 508,
+          "crackle": 337,
+          "wheeze": 122,
+          "both": 110
+        },
+        "accuracy": 0.564531104921077,
+        "balanced_accuracy_present_classes": 0.4148851958635606,
+        "macro_f1_present_classes": 0.41530251679069885,
+        "recall": {
+          "normal": 0.6653543307086615,
+          "crackle": 0.7002967359050445,
+          "wheeze": 0.13934426229508196,
+          "both": 0.15454545454545454
+        },
+        "confusion_matrix": [
+          [
+            338,
+            147,
+            15,
+            8
+          ],
+          [
+            69,
+            236,
+            15,
+            17
+          ],
+          [
+            76,
+            11,
+            17,
+            18
+          ],
+          [
+            68,
+            16,
+            9,
+            17
+          ]
+        ]
+      },
+      "moderately_clean": {
+        "n_cycles": 1065,
+        "n_patients": 19,
+        "label_counts": {
+          "normal": 500,
+          "crackle": 335,
+          "wheeze": 120,
+          "both": 110
+        },
+        "accuracy": 0.5661971830985916,
+        "balanced_accuracy_present_classes": 0.4161798959746721,
+        "macro_f1_present_classes": 0.41725552228135543,
+        "recall": {
+          "normal": 0.67,
+          "crackle": 0.6985074626865672,
+          "wheeze": 0.14166666666666666,
+          "both": 0.15454545454545454
+        },
+        "confusion_matrix": [
+          [
+            335,
+            143,
+            15,
+            7
+          ],
+          [
+            69,
+            234,
+            15,
+            17
+          ],
+          [
+            76,
+            10,
+            17,
+            17
+          ],
+          [
+            68,
+            16,
+            9,
+            17
+          ]
+        ]
+      },
+      "not_moderately_clean": {
+        "n_cycles": 12,
+        "n_patients": 4,
+        "label_counts": {
+          "normal": 8,
+          "crackle": 2,
+          "wheeze": 2,
+          "both": 0
+        },
+        "accuracy": 0.4166666666666667,
+        "balanced_accuracy_present_classes": 0.4583333333333333,
+        "macro_f1_present_classes": 0.32996632996632996,
+        "recall": {
+          "normal": 0.375,
+          "crackle": 1.0,
+          "wheeze": 0.0
+        },
+        "confusion_matrix": [
+          [
+            3,
+            4,
+            0,
+            1
+          ],
+          [
+            0,
+            2,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "clean": {
+        "n_cycles": 979,
+        "n_patients": 19,
+        "label_counts": {
+          "normal": 462,
+          "crackle": 300,
+          "wheeze": 112,
+          "both": 105
+        },
+        "accuracy": 0.5607763023493361,
+        "balanced_accuracy_present_classes": 0.4075865800865801,
+        "macro_f1_present_classes": 0.4055047092056127,
+        "recall": {
+          "normal": 0.6774891774891775,
+          "crackle": 0.6933333333333334,
+          "wheeze": 0.10714285714285714,
+          "both": 0.1523809523809524
+        },
+        "confusion_matrix": [
+          [
+            313,
+            133,
+            12,
+            4
+          ],
+          [
+            63,
+            208,
+            14,
+            15
+          ],
+          [
+            75,
+            9,
+            12,
+            16
+          ],
+          [
+            66,
+            15,
+            8,
+            16
+          ]
+        ]
+      },
+      "not_clean": {
+        "n_cycles": 98,
+        "n_patients": 6,
+        "label_counts": {
+          "normal": 46,
+          "crackle": 37,
+          "wheeze": 10,
+          "both": 5
+        },
+        "accuracy": 0.6020408163265306,
+        "balanced_accuracy_present_classes": 0.5000587544065805,
+        "macro_f1_present_classes": 0.4876959930313589,
+        "recall": {
+          "normal": 0.5434782608695652,
+          "crackle": 0.7567567567567568,
+          "wheeze": 0.5,
+          "both": 0.2
+        },
+        "confusion_matrix": [
+          [
+            25,
+            14,
+            3,
+            4
+          ],
+          [
+            6,
+            28,
+            1,
+            2
+          ],
+          [
+            1,
+            2,
+            5,
+            2
+          ],
+          [
+            2,
+            1,
+            1,
+            1
+          ]
+        ]
+      }
+    }
+  },
+  "patients": {
+    "101": {
+      "n_cycles": 23,
+      "device": "Meditron",
+      "accuracy": 1.0,
+      "label_counts": {
+        "normal": 23
+      },
+      "pred_counts": {
+        "normal": 23
+      }
+    },
+    "110": {
+      "n_cycles": 52,
+      "device": "Meditron",
+      "accuracy": 0.7884615384615384,
+      "label_counts": {
+        "crackle": 12,
+        "normal": 34,
+        "both": 3,
+        "wheeze": 3
+      },
+      "pred_counts": {
+        "normal": 36,
+        "wheeze": 2,
+        "both": 2,
+        "crackle": 12
+      }
+    },
+    "112": {
+      "n_cycles": 57,
+      "device": "Meditron",
+      "accuracy": 0.47368421052631576,
+      "label_counts": {
+        "normal": 24,
+        "crackle": 5,
+        "both": 6,
+        "wheeze": 22
+      },
+      "pred_counts": {
+        "normal": 50,
+        "both": 1,
+        "wheeze": 6
+      }
+    },
+    "116": {
+      "n_cycles": 8,
+      "device": "Meditron",
+      "accuracy": 0.625,
+      "label_counts": {
+        "normal": 6,
+        "wheeze": 2
+      },
+      "pred_counts": {
+        "normal": 7,
+        "crackle": 1
+      }
+    },
+    "123": {
+      "n_cycles": 8,
+      "device": "Meditron",
+      "accuracy": 1.0,
+      "label_counts": {
+        "normal": 8
+      },
+      "pred_counts": {
+        "normal": 8
+      }
+    },
+    "127": {
+      "n_cycles": 10,
+      "device": "Meditron",
+      "accuracy": 0.6,
+      "label_counts": {
+        "normal": 7,
+        "crackle": 3
+      },
+      "pred_counts": {
+        "normal": 9,
+        "crackle": 1
+      }
+    },
+    "135": {
+      "n_cycles": 112,
+      "device": "LittC2SE",
+      "accuracy": 0.9017857142857143,
+      "label_counts": {
+        "normal": 107,
+        "crackle": 5
+      },
+      "pred_counts": {
+        "normal": 100,
+        "crackle": 12
+      }
+    },
+    "139": {
+      "n_cycles": 46,
+      "device": "Litt3200",
+      "accuracy": 0.7391304347826086,
+      "label_counts": {
+        "normal": 35,
+        "both": 1,
+        "crackle": 3,
+        "wheeze": 7
+      },
+      "pred_counts": {
+        "normal": 45,
+        "wheeze": 1
+      }
+    },
+    "152": {
+      "n_cycles": 7,
+      "device": "Meditron",
+      "accuracy": 1.0,
+      "label_counts": {
+        "normal": 7
+      },
+      "pred_counts": {
+        "normal": 7
+      }
+    },
+    "154": {
+      "n_cycles": 208,
+      "device": "AKGC417L",
+      "accuracy": 0.47596153846153844,
+      "label_counts": {
+        "crackle": 111,
+        "normal": 96,
+        "both": 1
+      },
+      "pred_counts": {
+        "crackle": 131,
+        "wheeze": 25,
+        "normal": 41,
+        "both": 11
+      }
+    },
+    "156": {
+      "n_cycles": 130,
+      "device": "AKGC417L",
+      "accuracy": 0.2230769230769231,
+      "label_counts": {
+        "both": 77,
+        "crackle": 28,
+        "wheeze": 15,
+        "normal": 10
+      },
+      "pred_counts": {
+        "crackle": 41,
+        "normal": 68,
+        "both": 16,
+        "wheeze": 5
+      }
+    },
+    "161": {
+      "n_cycles": 19,
+      "device": "Meditron",
+      "accuracy": 0.3157894736842105,
+      "label_counts": {
+        "both": 2,
+        "wheeze": 9,
+        "normal": 6,
+        "crackle": 2
+      },
+      "pred_counts": {
+        "normal": 19
+      }
+    },
+    "167": {
+      "n_cycles": 28,
+      "device": "Meditron",
+      "accuracy": 0.7142857142857143,
+      "label_counts": {
+        "normal": 20,
+        "wheeze": 8
+      },
+      "pred_counts": {
+        "normal": 28
+      }
+    },
+    "172": {
+      "n_cycles": 176,
+      "device": "AKGC417L",
+      "accuracy": 0.3806818181818182,
+      "label_counts": {
+        "normal": 94,
+        "crackle": 42,
+        "wheeze": 30,
+        "both": 10
+      },
+      "pred_counts": {
+        "crackle": 91,
+        "normal": 41,
+        "both": 29,
+        "wheeze": 15
+      }
+    },
+    "176": {
+      "n_cycles": 133,
+      "device": "AKGC417L",
+      "accuracy": 0.8646616541353384,
+      "label_counts": {
+        "normal": 11,
+        "crackle": 122
+      },
+      "pred_counts": {
+        "crackle": 118,
+        "normal": 14,
+        "both": 1
+      }
+    },
+    "190": {
+      "n_cycles": 4,
+      "device": "Meditron",
+      "accuracy": 1.0,
+      "label_counts": {
+        "normal": 4
+      },
+      "pred_counts": {
+        "normal": 4
+      }
+    },
+    "197": {
+      "n_cycles": 8,
+      "device": "Meditron",
+      "accuracy": 0.625,
+      "label_counts": {
+        "normal": 6,
+        "crackle": 1,
+        "wheeze": 1
+      },
+      "pred_counts": {
+        "normal": 6,
+        "crackle": 2
+      }
+    },
+    "201": {
+      "n_cycles": 41,
+      "device": "Meditron",
+      "accuracy": 0.17073170731707318,
+      "label_counts": {
+        "normal": 5,
+        "crackle": 1,
+        "wheeze": 25,
+        "both": 10
+      },
+      "pred_counts": {
+        "normal": 39,
+        "wheeze": 2
+      }
+    },
+    "212": {
+      "n_cycles": 7,
+      "device": "LittC2SE",
+      "accuracy": 0.5714285714285714,
+      "label_counts": {
+        "normal": 5,
+        "crackle": 2
+      },
+      "pred_counts": {
+        "crackle": 1,
+        "normal": 6
+      }
+    }
+  }
+}

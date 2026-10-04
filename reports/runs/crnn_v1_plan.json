@@ -1,0 +1,26 @@
+{
+  "study": "Architecture comparison 1: CRNN vs frozen CNN baseline (validation only)",
+  "declared": "2026-10-04, before any CRNN training",
+  "research_question": "Does explicitly modeling temporal structure improve respiratory-cycle classification compared with the frozen CNN baseline?",
+  "reference_run": "baseline_cnn_v3 (frozen official CNN baseline: lr 1e-4, dropout 0.3, best validation macro-F1 0.4271)",
+  "experiment": "crnn_v1 (exactly one full run)",
+  "architecture": {
+    "module": "src/models/crnn.py:CRNN (default arguments)",
+    "cnn_front_end": "3 blocks x [Conv3x3-MaskedGN-ReLU-Conv3x3-MaskedGN-ReLU-MaxPool], channels 16/32/64, pooling (freq,time) (2,2),(2,1),(2,1); freq 64->8; time step 20 ms",
+    "frequency_collapse": "flatten 64 ch x 8 bins -> Linear(512,128) -> ReLU -> Dropout(0.3)",
+    "temporal_model": "1-layer bidirectional GRU, hidden 128/direction, packed sequences",
+    "pooling": "masked additive attention (256->64 tanh ->1), softmax over valid steps",
+    "head": "Dropout(0.3) -> Linear(256,4)",
+    "parameters": 353365
+  },
+  "training_protocol_identical_to_baseline_cnn_v3": {
+    "lr": 0.0001, "dropout": 0.3, "optimizer": "AdamW weight_decay 0.01", "loss": "weighted cross-entropy (train counts)",
+    "batch_size": 32, "seed": 42, "max_epochs": 60, "patience": 10, "selection": "validation macro F1",
+    "grad_clip_norm": 5.0, "length_bucketing": "pool x50", "split": "frozen patient split", "normalization": "frozen train-only band stats",
+    "preprocessing": "frozen PRIMARY_CONFIG Log-Mel"
+  },
+  "comparison": ["best validation macro F1 (primary)", "balanced accuracy", "accuracy", "per-class F1", "confusion matrix",
+                 "training time", "paired patient-bootstrap 95% CI of the macro-F1 difference (crnn_v1 - baseline_cnn_v3)",
+                 "subgroups by device and original sample rate (reported only, not used for selection)"],
+  "rules": ["no CRNN hyperparameter tuning after seeing validation results", "test split never loaded or evaluated"]
+}

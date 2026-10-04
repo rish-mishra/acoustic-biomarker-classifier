@@ -36,7 +36,6 @@ for _sub in ("models", "data", "features", "evaluation"):
         sys.path.insert(0, str(SRC_DIR / _sub))
 
 import train as tr  # noqa: E402
-from baseline_cnn import BaselineCNN  # noqa: E402
 from classification_metrics import classification_report, confusion_matrix  # noqa: E402
 
 rd, nz = tr.rd, tr.nz
@@ -133,10 +132,9 @@ def patient_analysis(rows: list[dict]) -> dict:
     }
 
 
-def load_run_model(run_name: str, checkpoint_dir: Path, device) -> tuple[BaselineCNN, dict]:
+def load_run_model(run_name: str, checkpoint_dir: Path, device) -> tuple[torch.nn.Module, dict]:
     ckpt = torch.load(Path(checkpoint_dir) / run_name / "best.pt", map_location=device, weights_only=False)
-    cfg = ckpt["config"]
-    model = BaselineCNN(len(rd.CLASS_NAMES), tuple(cfg["channels"]), dropout=cfg["dropout"]).to(device)
+    model = tr.build_model(ckpt["config"]).to(device)
     model.load_state_dict(ckpt["model_state"])
     return model, ckpt
 
