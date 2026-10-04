@@ -18,3 +18,5 @@ data/raw/
 .DS_Store
 # Generated metadata
 data/metadata.csv
+# Interrupted experiment runs
+reports/runs/_interrupted/
