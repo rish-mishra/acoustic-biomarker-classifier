@@ -1,0 +1,21 @@
+{
+  "stage": "clean-test",
+  "started": "2026-10-24T19:33:16-04:00",
+  "provenance": {
+    "verified": "2026-10-24T19:33:16-04:00",
+    "protocol_sha256": "05f7fd0048f49d9a0d018319142fc6b07397b46dff97995e1bcda07eeb524f65",
+    "protocol_version": 3,
+    "checkpoint_sha256": "2c2c7c03ed00b6562c63ff88be12d43bd8f9ff890074f9dac4d4ce5874e3b567",
+    "data_sha256": {
+      "metadata": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf",
+      "split_file": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4",
+      "normalization_stats": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c"
+    },
+    "git_head": "9d36c12638a4f6df5439a9777a266b9b461a3fe0",
+    "git_status": [],
+    "python": "3.11.9",
+    "torch": "2.11.0+cu130",
+    "device": "cuda",
+    "cuda_available": true
+  }
+}

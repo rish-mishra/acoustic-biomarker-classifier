@@ -1,0 +1,14 @@
+{
+  "stage": "clean-test",
+  "locked": "2026-10-24T19:34:00-04:00",
+  "protocol_sha256": "05f7fd0048f49d9a0d018319142fc6b07397b46dff97995e1bcda07eeb524f65",
+  "checkpoint_sha256": "2c2c7c03ed00b6562c63ff88be12d43bd8f9ff890074f9dac4d4ce5874e3b567",
+  "git_head": "9d36c12638a4f6df5439a9777a266b9b461a3fe0",
+  "files": {
+    "predictions.csv": "f478be330b1aafe35869c247ff3bc4ea68a6de76bdaf2f6aa7a4122647c5dbbe",
+    "metrics.json": "2af169dd3f6689eb3f9e18e131f2d146daceb075b3cd53b531fae810e12ef5b7",
+    "summary.md": "6486a3dfad4131a4941e600f86d0e70271629e08162d8e4024447839a4c5a8e5",
+    "reliability_diagram.svg": "5a19badf927acbe6e85631756e14d1a045f179d48e41801e4b8f02b8de4c639c",
+    "risk_coverage_curves.csv": "9b6b5776388907b246ef04019e9bf2f4f9bd80da2974d19f5861e0350059617d"
+  }
+}
