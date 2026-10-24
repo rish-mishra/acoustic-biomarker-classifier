@@ -138,10 +138,10 @@ def sha256_file(path: Path) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def _run_cmd(args: list[str]) -> str | None:
+def _run_cmd(args: list[str], strip: bool = True) -> str | None:
     try:
         out = subprocess.run(args, cwd=REPO_ROOT, capture_output=True, text=True, timeout=20)
-        return out.stdout.strip() if out.returncode == 0 else None
+        return (out.stdout.strip() if strip else out.stdout) if out.returncode == 0 else None
     except (OSError, subprocess.SubprocessError):
         return None
 
@@ -177,12 +177,18 @@ def environment_info(device: torch.device) -> dict:
     return info
 
 
+def porcelain_paths(status: str) -> list[str]:
+    """Paths from unstripped `git status --porcelain` output (each line is 'XY <path>')."""
+    return [line[3:] for line in status.splitlines() if line.strip()]
+
+
 def code_version() -> dict:
-    status = _run_cmd(["git", "status", "--porcelain"])
+    # unstripped: stripping would drop the leading space of a ' M' status and cut the first path's first char
+    status = _run_cmd(["git", "status", "--porcelain"], strip=False)
     return {
         "git_commit": _run_cmd(["git", "rev-parse", "HEAD"]),
-        "git_dirty": None if status is None else bool(status),
-        "git_uncommitted_paths": None if status is None else [line[3:] for line in status.splitlines()],
+        "git_dirty": None if status is None else bool(status.strip()),
+        "git_uncommitted_paths": None if status is None else porcelain_paths(status),
     }
 
 

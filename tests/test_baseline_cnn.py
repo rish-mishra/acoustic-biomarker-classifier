@@ -1,10 +1,12 @@
 """Tests for the baseline CNN, masking, metrics, length bucketing, and training utilities."""
 
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
 from collections import Counter
+from unittest import mock
 from pathlib import Path
 
 import torch
@@ -307,6 +309,28 @@ class TestTraining(unittest.TestCase):
         self.assertEqual(sub.split, "train")
         self.assertTrue(sub.patients <= self.train.patients)
         self.assertEqual(Counter(r["cycle_label"] for r in sub.rows), Counter(rd.CLASS_NAMES))
+
+
+class TestCodeVersion(unittest.TestCase):
+    def fake_git(self, porcelain: str):
+        def run(args, **_):
+            out = porcelain if args[:2] == ["git", "status"] else "abc123\n"
+            return subprocess.CompletedProcess(args, 0, stdout=out, stderr="")
+        return mock.patch.object(tr.subprocess, "run", side_effect=run)
+
+    def test_uncommitted_paths_keep_first_character(self):
+        # regression: stripping ' M src/...' made the first path 'rc/...'
+        with self.fake_git(" M src/evaluation/analyze_run.py\n?? reports/runs/seed_study/\nM  src/models/train.py\n"):
+            code = tr.code_version()
+        self.assertEqual(code["git_commit"], "abc123")
+        self.assertTrue(code["git_dirty"])
+        self.assertEqual(code["git_uncommitted_paths"],
+                         ["src/evaluation/analyze_run.py", "reports/runs/seed_study/", "src/models/train.py"])
+
+    def test_clean_tree(self):
+        with self.fake_git(""):
+            code = tr.code_version()
+        self.assertEqual((code["git_dirty"], code["git_uncommitted_paths"]), (False, []))
 
 
 if __name__ == "__main__":
