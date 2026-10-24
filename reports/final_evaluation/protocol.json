@@ -1,0 +1,682 @@
+{
+  "protocol": "Frozen final evaluation protocol: one-time test evaluation of the reference model",
+  "status": "FROZEN \u2014 test split NOT evaluated; no test inference has been run",
+  "created": "2026-10-24T18:44:30-04:00",
+  "git_head_at_freeze": "ea25fb793d68ea2b87273c02e6fdfcb1c0a0ed91",
+  "git_status_at_freeze": [
+    "M src/evaluation/calibration_report.py",
+    "?? reports/final_evaluation/",
+    "?? src/evaluation/final_evaluation.py",
+    "?? src/evaluation/final_protocol.py",
+    "?? tests/test_final_evaluation.py",
+    "?? tests/test_final_protocol.py"
+  ],
+  "1_frozen_model": {
+    "architecture": "baseline_cnn",
+    "run": "baseline_cnn_v3",
+    "seed": 42,
+    "checkpoint": "models/baseline_cnn_v3/best.pt",
+    "checkpoint_sha256": "2c2c7c03ed00b6562c63ff88be12d43bd8f9ff890074f9dac4d4ce5874e3b567",
+    "checkpoint_epoch": 13,
+    "parameter_count": 294740,
+    "config": {
+      "run_name": "baseline_cnn_v3",
+      "seed": 42,
+      "max_epochs": 60,
+      "patience": 10,
+      "batch_size": 32,
+      "lr": 0.0001,
+      "weight_decay": 0.01,
+      "dropout": 0.3,
+      "channels": [
+        16,
+        32,
+        64,
+        128
+      ],
+      "grad_clip_norm": 5.0,
+      "use_bucketing": true,
+      "bucket_pool_multiplier": 50,
+      "num_workers": 0,
+      "device": "cuda",
+      "extra": {}
+    },
+    "validation_macro_f1_at_selection": 0.42710643878965393,
+    "trained_at_commit": "37e3a8782bbfb7ecdace98243ace1deb8ad3d143",
+    "rules": [
+      "no retraining",
+      "no ensembling",
+      "no architecture, hyperparameter or checkpoint changes"
+    ],
+    "why_seed_42": "baseline_cnn_v3 (seed 42) was the reference run selected during the baseline optimization study, before the multi-seed study. The seed study (seeds 42/1337/2026) verified that architecture differences did not exceed seed noise and recommended baseline_cnn under its predeclared rule; it was used to check stability, not to pick the best seed. Seeds 1337 and 2026 are not evaluated on test.",
+    "code_compatibility": "the checkpoint predates the config 'model' field; train.build_model treats its absence as baseline_cnn. Current inference code reproduces the recorded validation predictions exactly (reports/robustness/noise_robustness/clean_check.json)."
+  },
+  "2_frozen_data_pipeline": {
+    "patient_split": {
+      "file": "data/splits/patient_split.csv",
+      "sha256": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4",
+      "patients": {
+        "train": 88,
+        "val": 19,
+        "test": 19
+      },
+      "method": "patient-balanced, seed 42 (src/data/create_splits.py); no patient in two splits"
+    },
+    "metadata": {
+      "file": "data/metadata.csv",
+      "sha256": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf",
+      "test_rows": 1080
+    },
+    "normalization": {
+      "file": "data/normalization/logmel_primary_train_band_stats.json",
+      "sha256": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c",
+      "fitted_on": "train patients only (88), per-mel-band mean/std in dB"
+    },
+    "checkpoint_data_sha256_must_match": {
+      "metadata": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf",
+      "split_file": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4",
+      "normalization_stats": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c"
+    },
+    "audio_preprocessing": {
+      "read": "soundfile, float32 in [-1, 1]; multi-channel averaged to mono",
+      "cycle_slice": "[cycle_start_s, cycle_end_s) at the original sample rate; end up to 0.01 s past the file is clipped",
+      "leading_zero_trimming": "leading samples exactly 0.0 removed, capped at 0.15 s, at least one sample kept; applied to every cycle on every device",
+      "resampling": "torchaudio.functional.resample (windowed sinc) to 16000 Hz",
+      "no": "padding, cropping, amplitude normalization or augmentation"
+    },
+    "logmel": {
+      "sample_rate": 16000,
+      "win_length": 512,
+      "hop_length": 160,
+      "n_fft": 512,
+      "f_min": 50.0,
+      "f_max": 2000.0,
+      "n_mels": 64,
+      "log_floor": 1e-10,
+      "details": "DC removal (subtract waveform mean); Hann window; center=True with zero padding; power 2; HTK mel scale; no filter-area normalization; 10*log10(max(power, floor))"
+    },
+    "model_input": "train-band standardization with the frozen statistics; batches padded with 0 and a valid-frame mask; sequential (unshuffled) evaluation loader, batch size 32, num_workers 0",
+    "label_mapping": {
+      "normal": 0,
+      "crackle": 1,
+      "wheeze": 2,
+      "both": 3
+    },
+    "quality_metadata": {
+      "original_clipped_fraction": "share of original-rate samples with |x| >= 0.999",
+      "clipped_plateau_count": "contiguous runs with |x| >= 0.999 lasting >= 32 ms",
+      "measured_on": "the annotated cycle at its original sample rate, before trimming and resampling"
+    },
+    "determinism": "train.set_determinism(0): cuDNN deterministic, benchmark off, deterministic algorithms (warn_only), CUBLAS_WORKSPACE_CONFIG=:4096:8",
+    "rule": "nothing in this pipeline may change after the test evaluation"
+  },
+  "3_primary_endpoint": {
+    "primary_metric": "macro F1 over the 4 classes on all test cycles (classification_metrics.classification_report; zero division gives 0)",
+    "secondary_metrics": [
+      "balanced accuracy",
+      "accuracy",
+      "per-class precision",
+      "per-class recall",
+      "per-class F1",
+      "confusion matrix"
+    ],
+    "confidence_intervals": {
+      "unit": "patient",
+      "n_resamples": 2000,
+      "seed": 0,
+      "rng": "Python random.Random(seed); each resample draws len(patients) patient ids with replacement (rng.choice over sorted patient ids) and includes all cycles of each draw",
+      "interval": "percentile: sorted values at indices int(0.025 n) and int(0.975 n) - 1",
+      "paired": "the same patient draws are used for every method/condition being compared",
+      "implementation": "compare_runs.patient_bootstrap / calibration_metrics.patient_bootstrap_indices"
+    },
+    "rule": "the primary metric will not change after viewing test results"
+  },
+  "4_quality_sensitivity_groups": {
+    "groups": {
+      "all": "every cycle (primary)",
+      "moderately_clean": "original_clipped_fraction <= 0.1",
+      "clean": "original_clipped_fraction <= 0.01 and clipped_plateau_count == 0"
+    },
+    "fixed": "README, 2026-10-03, before any model was trained (respiratory_dataset.in_quality_group)",
+    "metrics_per_group": [
+      "n cycles and patients",
+      "macro F1 over 4 classes (zero division 0)",
+      "macro F1 over classes present in the group (analyze_run.group_metrics convention)",
+      "balanced accuracy (4 classes and classes present)",
+      "accuracy",
+      "per-class F1",
+      "per-class support",
+      "confusion matrix",
+      "patient-bootstrap 95% interval of macro F1 (resampling the group's patients)"
+    ],
+    "role": "sensitivity analyses; groups filter test cycles, they never change the split"
+  },
+  "5_calibration": {
+    "frozen_temperature": 1.3856213645470599,
+    "source": "reports/calibration_uncertainty/summary.json -> temperature_scaling.final_validation_temperature (fitted on all 19 validation patients, clean)",
+    "application": "p_T = softmax(logits / T), applied once; T is never fitted or modified on test data",
+    "report_for": [
+      "raw probabilities",
+      "probabilities scaled with the frozen T"
+    ],
+    "metrics": {
+      "nll": "mean over cycles of -ln p_label (natural log)",
+      "brier": "mean over cycles of sum_k (p_k - 1[label = k])^2; range 0-2",
+      "ece": "top-label ECE, 15 equal-width confidence bins on [0, 1]; cycle with confidence c goes to bin index min(14, max(0, ceil(15 c) - 1)), i.e. bins [0, 1/15], (1/15, 2/15], ..., (14/15, 1]; ECE = sum_b (n_b / N) |acc_b - conf_b|, acc_b = fraction correct and conf_b = mean confidence in bin b; empty bins contribute 0",
+      "overconfidence_gap": "mean MSP - accuracy (positive = overconfident)",
+      "reliability_diagram": "same 15 equal-width bins: per-bin accuracy vs mean confidence with bin counts, plus the diagonal"
+    },
+    "secondary_metrics_same_definitions_as_validation": [
+      "equal-mass top-label ECE: cycles sorted by confidence (ties by file order) and split into 15 contiguous groups whose sizes differ by at most 1",
+      "classwise ECE: for each class k, 15 equal-width bins on p_k with |observed frequency of class k - mean p_k| weighted by bin share; averaged over the 4 classes",
+      "MCE: largest |acc_b - conf_b| over non-empty equal-width bins"
+    ],
+    "statement": "temperature scaling cannot change any predicted class (T > 0 preserves the argmax), so accuracy, macro F1 and the confusion matrix are identical for raw and scaled probabilities"
+  },
+  "6_uncertainty_error_detection": {
+    "scores": {
+      "primary": [
+        "1 - MSP",
+        "predictive entropy (nats)"
+      ],
+      "secondary": [
+        "1 - top-2 margin (predeclared in the validation plan)"
+      ]
+    },
+    "target": "error = wrong prediction (positive class)",
+    "metrics": [
+      "AUROC (Mann-Whitney, ties 1/2)",
+      "AUPRC (average precision; tied scores one threshold)",
+      "test error rate as the AUPRC chance reference"
+    ],
+    "probabilities": "raw (primary) and frozen-T scaled (secondary)",
+    "rule": "no new uncertainty score will be introduced after seeing test results"
+  },
+  "7_selective_prediction": {
+    "coverage_levels": [
+      1.0,
+      0.9,
+      0.8,
+      0.7,
+      0.6,
+      0.5
+    ],
+    "n_retained": "floor(coverage x N + 0.5)",
+    "ranking": {
+      "primary": "raw MSP, most confident first, stable tie-break by file order",
+      "secondary": [
+        "lowest raw entropy",
+        "frozen-T scaled MSP"
+      ]
+    },
+    "primary_analysis": "selective risk (error rate among retained) and the risk-coverage curve; AURC and E-AURC",
+    "secondary_metrics": [
+      "macro F1",
+      "balanced accuracy",
+      "accuracy",
+      "retained / rejected counts by true class and by predicted class"
+    ],
+    "zero_division": "project-wide convention (classification_metrics._safe_div): any ratio with a zero denominator is 0, so a class with no retained true cycles has recall 0 and a class never predicted has precision 0, both giving F1 0; such a class still counts in the 4-class macro F1 and balanced accuracy and its zero support is shown in the retained counts (as in the validation plan, clarification 3)",
+    "frozen_validation_thresholds": {
+      "tau_80": 0.4616909623146057,
+      "tau_50": 0.5770796537399292,
+      "definition": "raw MSP of the last retained clean-validation cycle at 80% / 50% coverage; applied unchanged to test (retain if MSP >= tau)",
+      "report": [
+        "realized test coverage",
+        "selective risk among retained",
+        "confidently wrong share (wrong and MSP >= tau_50)"
+      ]
+    },
+    "rule": "no threshold will be chosen using test performance"
+  },
+  "8_robustness": {
+    "primary_final_test_evaluation": "untouched clean test audio through the frozen pipeline",
+    "secondary_predeclared_robustness_evaluation": "the 15 frozen conditions below applied to test audio ONLY after the clean test outputs are written and locked",
+    "conditions": [
+      {
+        "name": "clean",
+        "family": "clean",
+        "param": null,
+        "unit": ""
+      },
+      {
+        "name": "noise_snr20db",
+        "family": "gaussian_noise",
+        "param": 20.0,
+        "unit": "dB SNR"
+      },
+      {
+        "name": "noise_snr10db",
+        "family": "gaussian_noise",
+        "param": 10.0,
+        "unit": "dB SNR"
+      },
+      {
+        "name": "noise_snr5db",
+        "family": "gaussian_noise",
+        "param": 5.0,
+        "unit": "dB SNR"
+      },
+      {
+        "name": "noise_snr0db",
+        "family": "gaussian_noise",
+        "param": 0.0,
+        "unit": "dB SNR"
+      },
+      {
+        "name": "gain_0.5x",
+        "family": "amplitude",
+        "param": 0.5,
+        "unit": "x"
+      },
+      {
+        "name": "gain_0.25x",
+        "family": "amplitude",
+        "param": 0.25,
+        "unit": "x"
+      },
+      {
+        "name": "gain_1.5x",
+        "family": "amplitude",
+        "param": 1.5,
+        "unit": "x"
+      },
+      {
+        "name": "gain_2.0x",
+        "family": "amplitude",
+        "param": 2.0,
+        "unit": "x"
+      },
+      {
+        "name": "lowpass_2000hz",
+        "family": "lowpass",
+        "param": 2000.0,
+        "unit": "Hz"
+      },
+      {
+        "name": "lowpass_1000hz",
+        "family": "lowpass",
+        "param": 1000.0,
+        "unit": "Hz"
+      },
+      {
+        "name": "lowpass_500hz",
+        "family": "lowpass",
+        "param": 500.0,
+        "unit": "Hz"
+      },
+      {
+        "name": "dropout_10pct",
+        "family": "temporal_dropout",
+        "param": 0.1,
+        "unit": "fraction"
+      },
+      {
+        "name": "dropout_25pct",
+        "family": "temporal_dropout",
+        "param": 0.25,
+        "unit": "fraction"
+      },
+      {
+        "name": "dropout_50pct",
+        "family": "temporal_dropout",
+        "param": 0.5,
+        "unit": "fraction"
+      }
+    ],
+    "definitions": {
+      "applied_to": "16 kHz cycle waveform after frozen trimming/resampling, before frozen Log-Mel (PRIMARY_CONFIG, 50-2000 Hz) and frozen train-band normalization",
+      "gaussian_noise": "white Gaussian, full 0-8 kHz band; SNR from DC-free mean-square powers; noise mean-removed and rescaled so the realized SNR is exact",
+      "amplitude": "x * gain, no clipping",
+      "lowpass": "Blackman-windowed sinc FIR, 1025 taps, unit DC gain, centered (zero phase), cutoff = -6 dB point",
+      "temporal_dropout": "20 ms blocks; round-half-up(fraction x n_blocks) random blocks set to 0",
+      "randomness": "torch.Generator per cycle, seed = sha256(base_seed|family|recording|cycle_index), base_seed 42; shared within a family"
+    },
+    "lock": "clean test predictions, logits and metrics are written to disk and their SHA-256 hashes recorded in a lock file before any degraded test inference starts; the degraded run's 'clean' condition must reproduce the locked clean predictions exactly",
+    "reported": [
+      "per condition: macro F1, balanced accuracy, accuracy, per-class F1, confusion matrix, absolute and relative macro-F1 change vs clean test, patient-bootstrap interval of the change, share of predictions changed",
+      "uncertainty under shift: mean MSP, entropy, overconfidence gap, ECE, NLL, error-detection AUROC, raw and frozen-T scaled; tau_80/tau_50 coverage, risk and confidently wrong share"
+    ],
+    "rule": "degradation parameters, seeds and conditions will not change after seeing test performance"
+  },
+  "9_statistical_rules": {
+    "bootstrap": {
+      "unit": "patient",
+      "n_resamples": 2000,
+      "seed": 0,
+      "rng": "Python random.Random(seed); each resample draws len(patients) patient ids with replacement (rng.choice over sorted patient ids) and includes all cycles of each draw",
+      "interval": "percentile: sorted values at indices int(0.025 n) and int(0.975 n) - 1",
+      "paired": "the same patient draws are used for every method/condition being compared",
+      "implementation": "compare_runs.patient_bootstrap / calibration_metrics.patient_bootstrap_indices"
+    },
+    "rules": [
+      "patient-level resampling only; cycles of one patient are never treated as independent",
+      "no significance fishing, no post-test model selection, no re-running with changed settings",
+      "predeclared analyses and any later exploratory observations are reported in separate, labelled sections",
+      "with 19 test patients intervals are wide; results are estimates with uncertainty, not significance claims",
+      "no medical or diagnostic claims"
+    ],
+    "reference_for_magnitudes": {
+      "seed_study_pooled_seed_sd_macro_f1": 0.0157343704493288
+    }
+  },
+  "10_test_access_audit": {
+    "test_patients": 19,
+    "test_recordings": 169,
+    "report_or_model_files_mentioning_a_test_recording": [],
+    "prediction_csvs_containing_test_patients": [],
+    "json_records_with_test_split_evaluated_true": [],
+    "non_validation_split_values_in_report_json": [],
+    "datasets_used_by_any_training_run": [
+      "train",
+      "val"
+    ],
+    "code_calling_evaluate_with_allow_test_true": [],
+    "test_like_files_ever_committed": [],
+    "checkpoint_contains": "model_state, config, epoch, val_metrics (validation only), class_names, data_sha256",
+    "n_run_records_checked": 17,
+    "n_report_csvs_checked": 32,
+    "passed": true,
+    "test_cycles": 1080
+  },
+  "11_freeze_manifest": {
+    "files": {
+      "models/baseline_cnn_v3/best.pt": {
+        "sha256": "2c2c7c03ed00b6562c63ff88be12d43bd8f9ff890074f9dac4d4ce5874e3b567",
+        "bytes": 1188469,
+        "git_blob": null,
+        "identity": "sha256"
+      },
+      "reports/runs/baseline_cnn_v3/run.json": {
+        "sha256": "54f73f6671ec9573b81a595bb3c5ea05c4cb73a0cb5d0043d7da807c1fa861bc",
+        "bytes": 5857,
+        "git_blob": "3866b84d8ad584c2568532847e4a8742097bab71",
+        "identity": "git_blob"
+      },
+      "reports/runs/baseline_cnn_v3/history.json": {
+        "sha256": "d182079ffd9a81b3a8781a639aabaa5a158ed35743aa10bcb0c3e67ca45c32c3",
+        "bytes": 25156,
+        "git_blob": "6c31340d914fcef0d452b65449dc506cadcce8a4",
+        "identity": "git_blob"
+      },
+      "reports/runs/baseline_cnn_v3/val_predictions.csv": {
+        "sha256": "3c6f74320e60a9811c1c5508c018d745a7838ecca643a28f60e60c32ef6cf674",
+        "bytes": 171068,
+        "git_blob": "c85290f5e2600157afb964191d69d4ee5819e040",
+        "identity": "git_blob"
+      },
+      "reports/runs/baseline_cnn_v3/val_analysis.json": {
+        "sha256": "5532fafe2dc8e5a1e3d49d93827cc5d69ce040cc8e9795941061137c62dbc6b5",
+        "bytes": 21406,
+        "git_blob": "fe051d6cc0f1fb5024b07c310e1bdb5ecd20c75f",
+        "identity": "git_blob"
+      },
+      "data/splits/patient_split.csv": {
+        "sha256": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4",
+        "bytes": 3165,
+        "git_blob": "8ff51c9d0a0f02d0004b633860138d42a8dfee60",
+        "identity": "git_blob"
+      },
+      "data/metadata.csv": {
+        "sha256": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf",
+        "bytes": 716646,
+        "git_blob": null,
+        "identity": "sha256"
+      },
+      "data/normalization/logmel_primary_train_band_stats.json": {
+        "sha256": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c",
+        "bytes": 4631,
+        "git_blob": "9f6fda76405cfdafcbfec3ba8af054fc580b2877",
+        "identity": "git_blob"
+      },
+      "src/data/build_metadata.py": {
+        "sha256": "91795ab5c4219434bfaa8744a2889547591f9af026fe6c433af7ec86e108cae9",
+        "bytes": 14306,
+        "git_blob": "28f05cfd6fa0dd24ea0ba15e0757cf28b0f08a74",
+        "identity": "git_blob"
+      },
+      "src/data/create_splits.py": {
+        "sha256": "9a06e4e64aab1cf74f98156fa2046db963cf75aefd22054cadfedded8aaafc24",
+        "bytes": 20573,
+        "git_blob": "f7c20e784e6bee73231b05c053db9da650c98776",
+        "identity": "git_blob"
+      },
+      "src/data/length_bucketing.py": {
+        "sha256": "103c5b92be1b730f424d30d191df68e0fd1d31e84af5d149e98ced74047848ca",
+        "bytes": 2612,
+        "git_blob": "d72d5ba65a83c5cf70aa6d851d2209009600e0e0",
+        "identity": "git_blob"
+      },
+      "src/data/normalization.py": {
+        "sha256": "a9c207d7e1258380a3a873abca19de06c72d8cda1dd92f548b1cca43d6210de8",
+        "bytes": 6559,
+        "git_blob": "a2a26b895fa92180cb24b006a08c3cc6e5d4460c",
+        "identity": "git_blob"
+      },
+      "src/data/respiratory_dataset.py": {
+        "sha256": "c882d30350f6f94d5a0add2d47b6cbfc36ea4ec75469d8e6f773707fdfc37d65",
+        "bytes": 10860,
+        "git_blob": "6dab3f4fdbe5cc2baccf598c40590b82b818a594",
+        "identity": "git_blob"
+      },
+      "src/features/audio_preprocessing.py": {
+        "sha256": "89cee848876f3f36c611714bd16b322e6b4446e35eb519cc3175d0c5e6a962ac",
+        "bytes": 13368,
+        "git_blob": "9adec108ba5f0357b2e4dc61d307333f419d5d26",
+        "identity": "git_blob"
+      },
+      "src/features/logmel.py": {
+        "sha256": "7b7528ff5531579ff3c1fc56e5d8fb85ba2bb551c48f8a288fbc9242024ea61e",
+        "bytes": 9462,
+        "git_blob": "0eb335e5213e52d1196060bdbc50019df43759bc",
+        "identity": "git_blob"
+      },
+      "src/features/degradations.py": {
+        "sha256": "62d79e45503a8de4b4c7f37950076f7f5a38b4c80d95eb593872c239fdb497ab",
+        "bytes": 10449,
+        "git_blob": "9da161159ad20f2af68b2b4ac2929958b4141369",
+        "identity": "git_blob"
+      },
+      "src/models/train.py": {
+        "sha256": "22a304a2dfa349120f29e2d16d2a13b47d9fbef072ddc223eba0bf5b430cca4f",
+        "bytes": 23621,
+        "git_blob": "54496cc7a859451a555d6b8689676e6b6d08403f",
+        "identity": "git_blob"
+      },
+      "src/models/baseline_cnn.py": {
+        "sha256": "5a22836200d3dc932a5b24637a4a09c9d053357bd2214103eedbf99eed9516d3",
+        "bytes": 5560,
+        "git_blob": "f4b41460c47b62036cbdc09027757a0997579cd2",
+        "identity": "git_blob"
+      },
+      "src/models/crnn.py": {
+        "sha256": "90a0d4d412c277b368a9d536a50e35eb2a09670f6f31f7cf68828046b60a4c31",
+        "bytes": 5996,
+        "git_blob": "43b354579094ff7f3ac3bd776ef49fef11549853",
+        "identity": "git_blob"
+      },
+      "src/models/mobilenet_transfer.py": {
+        "sha256": "d83211505644ca436f09e4097df09fcaa3780e577ce90aa4dc2c7fef5dc300b0",
+        "bytes": 8865,
+        "git_blob": "2ec40cebe55301a77096f2956fcea8296890d68b",
+        "identity": "git_blob"
+      },
+      "src/evaluation/analyze_run.py": {
+        "sha256": "b39e6d8739bdc60bdfc80f25b0e66dbb41a56676706c395f252b0c91bcccef73",
+        "bytes": 8337,
+        "git_blob": "a3c9c691005bc040dc1278da9adfced2349a8516",
+        "identity": "git_blob"
+      },
+      "src/evaluation/classification_metrics.py": {
+        "sha256": "3e61698af1c76249b6fed6bf4b7991fc83265ee37924abffaddeb55f8c4afe41",
+        "bytes": 2083,
+        "git_blob": "7dcb42b0b9e72182573d2b336746d3292798a06a",
+        "identity": "git_blob"
+      },
+      "src/evaluation/compare_runs.py": {
+        "sha256": "5c2254a6660d2e98da23687b272c461d9b31c25c01eec7393f37b9462c1498bb",
+        "bytes": 11060,
+        "git_blob": "ab641f2e29506278cb6de86d590f08c1df2d123e",
+        "identity": "git_blob"
+      },
+      "src/evaluation/calibration_metrics.py": {
+        "sha256": "49aa6f7c3743d53b52d8c1d4a27eb096b9d2859ca1b170e1bf9adae92202473c",
+        "bytes": 12908,
+        "git_blob": "7466443aa2460854f333ac863102b029bdb3655f",
+        "identity": "git_blob"
+      },
+      "src/evaluation/calibration_uncertainty.py": {
+        "sha256": "5da74111cea2367936fb825b100d7cac25d4ca34e37d0dcca0e6e0c846a213e6",
+        "bytes": 22920,
+        "git_blob": "4557118575dfdbfbec8a8858a64fd3e7b9f7e55b",
+        "identity": "git_blob"
+      },
+      "src/evaluation/calibration_report.py": {
+        "sha256": "0888c22ffe105a806862cd811aeda4b4784ae4d9e631d405482f9a9c3f3fc2d5",
+        "bytes": 27623,
+        "git_blob": "358fe8af6882022df4838a1612bad3e030c2a990",
+        "identity": "git_blob"
+      },
+      "src/evaluation/noise_robustness.py": {
+        "sha256": "d988e7521ff0e9f1ff38b623cc389782a54676b565d059ef81487e73ebdc9216",
+        "bytes": 46897,
+        "git_blob": "de6c501d3664bb5432d3c12749bb2ab16b4d5161",
+        "identity": "git_blob"
+      },
+      "src/evaluation/final_protocol.py": {
+        "sha256": "093ea5c8ceb2206afef136540f05b3d712b45ca108d63b5175d59d5ebb431356",
+        "bytes": 42000,
+        "git_blob": "42e397ad3b3ffd54286d5dfc314f04a988183b85",
+        "identity": "git_blob"
+      },
+      "src/evaluation/final_evaluation.py": {
+        "sha256": "b0ccf19b034acc16b781cef2b639fd2d0a52021a1205b1489e5e6a6af9936785",
+        "bytes": 40039,
+        "git_blob": "fecf79c25c46f20c30a0d0cb3c24420f3647a147",
+        "identity": "git_blob"
+      },
+      "tests/test_final_evaluation.py": {
+        "sha256": "a1518dd2ed19a70396e43238b72fdd6e4c2c7158e210f19e0732e18ba8bee3e7",
+        "bytes": 17264,
+        "git_blob": "0ebe2a73db13755c8385e1e4614dde607a5f320b",
+        "identity": "git_blob"
+      },
+      "tests/test_final_protocol.py": {
+        "sha256": "b62d098caf9b335d252b887f0c9aece306b0b88e8136e0e17562acd3a4308dfe",
+        "bytes": 8497,
+        "git_blob": "8aafe5c2de48c6fdb94cdcb362d667d4ede2f53f",
+        "identity": "git_blob"
+      },
+      "reports/runs/seed_study/plan.json": {
+        "sha256": "4d204797a0652b35ba76762c89edf2842ea6571994ec12955403fa65630ee78a",
+        "bytes": 3568,
+        "git_blob": "081d66336f5feb4c3af648a091cfb41ac2365257",
+        "identity": "git_blob"
+      },
+      "reports/runs/seed_study/summary.json": {
+        "sha256": "4657844d6005dbfb7941d0d51be0b6f2b0e3f54498352775a92a8a8659aea509",
+        "bytes": 16389,
+        "git_blob": "12a6756b2ef800ebe756c5d08866bc5ea8bb2394",
+        "identity": "git_blob"
+      },
+      "reports/robustness/noise_robustness/plan.json": {
+        "sha256": "d1af254c573522de70182fb9df32e5add6bd433ff04ef9f9e1808bbae7895288",
+        "bytes": 5150,
+        "git_blob": "237b33952dde39137b2c3f25dd33e6261396f4c9",
+        "identity": "git_blob"
+      },
+      "reports/robustness/noise_robustness/summary.json": {
+        "sha256": "2afe16248efbcb241c07da22f85022dd1d8d71f53fd0f54d3984e8cb8653ec9c",
+        "bytes": 60993,
+        "git_blob": "a7ffe6e6d0c87a833b2a9b925c47c8e72c7b8c49",
+        "identity": "git_blob"
+      },
+      "reports/robustness/noise_robustness/clean_check.json": {
+        "sha256": "7c31811e6c071a40fb700d6db3cb7413b436b29ed2d82418d2b4c98b11cc5d89",
+        "bytes": 290,
+        "git_blob": "ad3d015ee7095f9fd3d7f39086647d3c5e6c7036",
+        "identity": "git_blob"
+      },
+      "reports/calibration_uncertainty/plan.json": {
+        "sha256": "e08de52de6b62a14cf608d9a5d7d1b73dfa2ae4efe435b4fbc657fd699516895",
+        "bytes": 11563,
+        "git_blob": "7e7821b22676b90b97d4926393bbf237c514e029",
+        "identity": "git_blob"
+      },
+      "reports/calibration_uncertainty/summary.json": {
+        "sha256": "217b014d4bb57d2efde8bd1bde6f476dc137ac48f435abf8d24e08a0d96236f3",
+        "bytes": 149805,
+        "git_blob": "1c575d330746ed15da8628a60dd9ad67923fa798",
+        "identity": "git_blob"
+      },
+      "reports/calibration_uncertainty/lopo_temperatures.csv": {
+        "sha256": "5a3f70e4c6905f4210f5206d05aec0f1ec8a996004c3d7a64c5f359c8bdea376",
+        "bytes": 1114,
+        "git_blob": "64d5ce8edaae3e8abd5f172dea2b4e93fee7c343",
+        "identity": "git_blob"
+      },
+      "README.md": {
+        "sha256": "9e048bbda6787d17f34fb28e5636ace075ed043129b050203ff0265936b89567",
+        "bytes": 8754,
+        "git_blob": "cd3b4010e88775d0741bca97e547ada1e32c1c30",
+        "identity": "git_blob"
+      }
+    },
+    "audio": {
+      "directory": "data/raw/Respiratory_Sound_Database/Respiratory_Sound_Database/audio_and_txt_files",
+      "n_wav_files": 920,
+      "combined_sha256": "44b143939ad86272f016330c1c5480d2116e9bcd124ddee96055f0b8c7fb5af8",
+      "method": "sha256 over lines '<filename>\\t<sha256 of file bytes>\\n' for all .wav files sorted by name; integrity only, no audio decoded, no split-specific selection"
+    }
+  },
+  "12_unlock_procedure": [
+    "Commit this protocol, src/evaluation/final_evaluation.py and its tests; the working tree must be clean (the test stages refuse to run otherwise) and the commit is recorded in every test output.",
+    "Run `python src/evaluation/final_protocol.py --verify`; abort if any content identity differs.",
+    "Run `python src/evaluation/final_evaluation.py dry-run-validation` (VALIDATION only): it must reproduce reports/runs/baseline_cnn_v3/val_predictions.csv and run.json's validation metrics exactly.",
+    "Unlock once: `python src/evaluation/final_evaluation.py clean-test --unlock-test UNLOCK-ONE-TIME-TEST-EVALUATION-baseline_cnn_v3`. It verifies everything again, writes a STARTED marker, loads the test split once, saves per-cycle logits/probabilities/predictions, computes sections 3-7, and writes clean_test/lock.json with the SHA-256 of every clean output.",
+    "Only then: `python src/evaluation/final_evaluation.py robustness-test --unlock-test UNLOCK-ONE-TIME-TEST-EVALUATION-baseline_cnn_v3`. It refuses unless the clean lock verifies, first reproduces the locked clean predictions through its own clean condition, then runs the 15 frozen conditions with the frozen T and thresholds (section 8).",
+    "Write the final report with predeclared results first and any exploratory observations separately. Any bug found after unlock is documented; original outputs are preserved, never silently replaced, and no stage is re-run because a result looks surprising (STARTED markers block re-runs)."
+  ],
+  "13_final_evaluator": {
+    "script": "src/evaluation/final_evaluation.py",
+    "stages": {
+      "verify": "Stage A: protocol manifest, checkpoint/data hashes, frozen values, provenance",
+      "dry-run-validation": "Stage B: exact clean inference path on VALIDATION; must reproduce the frozen reference",
+      "clean-test": "Stages A + C + D: one-time clean test evaluation and its lock",
+      "robustness-test": "Stage E: fixed degradations on test, only after the clean lock verifies"
+    },
+    "commands": {
+      "verify": "python src/evaluation/final_evaluation.py verify",
+      "dry_run": "python src/evaluation/final_evaluation.py dry-run-validation",
+      "clean_test": "python src/evaluation/final_evaluation.py clean-test --unlock-test UNLOCK-ONE-TIME-TEST-EVALUATION-baseline_cnn_v3",
+      "robustness_test": "python src/evaluation/final_evaluation.py robustness-test --unlock-test UNLOCK-ONE-TIME-TEST-EVALUATION-baseline_cnn_v3"
+    },
+    "unlock_token": "UNLOCK-ONE-TIME-TEST-EVALUATION-baseline_cnn_v3",
+    "default_behaviour": "no stage runs without an explicit subcommand; test stages additionally require the exact unlock token and a clean Git working tree; validation is the only split the dry run can read",
+    "no_test_time_choices": "the temperature, thresholds, coverages, conditions, metrics, checkpoint and bootstrap settings come only from this protocol; the CLI has no flags for them; nothing is trained, fitted or selected on test data",
+    "outputs": {
+      "validation_dry_run": "reports/final_evaluation/validation_dry_run/",
+      "clean_test": "reports/final_evaluation/clean_test/ (STARTED.json, predictions.csv, metrics.json, summary.md, reliability_diagram.svg, risk_coverage_curves.csv, lock.json)",
+      "robustness_test": "reports/final_evaluation/robustness_test/ (STARTED.json, conditions/<c>/predictions.csv, summary.json, summary.md, lock.json)"
+    }
+  },
+  "environment": {
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.11.0+cu130",
+    "torchaudio": "2.11.0+cu130",
+    "numpy": "2.4.6",
+    "soundfile": "0.14.0",
+    "cuda_build": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU"
+  },
+  "environment_pip_freeze_file": "reports/final_evaluation/environment_pip_freeze.txt",
+  "version": 3,
+  "supersedes": {
+    "file": "protocol_v2_superseded.json",
+    "version": 2,
+    "created": "2026-10-24T18:41:49-04:00",
+    "sha256": "a593971682aa01bd1ed9197a05105f27954b06e24bcf6170529fc347b5887d55",
+    "changes": "final_evaluation.py console messages made ASCII-only (the v2 dry run reproduced the reference exactly but its final print crashed on a cp1252 console); added a cp1252 CLI regression test. No frozen value, metric, threshold, temperature, condition or data artifact changed."
+  }
+}

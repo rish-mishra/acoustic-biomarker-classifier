@@ -1,0 +1,64 @@
+{
+  "stage": "B validation dry run",
+  "split": "val",
+  "test_split_evaluated": false,
+  "predictions": {
+    "what": "validation predictions vs reports/runs/<run>/val_predictions.csv",
+    "n_reference": 1077,
+    "n_new": 1077,
+    "same_cycle_ids_and_order": true,
+    "labels_identical": true,
+    "predictions_identical": true,
+    "max_abs_probability_difference": 0.0,
+    "n_probability_values_bitwise_identical": 4308,
+    "n_probability_values": 4308,
+    "ok": true
+  },
+  "metrics_vs_run_json": {
+    "confusion_matrix_identical": true,
+    "macro_f1_identical": true,
+    "balanced_accuracy_identical": true,
+    "accuracy_identical": true,
+    "macro_f1": {
+      "dry_run": 0.42710643878965393,
+      "reference": 0.42710643878965393,
+      "difference": 0.0
+    },
+    "balanced_accuracy": {
+      "dry_run": 0.4567628278464798,
+      "reference": 0.4567628278464798,
+      "difference": 0.0
+    },
+    "accuracy": {
+      "dry_run": 0.5097493036211699,
+      "reference": 0.5097493036211699,
+      "difference": 0.0
+    }
+  },
+  "max_abs_softmax_of_saved_logits_minus_saved_probabilities": 1.1406887379106223e-07,
+  "provenance": {
+    "verified": "2026-10-24T18:45:02-04:00",
+    "protocol_sha256": "05f7fd0048f49d9a0d018319142fc6b07397b46dff97995e1bcda07eeb524f65",
+    "protocol_version": 3,
+    "checkpoint_sha256": "2c2c7c03ed00b6562c63ff88be12d43bd8f9ff890074f9dac4d4ce5874e3b567",
+    "data_sha256": {
+      "metadata": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf",
+      "split_file": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4",
+      "normalization_stats": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c"
+    },
+    "git_head": "ea25fb793d68ea2b87273c02e6fdfcb1c0a0ed91",
+    "git_status": [
+      "M src/evaluation/calibration_report.py",
+      "?? reports/final_evaluation/",
+      "?? src/evaluation/final_evaluation.py",
+      "?? src/evaluation/final_protocol.py",
+      "?? tests/test_final_evaluation.py",
+      "?? tests/test_final_protocol.py"
+    ],
+    "python": "3.11.9",
+    "torch": "2.11.0+cu130",
+    "device": "cuda",
+    "cuda_available": true
+  },
+  "ok": true
+}

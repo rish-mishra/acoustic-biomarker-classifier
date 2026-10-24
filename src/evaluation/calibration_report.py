@@ -263,12 +263,13 @@ def _axes(x0, y0, w, h, xticks, yticks, xlab, ylab, show_y=True):
     return out
 
 
-def reliability_svg(s: dict) -> str:
-    panels = [("Raw softmax", s["part1_calibration_raw"]),
-              ("LOPO temperature-scaled (out-of-fold)", s["part2_calibration_lopo"])]
+def reliability_svg(s: dict | None, panels: list | None = None, title: str | None = None) -> str:
+    """Two reliability panels; defaults are the validation study's (raw vs LOPO out-of-fold)."""
+    panels = panels or [("Raw softmax", s["part1_calibration_raw"]),
+                        ("LOPO temperature-scaled (out-of-fold)", s["part2_calibration_lopo"])]
+    title = title or "Reliability diagrams, clean validation (15 equal-width bins)"
     w, h, x0, y0, gap = 300, 300, 60, 52, 80
-    body = [f'<text class="t1" x="{x0}" y="18" font-size="13" font-weight="bold">Reliability diagrams, clean '
-            f'validation (15 equal-width bins)</text>']
+    body = [f'<text class="t1" x="{x0}" y="18" font-size="13" font-weight="bold">{title}</text>']
     ticks = [(v / 5, f"{v / 5:.1f}") for v in range(6)]
     for i, (title, block) in enumerate(panels):
         px = x0 + i * (w + gap)
