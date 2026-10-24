@@ -1,0 +1,94 @@
+{
+  "study": "Calibration, uncertainty estimation and selective prediction for the frozen baseline CNN (validation only)",
+  "declared": "2026-10-24, before any calibration, uncertainty or selective-prediction result was computed",
+  "status": "confirmed 2026-10-24 with three clarifications (clarifications block), still before any result was computed",
+  "clarifications": {
+    "1_temperature_scaling_interpretation": "LOPO calibrated metrics are out-of-fold validation/development-set estimates, not final held-out generalization evidence. One temperature is also fitted on all 19 validation patients and recorded as final_validation_temperature; it is never used to claim a validation improvement. Its purpose is to be the frozen calibration parameter applied once to the untouched test set after the full development protocol is complete.",
+    "2_calibration_under_degradation": "Degradation results are reported for both raw and temperature-scaled probabilities. No temperature is fitted on any degradation condition. For each held-out validation patient, the LOPO temperature fitted on the other 18 patients' CLEAN predictions is applied to that patient's clean prediction and to every degraded version of that patient. This tests whether clean-data calibration transfers under synthetic shift without leaking degraded-condition labels into calibration.",
+    "3_selective_prediction": "Selective risk (error rate among retained cycles) and the risk-coverage curve are the PRIMARY abstention analysis, with AURC and E-AURC. Macro F1, balanced accuracy and accuracy at the 100/90/80/70/60/50% coverages are SECONDARY. Retained (and rejected) counts by true class and by predicted class are reported at every coverage. Zero-division convention (project-wide, classification_metrics._safe_div): any ratio with a zero denominator is 0, so a class with no retained true cycles has recall 0, a class never predicted has precision 0, and either gives F1 0; such a class is still included in the 4-class macro F1 and balanced accuracy and is never silently omitted; its zero support is shown in the retained counts. No operating threshold is selected after seeing the results."
+  },
+  "base_commit": "7fc88ec",
+  "model": {
+    "run": "baseline_cnn_v3",
+    "note": "frozen; not retrained, not re-run. All inputs are saved softmax probabilities."
+  },
+  "inputs": {
+    "clean": "reports/runs/baseline_cnn_v3/val_predictions.csv",
+    "degraded": "reports/robustness/noise_robustness/conditions/<condition>/predictions.csv (15 conditions; 'clean' there is byte-identical in predictions to the file above, verified by clean_check.json)",
+    "split_guard": "every input must contain exactly the 1077 validation cycles of the 19 frozen validation patients (data/splits/patient_split.csv); anything else aborts"
+  },
+  "disclosure": "During pre-plan inspection, per-file accuracy, mean max-softmax probability, minimum probability and row sums were printed as a data-integrity check. Accuracies were already known from the robustness study. No calibration, uncertainty-ranking, abstention or temperature-scaling result had been computed.",
+  "test_split": "never loaded, read or evaluated. This analysis reads only the saved validation prediction files above; it does not load the dataset, audio or checkpoint.",
+  "definitions": {
+    "probabilities": "p = saved softmax probabilities (float, 4 classes: normal, crackle, wheeze, both)",
+    "logits": "z = ln(p); softmax(z / T) equals the model's temperature-scaled softmax because softmax ignores a per-cycle additive constant",
+    "confidence": "MSP = max_k p_k",
+    "correct": "argmax_k p_k == label (identical to the saved pred column)",
+    "nll": "mean over cycles of -ln p_label (natural log)",
+    "brier": "mean over cycles of sum_k (p_k - 1[label = k])^2; range 0-2",
+    "ece_primary": "top-label ECE, 15 equal-width confidence bins on [0, 1]; cycle with confidence c goes to bin index min(14, max(0, ceil(15 c) - 1)), i.e. bins [0, 1/15], (1/15, 2/15], ..., (14/15, 1]; ECE = sum_b (n_b / N) |acc_b - conf_b|, acc_b = fraction correct and conf_b = mean confidence in bin b; empty bins contribute 0",
+    "ece_secondary": [
+      "equal-mass top-label ECE: cycles sorted by confidence (ties by file order) and split into 15 contiguous groups whose sizes differ by at most 1",
+      "classwise ECE: for each class k, 15 equal-width bins on p_k with |observed frequency of class k - mean p_k| weighted by bin share; averaged over the 4 classes",
+      "MCE: largest |acc_b - conf_b| over non-empty equal-width bins"
+    ],
+    "overconfidence_gap": "mean MSP - accuracy (positive = overconfident)",
+    "reliability_diagram": "same 15 equal-width bins: per-bin accuracy vs mean confidence with bin counts, plus the diagonal"
+  },
+  "part1_baseline_calibration": {
+    "data": "clean validation, uncalibrated saved softmax",
+    "metrics": ["nll", "brier", "ece_primary", "ece_secondary", "overconfidence_gap", "mean MSP of correct predictions", "mean MSP of incorrect predictions", "accuracy", "macro F1"],
+    "figure": "reliability diagram (before and after temperature scaling)"
+  },
+  "part2_temperature_scaling": {
+    "model": "p_T = softmax(z / T), one scalar T > 0",
+    "fit": "T minimizes mean NLL on the fitting cycles; optimized over beta = 1/T in [0.02, 50] by golden-section search (NLL is convex in beta) to |interval| < 1e-9",
+    "procedure": "leave-one-patient-out (LOPO), 19 folds: for each validation patient i, fit T_(-i) on all cycles of the other 18 patients and apply it to patient i only. This gives out-of-fold (OOF) calibrated probabilities for all 1077 cycles, each produced by a temperature that never saw that cycle's patient.",
+    "why_lopo": "matches the project's patient-independent design; deterministic (no fold-assignment seed); uses 18 of 19 patients for every fit, which matters with only 19 patients; patient sizes are very unequal (4-208 cycles), so a fixed k-fold split would give unstable, arbitrary folds",
+    "evaluation": "all 'after temperature scaling' calibration metrics are computed on the OOF probabilities only",
+    "reported_temperatures": "T for each of the 19 folds (stability) and final_validation_temperature fitted on all 19 patients (see clarification 1); its in-sample metrics are shown only as a clearly labelled descriptive line, never as calibration evidence",
+    "naming": "metrics after temperature scaling are labelled 'LOPO out-of-fold (development-set estimate)'",
+    "discrimination": "T > 0 never changes the argmax, so predictions, accuracy, macro F1 and confusion matrix are unchanged (asserted in code). No discrimination improvement will be claimed.",
+    "uncertainty": "paired patient-bootstrap intervals for (after - before) on the OOF probabilities. Limitation: temperatures are not refitted inside bootstrap resamples."
+  },
+  "part3_error_detection": {
+    "target": "error = 1 if prediction is wrong (positive class), 0 if correct",
+    "scores_higher_is_more_uncertain": {
+      "primary": ["1 - MSP", "predictive entropy H = -sum_k p_k ln p_k (nats; max ln 4)"],
+      "secondary": ["1 - margin, margin = top-1 minus top-2 probability"]
+    },
+    "probabilities": "primary: uncalibrated saved softmax; secondary: LOPO OOF temperature-scaled softmax",
+    "metrics": ["AUROC for detecting errors (Mann-Whitney, ties count 1/2)", "AUPRC = average precision with errors as positives (tied scores handled as one threshold); its chance level, the error rate, is reported alongside"],
+    "by_class": "for each true class and each predicted class: n, error rate, mean MSP, mean entropy, mean MSP of correct and of incorrect cycles, and error-detection AUROC (1 - MSP) when both outcomes occur (descriptive)"
+  },
+  "part4_selective_prediction": {
+    "rule": "rank cycles by confidence and retain the most confident fraction; stable sort by (score, then file order) so ties are deterministic",
+    "rankings": {"primary": "MSP (uncalibrated)", "secondary": ["lowest predictive entropy", "MSP of LOPO OOF temperature-scaled probabilities"]},
+    "coverage_levels": [1.0, 0.9, 0.8, 0.7, 0.6, 0.5],
+    "n_retained": "floor(coverage x N + 0.5)",
+    "metrics_on_retained": ["n retained", "macro F1 over all 4 classes (project convention; a class with no retained cycles contributes F1 0, so retained support is reported)", "accuracy", "balanced accuracy (mean recall over the 4 classes, same convention)", "error rate", "true-class and predicted-class counts for retained and rejected cycles"],
+    "secondary_metrics_on_retained": ["macro F1 and balanced accuracy over the classes present among retained cycles"],
+    "curves": "risk-coverage (selective error rate) and coverage-macro-F1 at every n = 1..N; AURC = mean selective risk over all n; E-AURC = AURC minus the AURC of the oracle ranking (all errors last); random abstention keeps the overall error rate at every coverage",
+    "no_threshold_selection": "only the coverage levels above are reported as predeclared; no operating point is chosen from the results"
+  },
+  "part5_degradation_uncertainty": {
+    "data": "saved predictions of the 15 degradation conditions; no inference is re-run",
+    "per_condition": ["accuracy", "mean MSP", "mean entropy", "overconfidence gap", "ece_primary", "nll", "brier", "mean MSP of correct and of incorrect cycles", "error-detection AUROC for 1 - MSP and entropy"],
+    "fixed_clean_thresholds": "tau_80 and tau_50 = the MSP of the last retained cycle at 80% and 50% coverage on CLEAN validation (primary ranking). Applied unchanged to every condition: realized coverage (share with MSP >= tau), selective error rate among retained, and share of ALL cycles that are confidently wrong (wrong and MSP >= tau_50)",
+    "calibrated": "reported alongside raw for every per-condition metric: each cycle's LOPO temperature (fitted on CLEAN cycles of the other 18 patients) applied to its degraded logits; no temperature is fitted on any degraded condition (clarification 2)",
+    "family_order_mild_to_severe": {
+      "gaussian_noise": ["noise_snr20db", "noise_snr10db", "noise_snr5db", "noise_snr0db"],
+      "amplitude_attenuation": ["gain_0.5x", "gain_0.25x"],
+      "amplitude_amplification": ["gain_1.5x", "gain_2.0x"],
+      "lowpass": ["lowpass_2000hz", "lowpass_1000hz", "lowpass_500hz"],
+      "temporal_dropout": ["dropout_10pct", "dropout_25pct", "dropout_50pct"]
+    },
+    "descriptive_rule": "per family: 'confidence tracks difficulty' if the overconfidence gap at every level lies inside the clean gap's patient-bootstrap 95% interval; 'becomes overconfident' if any level lies above it; 'becomes underconfident' if any lies below it; 'mixed' if both occur. Also reported: whether mean MSP moves in the same direction as accuracy at each level, and the confidently-wrong share vs clean"
+  },
+  "statistics": {
+    "bootstrap": "patient-level: resample the 19 validation patients with replacement (all cycles of a drawn patient included), 2000 resamples, seed 0, percentile 95% intervals; paired across methods and conditions (same patient draws); selective-prediction coverage levels are re-applied within each resample",
+    "unit_of_independence": "patient; cycles of one patient are never treated as independent"
+  },
+  "separation": "summary.md keeps predeclared analyses and post-hoc exploratory observations in separate, labelled sections",
+  "rules": ["no retraining or tuning of the classifier", "test split never touched", "no threshold chosen after seeing results", "no medical or diagnostic claims"]
+}
