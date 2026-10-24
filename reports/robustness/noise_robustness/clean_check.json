@@ -1,0 +1,9 @@
+{
+  "confusion_matrix_matches_checkpoint": true,
+  "reference_predictions": "reports\\runs\\baseline_cnn_v3\\val_predictions.csv",
+  "same_cycles_and_order": true,
+  "labels_identical": true,
+  "predictions_identical": true,
+  "max_abs_probability_difference": 0.0,
+  "ok": true
+}

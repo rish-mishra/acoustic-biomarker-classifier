@@ -1,0 +1,83 @@
+{
+  "condition": {
+    "name": "gain_0.5x",
+    "family": "amplitude",
+    "param": 0.5,
+    "unit": "x"
+  },
+  "status": "completed",
+  "split": "val",
+  "model_run": "baseline_cnn_v3",
+  "checkpoint_epoch": 13,
+  "test_split_evaluated": false,
+  "started": "2026-10-24T01:18:02-04:00",
+  "finished": "2026-10-24T01:18:29-04:00",
+  "elapsed_s": 27.08193016052246,
+  "overall": {
+    "per_class": {
+      "normal": {
+        "precision": 0.5756457564575646,
+        "recall": 0.6141732283464567,
+        "f1": 0.5942857142857143,
+        "support": 508
+      },
+      "crackle": {
+        "precision": 0.53125,
+        "recall": 0.4540059347181009,
+        "f1": 0.4896,
+        "support": 337
+      },
+      "wheeze": {
+        "precision": 0.28699551569506726,
+        "recall": 0.5245901639344263,
+        "f1": 0.37101449275362314,
+        "support": 122
+      },
+      "both": {
+        "precision": 0.4583333333333333,
+        "recall": 0.1,
+        "f1": 0.16417910447761194,
+        "support": 110
+      }
+    },
+    "macro_f1": 0.4047698278792374,
+    "balanced_accuracy": 0.423192331749746,
+    "accuracy": 0.5013927576601671,
+    "confusion_matrix": [
+      [
+        312,
+        121,
+        72,
+        3
+      ],
+      [
+        126,
+        153,
+        51,
+        7
+      ],
+      [
+        51,
+        4,
+        64,
+        3
+      ],
+      [
+        53,
+        10,
+        36,
+        11
+      ]
+    ],
+    "n": 1077
+  },
+  "degradation_stats": {
+    "peak_abs_after": {
+      "mean": 0.2568053795275959,
+      "min": 0.0029989860486239195,
+      "max": 0.6525652408599854,
+      "n": 1077
+    },
+    "cycles_exceeding_full_scale": 0
+  }
+}

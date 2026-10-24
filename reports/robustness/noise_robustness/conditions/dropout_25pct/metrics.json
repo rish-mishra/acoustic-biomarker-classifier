@@ -1,0 +1,82 @@
+{
+  "condition": {
+    "name": "dropout_25pct",
+    "family": "temporal_dropout",
+    "param": 0.25,
+    "unit": "fraction"
+  },
+  "status": "completed",
+  "split": "val",
+  "model_run": "baseline_cnn_v3",
+  "checkpoint_epoch": 13,
+  "test_split_evaluated": false,
+  "started": "2026-10-24T01:23:50-04:00",
+  "finished": "2026-10-24T01:24:19-04:00",
+  "elapsed_s": 28.97248125076294,
+  "overall": {
+    "per_class": {
+      "normal": {
+        "precision": 0.4755077658303465,
+        "recall": 0.7834645669291339,
+        "f1": 0.59182156133829,
+        "support": 508
+      },
+      "crackle": {
+        "precision": 0.3794642857142857,
+        "recall": 0.2522255192878338,
+        "f1": 0.303030303030303,
+        "support": 337
+      },
+      "wheeze": {
+        "precision": 0.5625,
+        "recall": 0.07377049180327869,
+        "f1": 0.13043478260869565,
+        "support": 122
+      },
+      "both": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 110
+      }
+    },
+    "macro_f1": 0.25632166174432214,
+    "balanced_accuracy": 0.2773651445050616,
+    "accuracy": 0.4568245125348189,
+    "confusion_matrix": [
+      [
+        398,
+        104,
+        6,
+        0
+      ],
+      [
+        252,
+        85,
+        0,
+        0
+      ],
+      [
+        95,
+        18,
+        9,
+        0
+      ],
+      [
+        92,
+        17,
+        1,
+        0
+      ]
+    ],
+    "n": 1077
+  },
+  "degradation_stats": {
+    "dropped_fraction": {
+      "mean": 0.2508002144350238,
+      "min": 0.17695473251028807,
+      "max": 0.2729044834307992,
+      "n": 1077
+    }
+  }
+}

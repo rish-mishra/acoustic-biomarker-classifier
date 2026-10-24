@@ -1,0 +1,83 @@
+{
+  "condition": {
+    "name": "gain_1.5x",
+    "family": "amplitude",
+    "param": 1.5,
+    "unit": "x"
+  },
+  "status": "completed",
+  "split": "val",
+  "model_run": "baseline_cnn_v3",
+  "checkpoint_epoch": 13,
+  "test_split_evaluated": false,
+  "started": "2026-10-24T01:18:56-04:00",
+  "finished": "2026-10-24T01:19:24-04:00",
+  "elapsed_s": 27.324998378753662,
+  "overall": {
+    "per_class": {
+      "normal": {
+        "precision": 0.6993006993006993,
+        "recall": 0.3937007874015748,
+        "f1": 0.5037783375314862,
+        "support": 508
+      },
+      "crackle": {
+        "precision": 0.4778225806451613,
+        "recall": 0.7032640949554896,
+        "f1": 0.5690276110444178,
+        "support": 337
+      },
+      "wheeze": {
+        "precision": 0.29333333333333333,
+        "recall": 0.5409836065573771,
+        "f1": 0.3804034582132565,
+        "support": 122
+      },
+      "both": {
+        "precision": 0.24285714285714285,
+        "recall": 0.15454545454545454,
+        "f1": 0.18888888888888886,
+        "support": 110
+      }
+    },
+    "macro_f1": 0.4105245739195123,
+    "balanced_accuracy": 0.448123485864974,
+    "accuracy": 0.4828226555246054,
+    "confusion_matrix": [
+      [
+        200,
+        211,
+        78,
+        19
+      ],
+      [
+        42,
+        237,
+        38,
+        20
+      ],
+      [
+        24,
+        18,
+        66,
+        14
+      ],
+      [
+        20,
+        30,
+        43,
+        17
+      ]
+    ],
+    "n": 1077
+  },
+  "degradation_stats": {
+    "peak_abs_after": {
+      "mean": 0.7704161374467384,
+      "min": 0.008996957913041115,
+      "max": 1.957695722579956,
+      "n": 1077
+    },
+    "cycles_exceeding_full_scale": 373
+  }
+}

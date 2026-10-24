@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1206" height="310" viewBox="0 0 1206 310" font-family="Helvetica, Arial, sans-serif" font-size="11" role="img" aria-label="Validation F1 by degradation severity, one panel per degradation family">
+<style>
+  .s{fill:var(--surface)} .t1{fill:var(--ink)} .t2{fill:var(--ink2)} .tm{fill:var(--muted)}
+  .grid{stroke:var(--grid);stroke-width:1} .base{stroke:var(--muted);stroke-width:1}
+  .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round} .ln.macro{stroke-width:3}
+  .mk{stroke:var(--surface);stroke-width:2}
+  .macro{stroke:var(--ink)} .mk.macro{fill:var(--ink)}
+  .c0{stroke:var(--c0)} .mk.c0{fill:var(--c0)} .c1{stroke:var(--c1)} .mk.c1{fill:var(--c1)}
+  .c2{stroke:var(--c2)} .mk.c2{fill:var(--c2)} .c3{stroke:var(--c3)} .mk.c3{fill:var(--c3)}
+  svg{--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;
+      --c0:#2a78d6;--c1:#eb6834;--c2:#1baf7a;--c3:#eda100}
+  @media (prefers-color-scheme: dark){svg{--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#898781;
+      --grid:#2c2c2a;--c0:#3987e5;--c1:#d95926;--c2:#199e70;--c3:#c98500}}
+</style>
+<rect class="s" width="1206" height="310"/>
+<text class="t1" x="46" y="16" font-size="13" font-weight="bold">Validation F1 by degradation severity (frozen baseline_cnn_v3)</text>
+<text class="t1" x="46" y="34" font-weight="bold">Gaussian noise</text>
+<line class="grid" x1="46" x2="256" y1="196.0" y2="196.0"/>
+<text class="tm" x="40" y="200.0" text-anchor="end">0.2</text>
+<line class="grid" x1="46" x2="256" y1="146.0" y2="146.0"/>
+<text class="tm" x="40" y="150.0" text-anchor="end">0.4</text>
+<line class="grid" x1="46" x2="256" y1="96.0" y2="96.0"/>
+<text class="tm" x="40" y="100.0" text-anchor="end">0.6</text>
+<line class="grid" x1="46" x2="256" y1="46.0" y2="46.0"/>
+<text class="tm" x="40" y="50.0" text-anchor="end">0.8</text>
+<line class="base" x1="46" x2="256" y1="246.0" y2="246.0"/>
+<polyline class="ln c3" points="60.0,199.1 105.5,218.0 151.0,230.0 196.5,246.0 242.0,246.0"/>
+<circle class="mk c3" cx="60.0" cy="199.1" r="4"><title>Clean: both 0.187</title></circle>
+<circle class="mk c3" cx="105.5" cy="218.0" r="4"><title>Noise 20 dB SNR: both 0.112</title></circle>
+<circle class="mk c3" cx="151.0" cy="230.0" r="4"><title>Noise 10 dB SNR: both 0.064</title></circle>
+<circle class="mk c3" cx="196.5" cy="246.0" r="4"><title>Noise 5 dB SNR: both 0.000</title></circle>
+<circle class="mk c3" cx="242.0" cy="246.0" r="4"><title>Noise 0 dB SNR: both 0.000</title></circle>
+<polyline class="ln c2" points="60.0,150.7 105.5,155.7 151.0,176.9 196.5,214.8 242.0,234.3"/>
+<circle class="mk c2" cx="60.0" cy="150.7" r="4"><title>Clean: wheeze 0.381</title></circle>
+<circle class="mk c2" cx="105.5" cy="155.7" r="4"><title>Noise 20 dB SNR: wheeze 0.361</title></circle>
+<circle class="mk c2" cx="151.0" cy="176.9" r="4"><title>Noise 10 dB SNR: wheeze 0.276</title></circle>
+<circle class="mk c2" cx="196.5" cy="214.8" r="4"><title>Noise 5 dB SNR: wheeze 0.125</title></circle>
+<circle class="mk c2" cx="242.0" cy="234.3" r="4"><title>Noise 0 dB SNR: wheeze 0.047</title></circle>
+<polyline class="ln c1" points="60.0,103.5 105.5,107.2 151.0,112.1 196.5,114.9 242.0,115.4"/>
+<circle class="mk c1" cx="60.0" cy="103.5" r="4"><title>Clean: crackle 0.570</title></circle>
+<circle class="mk c1" cx="105.5" cy="107.2" r="4"><title>Noise 20 dB SNR: crackle 0.555</title></circle>
+<circle class="mk c1" cx="151.0" cy="112.1" r="4"><title>Noise 10 dB SNR: crackle 0.536</title></circle>
+<circle class="mk c1" cx="196.5" cy="114.9" r="4"><title>Noise 5 dB SNR: crackle 0.525</title></circle>
+<circle class="mk c1" cx="242.0" cy="115.4" r="4"><title>Noise 0 dB SNR: crackle 0.522</title></circle>
+<polyline class="ln c0" points="60.0,103.5 105.5,144.8 151.0,156.2 196.5,168.8 242.0,180.5"/>
+<circle class="mk c0" cx="60.0" cy="103.5" r="4"><title>Clean: normal 0.570</title></circle>
+<circle class="mk c0" cx="105.5" cy="144.8" r="4"><title>Noise 20 dB SNR: normal 0.405</title></circle>
+<circle class="mk c0" cx="151.0" cy="156.2" r="4"><title>Noise 10 dB SNR: normal 0.359</title></circle>
+<circle class="mk c0" cx="196.5" cy="168.8" r="4"><title>Noise 5 dB SNR: normal 0.309</title></circle>
+<circle class="mk c0" cx="242.0" cy="180.5" r="4"><title>Noise 0 dB SNR: normal 0.262</title></circle>
+<polyline class="ln macro" points="60.0,139.2 105.5,156.4 151.0,168.8 196.5,186.1 242.0,194.0"/>
+<circle class="mk macro" cx="60.0" cy="139.2" r="4"><title>Clean: macro F1 0.427</title></circle>
+<circle class="mk macro" cx="105.5" cy="156.4" r="4"><title>Noise 20 dB SNR: macro F1 0.358</title></circle>
+<circle class="mk macro" cx="151.0" cy="168.8" r="4"><title>Noise 10 dB SNR: macro F1 0.309</title></circle>
+<circle class="mk macro" cx="196.5" cy="186.1" r="4"><title>Noise 5 dB SNR: macro F1 0.240</title></circle>
+<circle class="mk macro" cx="242.0" cy="194.0" r="4"><title>Noise 0 dB SNR: macro F1 0.208</title></circle>
+<text class="t2" x="60.0" y="262" text-anchor="middle">clean</text>
+<text class="t2" x="105.5" y="262" text-anchor="middle">20 dB</text>
+<text class="t2" x="151.0" y="262" text-anchor="middle">10 dB</text>
+<text class="t2" x="196.5" y="262" text-anchor="middle">5 dB</text>
+<text class="t2" x="242.0" y="262" text-anchor="middle">0 dB</text>
+<text class="t1" x="278" y="34" font-weight="bold">Amplitude attenuation</text>
+<line class="grid" x1="278" x2="488" y1="196.0" y2="196.0"/>
+<line class="grid" x1="278" x2="488" y1="146.0" y2="146.0"/>
+<line class="grid" x1="278" x2="488" y1="96.0" y2="96.0"/>
+<line class="grid" x1="278" x2="488" y1="46.0" y2="46.0"/>
+<line class="base" x1="278" x2="488" y1="246.0" y2="246.0"/>
+<polyline class="ln c3" points="292.0,199.1 383.0,205.0 474.0,237.3"/>
+<circle class="mk c3" cx="292.0" cy="199.1" r="4"><title>Clean: both 0.187</title></circle>
+<circle class="mk c3" cx="383.0" cy="205.0" r="4"><title>Gain 0.5x (-6.0 dB): both 0.164</title></circle>
+<circle class="mk c3" cx="474.0" cy="237.3" r="4"><title>Gain 0.25x (-12.0 dB): both 0.035</title></circle>
+<polyline class="ln c2" points="292.0,150.7 383.0,153.2 474.0,151.8"/>
+<circle class="mk c2" cx="292.0" cy="150.7" r="4"><title>Clean: wheeze 0.381</title></circle>
+<circle class="mk c2" cx="383.0" cy="153.2" r="4"><title>Gain 0.5x (-6.0 dB): wheeze 0.371</title></circle>
+<circle class="mk c2" cx="474.0" cy="151.8" r="4"><title>Gain 0.25x (-12.0 dB): wheeze 0.377</title></circle>
+<polyline class="ln c1" points="292.0,103.5 383.0,123.6 474.0,162.3"/>
+<circle class="mk c1" cx="292.0" cy="103.5" r="4"><title>Clean: crackle 0.570</title></circle>
+<circle class="mk c1" cx="383.0" cy="123.6" r="4"><title>Gain 0.5x (-6.0 dB): crackle 0.490</title></circle>
+<circle class="mk c1" cx="474.0" cy="162.3" r="4"><title>Gain 0.25x (-12.0 dB): crackle 0.335</title></circle>
+<polyline class="ln c0" points="292.0,103.5 383.0,97.4 474.0,91.3"/>
+<circle class="mk c0" cx="292.0" cy="103.5" r="4"><title>Clean: normal 0.570</title></circle>
+<circle class="mk c0" cx="383.0" cy="97.4" r="4"><title>Gain 0.5x (-6.0 dB): normal 0.594</title></circle>
+<circle class="mk c0" cx="474.0" cy="91.3" r="4"><title>Gain 0.25x (-12.0 dB): normal 0.619</title></circle>
+<polyline class="ln macro" points="292.0,139.2 383.0,144.8 474.0,160.7"/>
+<circle class="mk macro" cx="292.0" cy="139.2" r="4"><title>Clean: macro F1 0.427</title></circle>
+<circle class="mk macro" cx="383.0" cy="144.8" r="4"><title>Gain 0.5x (-6.0 dB): macro F1 0.405</title></circle>
+<circle class="mk macro" cx="474.0" cy="160.7" r="4"><title>Gain 0.25x (-12.0 dB): macro F1 0.341</title></circle>
+<text class="t2" x="292.0" y="262" text-anchor="middle">clean</text>
+<text class="t2" x="383.0" y="262" text-anchor="middle">0.5x</text>
+<text class="t2" x="474.0" y="262" text-anchor="middle">0.25x</text>
+<text class="t1" x="510" y="34" font-weight="bold">Amplitude amplification</text>
+<line class="grid" x1="510" x2="720" y1="196.0" y2="196.0"/>
+<line class="grid" x1="510" x2="720" y1="146.0" y2="146.0"/>
+<line class="grid" x1="510" x2="720" y1="96.0" y2="96.0"/>
+<line class="grid" x1="510" x2="720" y1="46.0" y2="46.0"/>
+<line class="base" x1="510" x2="720" y1="246.0" y2="246.0"/>
+<polyline class="ln c3" points="524.0,199.1 615.0,198.8 706.0,195.7"/>
+<circle class="mk c3" cx="524.0" cy="199.1" r="4"><title>Clean: both 0.187</title></circle>
+<circle class="mk c3" cx="615.0" cy="198.8" r="4"><title>Gain 1.5x (+3.5 dB): both 0.189</title></circle>
+<circle class="mk c3" cx="706.0" cy="195.7" r="4"><title>Gain 2x (+6.0 dB): both 0.201</title></circle>
+<polyline class="ln c2" points="524.0,150.7 615.0,150.9 706.0,140.9"/>
+<circle class="mk c2" cx="524.0" cy="150.7" r="4"><title>Clean: wheeze 0.381</title></circle>
+<circle class="mk c2" cx="615.0" cy="150.9" r="4"><title>Gain 1.5x (+3.5 dB): wheeze 0.380</title></circle>
+<circle class="mk c2" cx="706.0" cy="140.9" r="4"><title>Gain 2x (+6.0 dB): wheeze 0.420</title></circle>
+<polyline class="ln c1" points="524.0,103.5 615.0,103.7 706.0,104.1"/>
+<circle class="mk c1" cx="524.0" cy="103.5" r="4"><title>Clean: crackle 0.570</title></circle>
+<circle class="mk c1" cx="615.0" cy="103.7" r="4"><title>Gain 1.5x (+3.5 dB): crackle 0.569</title></circle>
+<circle class="mk c1" cx="706.0" cy="104.1" r="4"><title>Gain 2x (+6.0 dB): crackle 0.568</title></circle>
+<polyline class="ln c0" points="524.0,103.5 615.0,120.1 706.0,133.4"/>
+<circle class="mk c0" cx="524.0" cy="103.5" r="4"><title>Clean: normal 0.570</title></circle>
+<circle class="mk c0" cx="615.0" cy="120.1" r="4"><title>Gain 1.5x (+3.5 dB): normal 0.504</title></circle>
+<circle class="mk c0" cx="706.0" cy="133.4" r="4"><title>Gain 2x (+6.0 dB): normal 0.450</title></circle>
+<polyline class="ln macro" points="524.0,139.2 615.0,143.4 706.0,143.5"/>
+<circle class="mk macro" cx="524.0" cy="139.2" r="4"><title>Clean: macro F1 0.427</title></circle>
+<circle class="mk macro" cx="615.0" cy="143.4" r="4"><title>Gain 1.5x (+3.5 dB): macro F1 0.411</title></circle>
+<circle class="mk macro" cx="706.0" cy="143.5" r="4"><title>Gain 2x (+6.0 dB): macro F1 0.410</title></circle>
+<text class="t2" x="524.0" y="262" text-anchor="middle">clean</text>
+<text class="t2" x="615.0" y="262" text-anchor="middle">1.5x</text>
+<text class="t2" x="706.0" y="262" text-anchor="middle">2x</text>
+<text class="t1" x="742" y="34" font-weight="bold">Low-pass filtering</text>
+<line class="grid" x1="742" x2="952" y1="196.0" y2="196.0"/>
+<line class="grid" x1="742" x2="952" y1="146.0" y2="146.0"/>
+<line class="grid" x1="742" x2="952" y1="96.0" y2="96.0"/>
+<line class="grid" x1="742" x2="952" y1="46.0" y2="46.0"/>
+<line class="base" x1="742" x2="952" y1="246.0" y2="246.0"/>
+<polyline class="ln c3" points="756.0,199.1 816.7,199.4 877.3,246.0 938.0,246.0"/>
+<circle class="mk c3" cx="756.0" cy="199.1" r="4"><title>Clean: both 0.187</title></circle>
+<circle class="mk c3" cx="816.7" cy="199.4" r="4"><title>Low-pass 2000 Hz: both 0.186</title></circle>
+<circle class="mk c3" cx="877.3" cy="246.0" r="4"><title>Low-pass 1000 Hz: both 0.000</title></circle>
+<circle class="mk c3" cx="938.0" cy="246.0" r="4"><title>Low-pass 500 Hz: both 0.000</title></circle>
+<polyline class="ln c2" points="756.0,150.7 816.7,150.4 877.3,196.5 938.0,153.1"/>
+<circle class="mk c2" cx="756.0" cy="150.7" r="4"><title>Clean: wheeze 0.381</title></circle>
+<circle class="mk c2" cx="816.7" cy="150.4" r="4"><title>Low-pass 2000 Hz: wheeze 0.382</title></circle>
+<circle class="mk c2" cx="877.3" cy="196.5" r="4"><title>Low-pass 1000 Hz: wheeze 0.198</title></circle>
+<circle class="mk c2" cx="938.0" cy="153.1" r="4"><title>Low-pass 500 Hz: wheeze 0.372</title></circle>
+<polyline class="ln c1" points="756.0,103.5 816.7,103.5 877.3,246.0 938.0,246.0"/>
+<circle class="mk c1" cx="756.0" cy="103.5" r="4"><title>Clean: crackle 0.570</title></circle>
+<circle class="mk c1" cx="816.7" cy="103.5" r="4"><title>Low-pass 2000 Hz: crackle 0.570</title></circle>
+<circle class="mk c1" cx="877.3" cy="246.0" r="4"><title>Low-pass 1000 Hz: crackle 0.000</title></circle>
+<circle class="mk c1" cx="938.0" cy="246.0" r="4"><title>Low-pass 500 Hz: crackle 0.000</title></circle>
+<polyline class="ln c0" points="756.0,103.5 816.7,103.0 877.3,122.0 938.0,98.9"/>
+<circle class="mk c0" cx="756.0" cy="103.5" r="4"><title>Clean: normal 0.570</title></circle>
+<circle class="mk c0" cx="816.7" cy="103.0" r="4"><title>Low-pass 2000 Hz: normal 0.572</title></circle>
+<circle class="mk c0" cx="877.3" cy="122.0" r="4"><title>Low-pass 1000 Hz: normal 0.496</title></circle>
+<circle class="mk c0" cx="938.0" cy="98.9" r="4"><title>Low-pass 500 Hz: normal 0.588</title></circle>
+<polyline class="ln macro" points="756.0,139.2 816.7,139.1 877.3,202.6 938.0,186.0"/>
+<circle class="mk macro" cx="756.0" cy="139.2" r="4"><title>Clean: macro F1 0.427</title></circle>
+<circle class="mk macro" cx="816.7" cy="139.1" r="4"><title>Low-pass 2000 Hz: macro F1 0.428</title></circle>
+<circle class="mk macro" cx="877.3" cy="202.6" r="4"><title>Low-pass 1000 Hz: macro F1 0.173</title></circle>
+<circle class="mk macro" cx="938.0" cy="186.0" r="4"><title>Low-pass 500 Hz: macro F1 0.240</title></circle>
+<text class="t2" x="756.0" y="262" text-anchor="middle">clean</text>
+<text class="t2" x="816.7" y="262" text-anchor="middle">2000 Hz</text>
+<text class="t2" x="877.3" y="262" text-anchor="middle">1000 Hz</text>
+<text class="t2" x="938.0" y="262" text-anchor="middle">500 Hz</text>
+<text class="t1" x="974" y="34" font-weight="bold">Temporal dropout</text>
+<line class="grid" x1="974" x2="1184" y1="196.0" y2="196.0"/>
+<line class="grid" x1="974" x2="1184" y1="146.0" y2="146.0"/>
+<line class="grid" x1="974" x2="1184" y1="96.0" y2="96.0"/>
+<line class="grid" x1="974" x2="1184" y1="46.0" y2="46.0"/>
+<line class="base" x1="974" x2="1184" y1="246.0" y2="246.0"/>
+<polyline class="ln c3" points="988.0,199.1 1048.7,221.8 1109.3,246.0 1170.0,246.0"/>
+<circle class="mk c3" cx="988.0" cy="199.1" r="4"><title>Clean: both 0.187</title></circle>
+<circle class="mk c3" cx="1048.7" cy="221.8" r="4"><title>Dropout 10%: both 0.097</title></circle>
+<circle class="mk c3" cx="1109.3" cy="246.0" r="4"><title>Dropout 25%: both 0.000</title></circle>
+<circle class="mk c3" cx="1170.0" cy="246.0" r="4"><title>Dropout 50%: both 0.000</title></circle>
+<polyline class="ln c2" points="988.0,150.7 1048.7,153.0 1109.3,213.4 1170.0,246.0"/>
+<circle class="mk c2" cx="988.0" cy="150.7" r="4"><title>Clean: wheeze 0.381</title></circle>
+<circle class="mk c2" cx="1048.7" cy="153.0" r="4"><title>Dropout 10%: wheeze 0.372</title></circle>
+<circle class="mk c2" cx="1109.3" cy="213.4" r="4"><title>Dropout 25%: wheeze 0.130</title></circle>
+<circle class="mk c2" cx="1170.0" cy="246.0" r="4"><title>Dropout 50%: wheeze 0.000</title></circle>
+<polyline class="ln c1" points="988.0,103.5 1048.7,115.5 1109.3,170.2 1170.0,240.3"/>
+<circle class="mk c1" cx="988.0" cy="103.5" r="4"><title>Clean: crackle 0.570</title></circle>
+<circle class="mk c1" cx="1048.7" cy="115.5" r="4"><title>Dropout 10%: crackle 0.522</title></circle>
+<circle class="mk c1" cx="1109.3" cy="170.2" r="4"><title>Dropout 25%: crackle 0.303</title></circle>
+<circle class="mk c1" cx="1170.0" cy="240.3" r="4"><title>Dropout 50%: crackle 0.023</title></circle>
+<polyline class="ln c0" points="988.0,103.5 1048.7,109.9 1109.3,98.0 1170.0,85.7"/>
+<circle class="mk c0" cx="988.0" cy="103.5" r="4"><title>Clean: normal 0.570</title></circle>
+<circle class="mk c0" cx="1048.7" cy="109.9" r="4"><title>Dropout 10%: normal 0.544</title></circle>
+<circle class="mk c0" cx="1109.3" cy="98.0" r="4"><title>Dropout 25%: normal 0.592</title></circle>
+<circle class="mk c0" cx="1170.0" cy="85.7" r="4"><title>Dropout 50%: normal 0.641</title></circle>
+<polyline class="ln macro" points="988.0,139.2 1048.7,150.1 1109.3,181.9 1170.0,204.5"/>
+<circle class="mk macro" cx="988.0" cy="139.2" r="4"><title>Clean: macro F1 0.427</title></circle>
+<circle class="mk macro" cx="1048.7" cy="150.1" r="4"><title>Dropout 10%: macro F1 0.384</title></circle>
+<circle class="mk macro" cx="1109.3" cy="181.9" r="4"><title>Dropout 25%: macro F1 0.256</title></circle>
+<circle class="mk macro" cx="1170.0" cy="204.5" r="4"><title>Dropout 50%: macro F1 0.166</title></circle>
+<text class="t2" x="988.0" y="262" text-anchor="middle">clean</text>
+<text class="t2" x="1048.7" y="262" text-anchor="middle">10%</text>
+<text class="t2" x="1109.3" y="262" text-anchor="middle">25%</text>
+<text class="t2" x="1170.0" y="262" text-anchor="middle">50%</text>
+<text class="t2" x="12" y="146.0" transform="rotate(-90 12 146.0)" text-anchor="middle">F1</text>
+<line class="ln macro" x1="46" x2="64" y1="294" y2="294"/>
+<text class="t2" x="70" y="298">macro F1</text>
+<line class="ln c0" x1="138" x2="156" y1="294" y2="294"/>
+<text class="t2" x="162" y="298">normal</text>
+<line class="ln c1" x1="230" x2="248" y1="294" y2="294"/>
+<text class="t2" x="254" y="298">crackle</text>
+<line class="ln c2" x1="322" x2="340" y1="294" y2="294"/>
+<text class="t2" x="346" y="298">wheeze</text>
+<line class="ln c3" x1="414" x2="432" y1="294" y2="294"/>
+<text class="t2" x="438" y="298">both</text>
+</svg>

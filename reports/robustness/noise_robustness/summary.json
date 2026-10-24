@@ -1,0 +1,2172 @@
+{
+  "study": "validation-only robustness of the frozen baseline CNN",
+  "model_run": "baseline_cnn_v3",
+  "split": "val",
+  "test_split_evaluated": false,
+  "n_cycles": 1077,
+  "n_patients": 19,
+  "clean_macro_f1": 0.42710643878965393,
+  "reference_scale_pooled_seed_sd": 0.0157343704493288,
+  "rules": {
+    "reference_scale": "pooled within-architecture seed SD of validation macro F1 from the seed study (reports/runs/seed_study/summary.json); changes smaller than this are of the same size as retraining with another seed",
+    "negligible": "a family is 'negligible' if |macro-F1 change vs clean| < reference_scale at every level",
+    "collapse": "otherwise, walking clean -> mild -> severe, a family shows a 'collapse threshold' at the level reached by its largest single-step macro-F1 drop if that step is >= 0.05 and >= twice the sum of all its other positive step drops; otherwise 'gradual'",
+    "hurts_most": "lowest macro F1 among degraded conditions; per family, the change at the most severe level",
+    "tolerated_best": "family with the smallest mean |macro-F1 change| over its levels",
+    "class_fails_first": "per family, the first level (mild -> severe) at which any class's F1 drops by >= 0.05 vs clean; the class with the largest drop there",
+    "prediction_collapse": "a condition 'collapses predictions' if >= 80% of cycles are predicted as one class",
+    "uncertainty": "patient-level bootstrap (compare_runs.patient_bootstrap, 2000 resamples, seed 0) of the paired macro-F1 difference vs clean; supporting only, not used by the rules"
+  },
+  "conditions": {
+    "clean": {
+      "name": "clean",
+      "family": "clean",
+      "param": null,
+      "unit": "",
+      "n": 1077,
+      "macro_f1": 0.42710643878965393,
+      "balanced_accuracy": 0.4567628278464798,
+      "accuracy": 0.5097493036211699,
+      "per_class_f1": {
+        "normal": 0.5698324022346368,
+        "crackle": 0.5698778833107192,
+        "wheeze": 0.38121546961325964,
+        "both": 0.18749999999999997
+      },
+      "per_class_recall": {
+        "normal": 0.5019685039370079,
+        "crackle": 0.6231454005934718,
+        "wheeze": 0.5655737704918032,
+        "both": 0.13636363636363635
+      },
+      "confusion_matrix": [
+        [
+          255,
+          160,
+          83,
+          10
+        ],
+        [
+          67,
+          210,
+          44,
+          16
+        ],
+        [
+          34,
+          10,
+          69,
+          9
+        ],
+        [
+          31,
+          20,
+          44,
+          15
+        ]
+      ],
+      "macro_f1_change_abs": 0.0,
+      "macro_f1_change_rel": 0.0,
+      "balanced_accuracy_change_abs": 0.0,
+      "accuracy_change_abs": 0.0,
+      "per_class_f1_change_abs": {
+        "normal": 0.0,
+        "crackle": 0.0,
+        "wheeze": 0.0,
+        "both": 0.0
+      },
+      "prediction_counts": {
+        "normal": 387,
+        "crackle": 400,
+        "wheeze": 240,
+        "both": 50
+      },
+      "predictions_changed_vs_clean": 0.0,
+      "prediction_collapse": {
+        "class": "crackle",
+        "share": 0.3714020427112349,
+        "collapsed": false
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.33309583225317024,
+        0.5021399804853245
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        0.0,
+        0.0
+      ],
+      "degradation_stats": {},
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.432258064516129,
+            "macro_f1_present_classes": 0.2995920745920746
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.5227765726681128,
+            "macro_f1_present_classes": 0.43548785467202145
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.45131375579598143,
+            "macro_f1_present_classes": 0.35338167089775463
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.32432432432432434,
+            "macro_f1_present_classes": 0.1699367088607595
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.6722689075630253,
+            "macro_f1_present_classes": 0.5481203007518797
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.6455696202531646,
+            "macro_f1_present_classes": 0.41847318921051646
+          }
+        }
+      }
+    },
+    "noise_snr20db": {
+      "name": "noise_snr20db",
+      "family": "gaussian_noise",
+      "param": 20.0,
+      "unit": "dB SNR",
+      "n": 1077,
+      "macro_f1": 0.3582704815481931,
+      "balanced_accuracy": 0.3886681057808467,
+      "accuracy": 0.4521819870009285,
+      "per_class_f1": {
+        "normal": 0.40473061760841,
+        "crackle": 0.555229716520039,
+        "wheeze": 0.36123348017621143,
+        "both": 0.11188811188811186
+      },
+      "per_class_recall": {
+        "normal": 0.3031496062992126,
+        "crackle": 0.8427299703264095,
+        "wheeze": 0.3360655737704918,
+        "both": 0.07272727272727272
+      },
+      "confusion_matrix": [
+        [
+          154,
+          308,
+          39,
+          7
+        ],
+        [
+          42,
+          284,
+          7,
+          4
+        ],
+        [
+          27,
+          40,
+          41,
+          14
+        ],
+        [
+          30,
+          54,
+          18,
+          8
+        ]
+      ],
+      "macro_f1_change_abs": -0.06883595724146085,
+      "macro_f1_change_rel": -0.16116815620136773,
+      "balanced_accuracy_change_abs": -0.0680947220656331,
+      "accuracy_change_abs": -0.05756731662024139,
+      "per_class_f1_change_abs": {
+        "normal": -0.16510178462622682,
+        "crackle": -0.01464816679068015,
+        "wheeze": -0.01998198943704821,
+        "both": -0.07561188811188811
+      },
+      "prediction_counts": {
+        "normal": 253,
+        "crackle": 686,
+        "wheeze": 105,
+        "both": 33
+      },
+      "predictions_changed_vs_clean": 0.3398328690807799,
+      "prediction_collapse": {
+        "class": "crackle",
+        "share": 0.6369545032497679,
+        "collapsed": false
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.26482042836453457,
+        0.4496237916324214
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.1375676744424933,
+        0.015752504528372846
+      ],
+      "degradation_stats": {
+        "realized_snr_db": {
+          "mean": 19.999999999649514,
+          "min": 19.9999999416779,
+          "max": 20.000000049475585,
+          "n": 1077
+        },
+        "silent_inputs": 0
+      },
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.21935483870967742,
+            "macro_f1_present_classes": 0.171045974949705
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.4913232104121475,
+            "macro_f1_present_classes": 0.3957599892462278
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.4853168469860896,
+            "macro_f1_present_classes": 0.30148112635110963
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.24324324324324326,
+            "macro_f1_present_classes": 0.16359275053304906
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.24369747899159663,
+            "macro_f1_present_classes": 0.22391304347826085
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.5316455696202531,
+            "macro_f1_present_classes": 0.3914200462793813
+          }
+        }
+      }
+    },
+    "noise_snr10db": {
+      "name": "noise_snr10db",
+      "family": "gaussian_noise",
+      "param": 10.0,
+      "unit": "dB SNR",
+      "n": 1077,
+      "macro_f1": 0.30874304915396744,
+      "balanced_accuracy": 0.3488318311057103,
+      "accuracy": 0.42804085422469823,
+      "per_class_f1": {
+        "normal": 0.35904628330995797,
+        "crackle": 0.5356828193832598,
+        "wheeze": 0.27624309392265195,
+        "both": 0.064
+      },
+      "per_class_recall": {
+        "normal": 0.25196850393700787,
+        "crackle": 0.9020771513353115,
+        "wheeze": 0.20491803278688525,
+        "both": 0.03636363636363636
+      },
+      "confusion_matrix": [
+        [
+          128,
+          354,
+          25,
+          1
+        ],
+        [
+          27,
+          304,
+          4,
+          2
+        ],
+        [
+          26,
+          63,
+          25,
+          8
+        ],
+        [
+          24,
+          77,
+          5,
+          4
+        ]
+      ],
+      "macro_f1_change_abs": -0.11836338963568649,
+      "macro_f1_change_rel": -0.27712855364837846,
+      "balanced_accuracy_change_abs": -0.1079309967407695,
+      "accuracy_change_abs": -0.08170844939647165,
+      "per_class_f1_change_abs": {
+        "normal": -0.21078611892467886,
+        "crackle": -0.03419506392745941,
+        "wheeze": -0.10497237569060769,
+        "both": -0.12349999999999997
+      },
+      "prediction_counts": {
+        "normal": 205,
+        "crackle": 798,
+        "wheeze": 59,
+        "both": 15
+      },
+      "predictions_changed_vs_clean": 0.4382544103992572,
+      "prediction_collapse": {
+        "class": "crackle",
+        "share": 0.7409470752089137,
+        "collapsed": false
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.19927734688596288,
+        0.40639920135608665
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.21349974095952945,
+        -0.009047910045997198
+      ],
+      "degradation_stats": {
+        "realized_snr_db": {
+          "mean": 10.000000000082121,
+          "min": 9.999999981806841,
+          "max": 10.000000014063799,
+          "n": 1077
+        },
+        "silent_inputs": 0
+      },
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.1870967741935484,
+            "macro_f1_present_classes": 0.13150295377633456
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.4685466377440347,
+            "macro_f1_present_classes": 0.34741043678060063
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.4992272024729521,
+            "macro_f1_present_classes": 0.26871317975733194
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.17567567567567569,
+            "macro_f1_present_classes": 0.1230146140270865
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.11764705882352941,
+            "macro_f1_present_classes": 0.11764705882352941
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.46835443037974683,
+            "macro_f1_present_classes": 0.34686254195978156
+          }
+        }
+      }
+    },
+    "noise_snr5db": {
+      "name": "noise_snr5db",
+      "family": "gaussian_noise",
+      "param": 5.0,
+      "unit": "dB SNR",
+      "n": 1077,
+      "macro_f1": 0.23959129327051892,
+      "balanced_accuracy": 0.30477962848833223,
+      "accuracy": 0.40018570102135564,
+      "per_class_f1": {
+        "normal": 0.3088023088023088,
+        "crackle": 0.5245628642797668,
+        "wheeze": 0.12499999999999999,
+        "both": 0.0
+      },
+      "per_class_recall": {
+        "normal": 0.2106299212598425,
+        "crackle": 0.9347181008902077,
+        "wheeze": 0.07377049180327869,
+        "both": 0.0
+      },
+      "confusion_matrix": [
+        [
+          107,
+          388,
+          12,
+          1
+        ],
+        [
+          20,
+          315,
+          1,
+          1
+        ],
+        [
+          32,
+          77,
+          9,
+          4
+        ],
+        [
+          26,
+          84,
+          0,
+          0
+        ]
+      ],
+      "macro_f1_change_abs": -0.187515145519135,
+      "macro_f1_change_rel": -0.43903610081487093,
+      "balanced_accuracy_change_abs": -0.15198319935814758,
+      "accuracy_change_abs": -0.10956360259981424,
+      "per_class_f1_change_abs": {
+        "normal": -0.261030093432328,
+        "crackle": -0.045315019030952364,
+        "wheeze": -0.25621546961325964,
+        "both": -0.18749999999999997
+      },
+      "prediction_counts": {
+        "normal": 185,
+        "crackle": 864,
+        "wheeze": 22,
+        "both": 6
+      },
+      "predictions_changed_vs_clean": 0.4986072423398329,
+      "prediction_collapse": {
+        "class": "crackle",
+        "share": 0.8022284122562674,
+        "collapsed": true
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.15237639176718748,
+        0.32284494465186936
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.27485664058233694,
+        -0.07696302332844446
+      ],
+      "degradation_stats": {
+        "realized_snr_db": {
+          "mean": 5.000000000012567,
+          "min": 4.9999999788201945,
+          "max": 5.000000011627605,
+          "n": 1077
+        },
+        "silent_inputs": 0
+      },
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.1870967741935484,
+            "macro_f1_present_classes": 0.12281431284973561
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.4360086767895879,
+            "macro_f1_present_classes": 0.26016366942816727
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.49304482225656876,
+            "macro_f1_present_classes": 0.22289796568757636
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.17567567567567569,
+            "macro_f1_present_classes": 0.1312636165577342
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.11764705882352941,
+            "macro_f1_present_classes": 0.11764705882352941
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.35864978902953587,
+            "macro_f1_present_classes": 0.24022490249696032
+          }
+        }
+      }
+    },
+    "noise_snr0db": {
+      "name": "noise_snr0db",
+      "family": "gaussian_noise",
+      "param": 0.0,
+      "unit": "dB SNR",
+      "n": 1077,
+      "macro_f1": 0.20783977255174546,
+      "balanced_accuracy": 0.29080226422480376,
+      "accuracy": 0.3862581244196843,
+      "per_class_f1": {
+        "normal": 0.2620481927710843,
+        "crackle": 0.5224358974358975,
+        "wheeze": 0.046875,
+        "both": 0.0
+      },
+      "per_class_recall": {
+        "normal": 0.17125984251968504,
+        "crackle": 0.9673590504451038,
+        "wheeze": 0.02459016393442623,
+        "both": 0.0
+      },
+      "confusion_matrix": [
+        [
+          87,
+          415,
+          3,
+          3
+        ],
+        [
+          11,
+          326,
+          0,
+          0
+        ],
+        [
+          34,
+          84,
+          3,
+          1
+        ],
+        [
+          24,
+          86,
+          0,
+          0
+        ]
+      ],
+      "macro_f1_change_abs": -0.21926666623790847,
+      "macro_f1_change_rel": -0.5133771030454901,
+      "balanced_accuracy_change_abs": -0.16596056362167605,
+      "accuracy_change_abs": -0.12349117920148556,
+      "per_class_f1_change_abs": {
+        "normal": -0.3077842094635525,
+        "crackle": -0.047441985874821735,
+        "wheeze": -0.33434046961325964,
+        "both": -0.18749999999999997
+      },
+      "prediction_counts": {
+        "normal": 156,
+        "crackle": 911,
+        "wheeze": 6,
+        "both": 4
+      },
+      "predictions_changed_vs_clean": 0.5394614670380687,
+      "prediction_collapse": {
+        "class": "crackle",
+        "share": 0.8458681522748375,
+        "collapsed": true
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.1281790908120092,
+        0.27786174308561645
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.31184090419636723,
+        -0.0973088350705757
+      ],
+      "degradation_stats": {
+        "realized_snr_db": {
+          "mean": 1.2040699993200123e-10,
+          "min": -1.1813958450918468e-08,
+          "max": 1.1685977699404014e-08,
+          "n": 1077
+        },
+        "silent_inputs": 0
+      },
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.16774193548387098,
+            "macro_f1_present_classes": 0.1104852100116844
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.4229934924078091,
+            "macro_f1_present_classes": 0.21984296968387504
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.500772797527048,
+            "macro_f1_present_classes": 0.2210960960960961
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.13513513513513514,
+            "macro_f1_present_classes": 0.10971153846153847
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.10084033613445378,
+            "macro_f1_present_classes": 0.10058628240446423
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.29535864978902954,
+            "macro_f1_present_classes": 0.17481778133760512
+          }
+        }
+      }
+    },
+    "gain_0.5x": {
+      "name": "gain_0.5x",
+      "family": "amplitude",
+      "param": 0.5,
+      "unit": "x",
+      "n": 1077,
+      "macro_f1": 0.4047698278792374,
+      "balanced_accuracy": 0.423192331749746,
+      "accuracy": 0.5013927576601671,
+      "per_class_f1": {
+        "normal": 0.5942857142857143,
+        "crackle": 0.4896,
+        "wheeze": 0.37101449275362314,
+        "both": 0.16417910447761194
+      },
+      "per_class_recall": {
+        "normal": 0.6141732283464567,
+        "crackle": 0.4540059347181009,
+        "wheeze": 0.5245901639344263,
+        "both": 0.1
+      },
+      "confusion_matrix": [
+        [
+          312,
+          121,
+          72,
+          3
+        ],
+        [
+          126,
+          153,
+          51,
+          7
+        ],
+        [
+          51,
+          4,
+          64,
+          3
+        ],
+        [
+          53,
+          10,
+          36,
+          11
+        ]
+      ],
+      "macro_f1_change_abs": -0.022336610910416554,
+      "macro_f1_change_rel": -0.0522975279270307,
+      "balanced_accuracy_change_abs": -0.03357049609673379,
+      "accuracy_change_abs": -0.00835654596100277,
+      "per_class_f1_change_abs": {
+        "normal": 0.02445331205107748,
+        "crackle": -0.08027788331071922,
+        "wheeze": -0.010200976859636501,
+        "both": -0.02332089552238803
+      },
+      "prediction_counts": {
+        "normal": 542,
+        "crackle": 288,
+        "wheeze": 223,
+        "both": 24
+      },
+      "predictions_changed_vs_clean": 0.1894150417827298,
+      "prediction_collapse": {
+        "class": "normal",
+        "share": 0.5032497678737233,
+        "collapsed": false
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.3078899403763288,
+        0.48535921429010603
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.0582669930873993,
+        0.011725770892763832
+      ],
+      "degradation_stats": {
+        "peak_abs_after": {
+          "mean": 0.2568053795275959,
+          "min": 0.0029989860486239195,
+          "max": 0.6525652408599854,
+          "n": 1077
+        },
+        "cycles_exceeding_full_scale": 0
+      },
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.432258064516129,
+            "macro_f1_present_classes": 0.2429441924354715
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.5130151843817787,
+            "macro_f1_present_classes": 0.4174569441256054
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.41731066460587324,
+            "macro_f1_present_classes": 0.34812705262326227
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.32432432432432434,
+            "macro_f1_present_classes": 0.17243164871582434
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.7983193277310925,
+            "macro_f1_present_classes": 0.5476190476190476
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.6371308016877637,
+            "macro_f1_present_classes": 0.36733091787439615
+          }
+        }
+      }
+    },
+    "gain_0.25x": {
+      "name": "gain_0.25x",
+      "family": "amplitude",
+      "param": 0.25,
+      "unit": "x",
+      "n": 1077,
+      "macro_f1": 0.34132409001472935,
+      "balanced_accuracy": 0.3777218808370141,
+      "accuracy": 0.48375116063138346,
+      "per_class_f1": {
+        "normal": 0.6189683860232944,
+        "crackle": 0.3346456692913386,
+        "wheeze": 0.3768996960486322,
+        "both": 0.034782608695652174
+      },
+      "per_class_recall": {
+        "normal": 0.7322834645669292,
+        "crackle": 0.2522255192878338,
+        "wheeze": 0.5081967213114754,
+        "both": 0.01818181818181818
+      },
+      "confusion_matrix": [
+        [
+          372,
+          77,
+          57,
+          2
+        ],
+        [
+          204,
+          85,
+          48,
+          0
+        ],
+        [
+          56,
+          3,
+          62,
+          1
+        ],
+        [
+          62,
+          6,
+          40,
+          2
+        ]
+      ],
+      "macro_f1_change_abs": -0.08578234877492458,
+      "macro_f1_change_rel": -0.2008453654269811,
+      "balanced_accuracy_change_abs": -0.07904094700946573,
+      "accuracy_change_abs": -0.02599814298978642,
+      "per_class_f1_change_abs": {
+        "normal": 0.04913598378865758,
+        "crackle": -0.2352322140193806,
+        "wheeze": -0.004315773564627423,
+        "both": -0.1527173913043478
+      },
+      "prediction_counts": {
+        "normal": 694,
+        "crackle": 171,
+        "wheeze": 207,
+        "both": 5
+      },
+      "predictions_changed_vs_clean": 0.3630454967502321,
+      "prediction_collapse": {
+        "class": "normal",
+        "share": 0.6443825441039925,
+        "collapsed": false
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.26184336451320667,
+        0.4173971499911866
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.14106311949377653,
+        -0.022353386997914948
+      ],
+      "degradation_stats": {
+        "peak_abs_after": {
+          "mean": 0.12840268976379796,
+          "min": 0.0014994930243119597,
+          "max": 0.3262826204299927,
+          "n": 1077
+        },
+        "cycles_exceeding_full_scale": 0
+      },
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.49032258064516127,
+            "macro_f1_present_classes": 0.24575757575757576
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.482646420824295,
+            "macro_f1_present_classes": 0.34822255294617815
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.35857805255023184,
+            "macro_f1_present_classes": 0.28063583942147874
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.3918918918918919,
+            "macro_f1_present_classes": 0.2010429970200085
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.8739495798319328,
+            "macro_f1_present_classes": 0.47058823529411764
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.6582278481012658,
+            "macro_f1_present_classes": 0.36288550794760144
+          }
+        }
+      }
+    },
+    "gain_1.5x": {
+      "name": "gain_1.5x",
+      "family": "amplitude",
+      "param": 1.5,
+      "unit": "x",
+      "n": 1077,
+      "macro_f1": 0.4105245739195123,
+      "balanced_accuracy": 0.448123485864974,
+      "accuracy": 0.4828226555246054,
+      "per_class_f1": {
+        "normal": 0.5037783375314862,
+        "crackle": 0.5690276110444178,
+        "wheeze": 0.3804034582132565,
+        "both": 0.18888888888888886
+      },
+      "per_class_recall": {
+        "normal": 0.3937007874015748,
+        "crackle": 0.7032640949554896,
+        "wheeze": 0.5409836065573771,
+        "both": 0.15454545454545454
+      },
+      "confusion_matrix": [
+        [
+          200,
+          211,
+          78,
+          19
+        ],
+        [
+          42,
+          237,
+          38,
+          20
+        ],
+        [
+          24,
+          18,
+          66,
+          14
+        ],
+        [
+          20,
+          30,
+          43,
+          17
+        ]
+      ],
+      "macro_f1_change_abs": -0.016581864870141627,
+      "macro_f1_change_rel": -0.03882372955353185,
+      "balanced_accuracy_change_abs": -0.008639341981505788,
+      "accuracy_change_abs": -0.026926648096564476,
+      "per_class_f1_change_abs": {
+        "normal": -0.06605406470315067,
+        "crackle": -0.0008502722663014106,
+        "wheeze": -0.0008120114000031431,
+        "both": 0.001388888888888884
+      },
+      "prediction_counts": {
+        "normal": 286,
+        "crackle": 496,
+        "wheeze": 225,
+        "both": 70
+      },
+      "predictions_changed_vs_clean": 0.13463324048282266,
+      "prediction_collapse": {
+        "class": "crackle",
+        "share": 0.4605385329619313,
+        "collapsed": false
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.32294556027432736,
+        0.48163244969586533
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.04882698063771834,
+        0.012199226276111697
+      ],
+      "degradation_stats": {
+        "peak_abs_after": {
+          "mean": 0.7704161374467384,
+          "min": 0.008996957913041115,
+          "max": 1.957695722579956,
+          "n": 1077
+        },
+        "cycles_exceeding_full_scale": 373
+      },
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.3870967741935484,
+            "macro_f1_present_classes": 0.28015734265734266
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.49891540130151846,
+            "macro_f1_present_classes": 0.41916782772337946
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.47449768160741884,
+            "macro_f1_present_classes": 0.35484043953173366
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.2972972972972973,
+            "macro_f1_present_classes": 0.15293742017879952
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.4369747899159664,
+            "macro_f1_present_classes": 0.39640239840106595
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.5864978902953587,
+            "macro_f1_present_classes": 0.4020942337955802
+          }
+        }
+      }
+    },
+    "gain_2.0x": {
+      "name": "gain_2.0x",
+      "family": "amplitude",
+      "param": 2.0,
+      "unit": "x",
+      "n": 1077,
+      "macro_f1": 0.4098878212694606,
+      "balanced_accuracy": 0.4567446542217287,
+      "accuracy": 0.4726090993500464,
+      "per_class_f1": {
+        "normal": 0.45047489823609227,
+        "crackle": 0.5675977653631286,
+        "wheeze": 0.42042042042042044,
+        "both": 0.20105820105820107
+      },
+      "per_class_recall": {
+        "normal": 0.32677165354330706,
+        "crackle": 0.7537091988130564,
+        "wheeze": 0.5737704918032787,
+        "both": 0.17272727272727273
+      },
+      "confusion_matrix": [
+        [
+          166,
+          248,
+          71,
+          23
+        ],
+        [
+          32,
+          254,
+          29,
+          22
+        ],
+        [
+          15,
+          22,
+          70,
+          15
+        ],
+        [
+          16,
+          34,
+          41,
+          19
+        ]
+      ],
+      "macro_f1_change_abs": -0.017218617520193324,
+      "macro_f1_change_rel": -0.0403145819318199,
+      "balanced_accuracy_change_abs": -1.8173624751094408e-05,
+      "accuracy_change_abs": -0.03714020427112347,
+      "per_class_f1_change_abs": {
+        "normal": -0.11935750399854456,
+        "crackle": -0.002280117947590643,
+        "wheeze": 0.0392049508071608,
+        "both": 0.013558201058201103
+      },
+      "prediction_counts": {
+        "normal": 229,
+        "crackle": 558,
+        "wheeze": 211,
+        "both": 79
+      },
+      "predictions_changed_vs_clean": 0.2181987000928505,
+      "prediction_collapse": {
+        "class": "crackle",
+        "share": 0.5181058495821727,
+        "collapsed": false
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.3221592613027946,
+        0.47418433216853284
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.06139448012284038,
+        0.023344448322211442
+      ],
+      "degradation_stats": {
+        "peak_abs_after": {
+          "mean": 1.0272215181103836,
+          "min": 0.011995944194495678,
+          "max": 2.6102609634399414,
+          "n": 1077
+        },
+        "cycles_exceeding_full_scale": 486
+      },
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.38064516129032255,
+            "macro_f1_present_classes": 0.28580911106728685
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.4880694143167028,
+            "macro_f1_present_classes": 0.41896616894748634
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.4853168469860896,
+            "macro_f1_present_classes": 0.360697512099997
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.28378378378378377,
+            "macro_f1_present_classes": 0.1406926406926407
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.35294117647058826,
+            "macro_f1_present_classes": 0.32900432900432897
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.5569620253164557,
+            "macro_f1_present_classes": 0.41115132081776584
+          }
+        }
+      }
+    },
+    "lowpass_2000hz": {
+      "name": "lowpass_2000hz",
+      "family": "lowpass",
+      "param": 2000.0,
+      "unit": "Hz",
+      "n": 1077,
+      "macro_f1": 0.4276379485719041,
+      "balanced_accuracy": 0.4572549538307318,
+      "accuracy": 0.510677808727948,
+      "per_class_f1": {
+        "normal": 0.5720670391061452,
+        "crackle": 0.5698778833107192,
+        "wheeze": 0.38227146814404434,
+        "both": 0.18633540372670807
+      },
+      "per_class_recall": {
+        "normal": 0.5039370078740157,
+        "crackle": 0.6231454005934718,
+        "wheeze": 0.5655737704918032,
+        "both": 0.13636363636363635
+      },
+      "confusion_matrix": [
+        [
+          256,
+          159,
+          83,
+          10
+        ],
+        [
+          67,
+          210,
+          43,
+          17
+        ],
+        [
+          33,
+          11,
+          69,
+          9
+        ],
+        [
+          31,
+          20,
+          44,
+          15
+        ]
+      ],
+      "macro_f1_change_abs": 0.0005315097822501946,
+      "macro_f1_change_rel": 0.0012444433845492982,
+      "balanced_accuracy_change_abs": 0.0004921259842519676,
+      "accuracy_change_abs": 0.0009285051067781103,
+      "per_class_f1_change_abs": {
+        "normal": 0.0022346368715083775,
+        "crackle": 0.0,
+        "wheeze": 0.0010559985307846964,
+        "both": -0.0011645962732919068
+      },
+      "prediction_counts": {
+        "normal": 387,
+        "crackle": 400,
+        "wheeze": 239,
+        "both": 51
+      },
+      "predictions_changed_vs_clean": 0.002785515320334262,
+      "prediction_collapse": {
+        "class": "crackle",
+        "share": 0.3714020427112349,
+        "collapsed": false
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.3330991670771573,
+        0.5023649052999816
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.00037627089513303513,
+        0.0017589830444309507
+      ],
+      "degradation_stats": {},
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.432258064516129,
+            "macro_f1_present_classes": 0.2995920745920746
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.5238611713665944,
+            "macro_f1_present_classes": 0.436191600249762
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.4528593508500773,
+            "macro_f1_present_classes": 0.3548305892277849
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.32432432432432434,
+            "macro_f1_present_classes": 0.1699367088607595
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.6722689075630253,
+            "macro_f1_present_classes": 0.5481203007518797
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.6455696202531646,
+            "macro_f1_present_classes": 0.41847318921051646
+          }
+        }
+      }
+    },
+    "lowpass_1000hz": {
+      "name": "lowpass_1000hz",
+      "family": "lowpass",
+      "param": 1000.0,
+      "unit": "Hz",
+      "n": 1077,
+      "macro_f1": 0.1734939792996144,
+      "balanced_accuracy": 0.26663547179553376,
+      "accuracy": 0.2915506035283194,
+      "per_class_f1": {
+        "normal": 0.49590163934426235,
+        "crackle": 0.0,
+        "wheeze": 0.19807427785419535,
+        "both": 0.0
+      },
+      "per_class_recall": {
+        "normal": 0.4763779527559055,
+        "crackle": 0.0,
+        "wheeze": 0.5901639344262295,
+        "both": 0.0
+      },
+      "confusion_matrix": [
+        [
+          242,
+          3,
+          263,
+          0
+        ],
+        [
+          127,
+          0,
+          210,
+          0
+        ],
+        [
+          50,
+          0,
+          72,
+          0
+        ],
+        [
+          49,
+          1,
+          60,
+          0
+        ]
+      ],
+      "macro_f1_change_abs": -0.2536124594900395,
+      "macro_f1_change_rel": -0.5937921708900796,
+      "balanced_accuracy_change_abs": -0.19012735605094605,
+      "accuracy_change_abs": -0.21819870009285047,
+      "per_class_f1_change_abs": {
+        "normal": -0.07393076289037448,
+        "crackle": -0.5698778833107192,
+        "wheeze": -0.1831411917590643,
+        "both": -0.18749999999999997
+      },
+      "prediction_counts": {
+        "normal": 468,
+        "crackle": 4,
+        "wheeze": 605,
+        "both": 0
+      },
+      "predictions_changed_vs_clean": 0.6350974930362117,
+      "prediction_collapse": {
+        "class": "wheeze",
+        "share": 0.5617455896007428,
+        "collapsed": false
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.11353092783505153,
+        0.23829913148749654
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.3159362845207728,
+        -0.17075295947210872
+      ],
+      "degradation_stats": {},
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.2645161290322581,
+            "macro_f1_present_classes": 0.1424963924963925
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.2960954446854664,
+            "macro_f1_present_classes": 0.17925517487075476
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.15146831530139104,
+            "macro_f1_present_classes": 0.11075471698113207
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.24324324324324326,
+            "macro_f1_present_classes": 0.1292460646230323
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.6386554621848739,
+            "macro_f1_present_classes": 0.39378238341968913
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.5147679324894515,
+            "macro_f1_present_classes": 0.2557077625570776
+          }
+        }
+      }
+    },
+    "lowpass_500hz": {
+      "name": "lowpass_500hz",
+      "family": "lowpass",
+      "param": 500.0,
+      "unit": "Hz",
+      "n": 1077,
+      "macro_f1": 0.23998070624130657,
+      "balanced_accuracy": 0.32275396927843036,
+      "accuracy": 0.43268337975858867,
+      "per_class_f1": {
+        "normal": 0.5884057971014492,
+        "crackle": 0.0,
+        "wheeze": 0.37151702786377705,
+        "both": 0.0
+      },
+      "per_class_recall": {
+        "normal": 0.7992125984251969,
+        "crackle": 0.0,
+        "wheeze": 0.4918032786885246,
+        "both": 0.0
+      },
+      "confusion_matrix": [
+        [
+          406,
+          4,
+          98,
+          0
+        ],
+        [
+          313,
+          0,
+          24,
+          0
+        ],
+        [
+          62,
+          0,
+          60,
+          0
+        ],
+        [
+          91,
+          0,
+          19,
+          0
+        ]
+      ],
+      "macro_f1_change_abs": -0.18712573254834736,
+      "macro_f1_change_rel": -0.43812435391662424,
+      "balanced_accuracy_change_abs": -0.13400885856804945,
+      "accuracy_change_abs": -0.07706592386258121,
+      "per_class_f1_change_abs": {
+        "normal": 0.01857339486681242,
+        "crackle": -0.5698778833107192,
+        "wheeze": -0.00969844174948259,
+        "both": -0.18749999999999997
+      },
+      "prediction_counts": {
+        "normal": 872,
+        "crackle": 4,
+        "wheeze": 201,
+        "both": 0
+      },
+      "predictions_changed_vs_clean": 0.6128133704735376,
+      "prediction_collapse": {
+        "class": "normal",
+        "share": 0.8096564531104921,
+        "collapsed": true
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.17237212427453386,
+        0.29131422948054075
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.2827261160344807,
+        -0.08189512580825353
+      ],
+      "degradation_stats": {},
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.4129032258064516,
+            "macro_f1_present_classes": 0.22065649867374007
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.4360086767895879,
+            "macro_f1_present_classes": 0.2432756309775324
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.32921174652241114,
+            "macro_f1_present_classes": 0.20094900178621333
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.3108108108108108,
+            "macro_f1_present_classes": 0.15307659208261618
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.7142857142857143,
+            "macro_f1_present_classes": 0.4187192118226601
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.6118143459915611,
+            "macro_f1_present_classes": 0.30404866374152373
+          }
+        }
+      }
+    },
+    "dropout_10pct": {
+      "name": "dropout_10pct",
+      "family": "temporal_dropout",
+      "param": 0.1,
+      "unit": "fraction",
+      "n": 1077,
+      "macro_f1": 0.3837543856272314,
+      "balanced_accuracy": 0.39152788209148304,
+      "accuracy": 0.4911792014856082,
+      "per_class_f1": {
+        "normal": 0.5443786982248521,
+        "crackle": 0.5219638242894057,
+        "wheeze": 0.371900826446281,
+        "both": 0.09677419354838708
+      },
+      "per_class_recall": {
+        "normal": 0.5433070866141733,
+        "crackle": 0.599406528189911,
+        "wheeze": 0.36885245901639346,
+        "both": 0.05454545454545454
+      },
+      "confusion_matrix": [
+        [
+          276,
+          189,
+          41,
+          2
+        ],
+        [
+          119,
+          202,
+          15,
+          1
+        ],
+        [
+          53,
+          19,
+          45,
+          5
+        ],
+        [
+          58,
+          27,
+          19,
+          6
+        ]
+      ],
+      "macro_f1_change_abs": -0.04335205316242252,
+      "macro_f1_change_rel": -0.1015017551251973,
+      "balanced_accuracy_change_abs": -0.06523494575499678,
+      "accuracy_change_abs": -0.018570102135561706,
+      "per_class_f1_change_abs": {
+        "normal": -0.02545370400978475,
+        "crackle": -0.047914059021313515,
+        "wheeze": -0.009314643166978664,
+        "both": -0.09072580645161289
+      },
+      "prediction_counts": {
+        "normal": 506,
+        "crackle": 437,
+        "wheeze": 120,
+        "both": 14
+      },
+      "predictions_changed_vs_clean": 0.3212627669452182,
+      "prediction_collapse": {
+        "class": "normal",
+        "share": 0.46982358402971214,
+        "collapsed": false
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.3131894686067859,
+        0.44306717574155385
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.08909346192049394,
+        0.022667847154126952
+      ],
+      "degradation_stats": {
+        "dropped_fraction": {
+          "mean": 0.10086055699641247,
+          "min": 0.0823045267489712,
+          "max": 0.13333333333333333,
+          "n": 1077
+        }
+      },
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.4,
+            "macro_f1_present_classes": 0.28975825226736485
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.5065075921908894,
+            "macro_f1_present_classes": 0.4020657538755711
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.45131375579598143,
+            "macro_f1_present_classes": 0.34049116035436805
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.28378378378378377,
+            "macro_f1_present_classes": 0.1506835128417564
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.5966386554621849,
+            "macro_f1_present_classes": 0.4651685393258428
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.6118143459915611,
+            "macro_f1_present_classes": 0.4073469302635969
+          }
+        }
+      }
+    },
+    "dropout_25pct": {
+      "name": "dropout_25pct",
+      "family": "temporal_dropout",
+      "param": 0.25,
+      "unit": "fraction",
+      "n": 1077,
+      "macro_f1": 0.25632166174432214,
+      "balanced_accuracy": 0.2773651445050616,
+      "accuracy": 0.4568245125348189,
+      "per_class_f1": {
+        "normal": 0.59182156133829,
+        "crackle": 0.303030303030303,
+        "wheeze": 0.13043478260869565,
+        "both": 0.0
+      },
+      "per_class_recall": {
+        "normal": 0.7834645669291339,
+        "crackle": 0.2522255192878338,
+        "wheeze": 0.07377049180327869,
+        "both": 0.0
+      },
+      "confusion_matrix": [
+        [
+          398,
+          104,
+          6,
+          0
+        ],
+        [
+          252,
+          85,
+          0,
+          0
+        ],
+        [
+          95,
+          18,
+          9,
+          0
+        ],
+        [
+          92,
+          17,
+          1,
+          0
+        ]
+      ],
+      "macro_f1_change_abs": -0.1707847770453318,
+      "macro_f1_change_rel": -0.3998646743170307,
+      "balanced_accuracy_change_abs": -0.1793976833414182,
+      "accuracy_change_abs": -0.05292479108635095,
+      "per_class_f1_change_abs": {
+        "normal": 0.021989159103653177,
+        "crackle": -0.2668475802804162,
+        "wheeze": -0.250780687004564,
+        "both": -0.18749999999999997
+      },
+      "prediction_counts": {
+        "normal": 837,
+        "crackle": 224,
+        "wheeze": 16,
+        "both": 0
+      },
+      "predictions_changed_vs_clean": 0.5515320334261838,
+      "prediction_collapse": {
+        "class": "normal",
+        "share": 0.7771587743732591,
+        "collapsed": false
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.1915146035934777,
+        0.30042714586098745
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.27415398225413784,
+        -0.0560309473928195
+      ],
+      "degradation_stats": {
+        "dropped_fraction": {
+          "mean": 0.2508002144350238,
+          "min": 0.17695473251028807,
+          "max": 0.2729044834307992,
+          "n": 1077
+        }
+      },
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.5290322580645161,
+            "macro_f1_present_classes": 0.26923940839035176
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.44468546637744033,
+            "macro_f1_present_classes": 0.25494994698195544
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.3601236476043277,
+            "macro_f1_present_classes": 0.24870531974653448
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.527027027027027,
+            "macro_f1_present_classes": 0.20623052959501556
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.7647058823529411,
+            "macro_f1_present_classes": 0.5196078431372548
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.5443037974683544,
+            "macro_f1_present_classes": 0.24468125960061446
+          }
+        }
+      }
+    },
+    "dropout_50pct": {
+      "name": "dropout_50pct",
+      "family": "temporal_dropout",
+      "param": 0.5,
+      "unit": "fraction",
+      "n": 1077,
+      "macro_f1": 0.1660196292257361,
+      "balanced_accuracy": 0.2509988551134372,
+      "accuracy": 0.47168059424326836,
+      "per_class_f1": {
+        "normal": 0.6412213740458015,
+        "crackle": 0.022857142857142857,
+        "wheeze": 0.0,
+        "both": 0.0
+      },
+      "per_class_recall": {
+        "normal": 0.9921259842519685,
+        "crackle": 0.011869436201780416,
+        "wheeze": 0.0,
+        "both": 0.0
+      },
+      "confusion_matrix": [
+        [
+          504,
+          4,
+          0,
+          0
+        ],
+        [
+          333,
+          4,
+          0,
+          0
+        ],
+        [
+          118,
+          4,
+          0,
+          0
+        ],
+        [
+          109,
+          1,
+          0,
+          0
+        ]
+      ],
+      "macro_f1_change_abs": -0.26108680956391783,
+      "macro_f1_change_rel": -0.611292141377669,
+      "balanced_accuracy_change_abs": -0.2057639727330426,
+      "accuracy_change_abs": -0.03806870937790152,
+      "per_class_f1_change_abs": {
+        "normal": 0.07138897181116466,
+        "crackle": -0.5470207404535763,
+        "wheeze": -0.38121546961325964,
+        "both": -0.18749999999999997
+      },
+      "prediction_counts": {
+        "normal": 1064,
+        "crackle": 13,
+        "wheeze": 0,
+        "both": 0
+      },
+      "predictions_changed_vs_clean": 0.6350974930362117,
+      "prediction_collapse": {
+        "class": "normal",
+        "share": 0.9879294336118849,
+        "collapsed": true
+      },
+      "bootstrap_macro_f1_ci95": [
+        0.11996779149731053,
+        0.20628307564594792
+      ],
+      "bootstrap_change_vs_clean_ci95": [
+        -0.35814350158311825,
+        -0.14559719628048687
+      ],
+      "degradation_stats": {
+        "dropped_fraction": {
+          "mean": 0.5021446736490219,
+          "min": 0.4752186588921283,
+          "max": 0.5333333333333333,
+          "n": 1077
+        }
+      },
+      "subgroups": {
+        "original_sample_rate": {
+          "4000": {
+            "n_cycles": 155,
+            "n_patients": 3,
+            "accuracy": 0.5935483870967742,
+            "macro_f1_present_classes": 0.18699186991869918
+          },
+          "44100": {
+            "n_cycles": 922,
+            "n_patients": 16,
+            "accuracy": 0.4511930585683297,
+            "macro_f1_present_classes": 0.1614520104477063
+          }
+        },
+        "device": {
+          "AKGC417L": {
+            "n_cycles": 647,
+            "n_patients": 4,
+            "accuracy": 0.32921174652241114,
+            "macro_f1_present_classes": 0.12962090843329915
+          },
+          "Litt3200": {
+            "n_cycles": 74,
+            "n_patients": 2,
+            "accuracy": 0.5675675675675675,
+            "macro_f1_present_classes": 0.1810344827586207
+          },
+          "LittC2SE": {
+            "n_cycles": 119,
+            "n_patients": 2,
+            "accuracy": 0.9327731092436975,
+            "macro_f1_present_classes": 0.48260869565217396
+          },
+          "Meditron": {
+            "n_cycles": 237,
+            "n_patients": 12,
+            "accuracy": 0.5991561181434599,
+            "macro_f1_present_classes": 0.1878306878306878
+          }
+        }
+      }
+    }
+  },
+  "families": {
+    "gaussian_noise": {
+      "levels": [
+        "noise_snr20db",
+        "noise_snr10db",
+        "noise_snr5db",
+        "noise_snr0db"
+      ],
+      "macro_f1": [
+        0.3582704815481931,
+        0.30874304915396744,
+        0.23959129327051892,
+        0.20783977255174546
+      ],
+      "changes": [
+        -0.06883595724146085,
+        -0.11836338963568649,
+        -0.187515145519135,
+        -0.21926666623790847
+      ],
+      "mean_abs_change": 0.1484952896585477,
+      "most_severe_change": -0.21926666623790847,
+      "shape": "gradual",
+      "step_drops": [
+        0.06883595724146085,
+        0.049527432394225634,
+        0.06915175588344852,
+        0.03175152071877346
+      ],
+      "largest_step_index": 2,
+      "collapse_level_index": null,
+      "class_fails_first": {
+        "level": "noise_snr20db",
+        "class": "normal",
+        "f1_drop": 0.16510178462622682,
+        "classes_dropping": [
+          "normal",
+          "both"
+        ]
+      }
+    },
+    "amplitude_attenuation": {
+      "levels": [
+        "gain_0.5x",
+        "gain_0.25x"
+      ],
+      "macro_f1": [
+        0.4047698278792374,
+        0.34132409001472935
+      ],
+      "changes": [
+        -0.022336610910416554,
+        -0.08578234877492458
+      ],
+      "mean_abs_change": 0.054059479842670566,
+      "most_severe_change": -0.08578234877492458,
+      "shape": "collapse",
+      "step_drops": [
+        0.022336610910416554,
+        0.06344573786450802
+      ],
+      "largest_step_index": 1,
+      "collapse_level_index": 1,
+      "collapse_level": "gain_0.25x",
+      "class_fails_first": {
+        "level": "gain_0.5x",
+        "class": "crackle",
+        "f1_drop": 0.08027788331071922,
+        "classes_dropping": [
+          "crackle"
+        ]
+      }
+    },
+    "amplitude_amplification": {
+      "levels": [
+        "gain_1.5x",
+        "gain_2.0x"
+      ],
+      "macro_f1": [
+        0.4105245739195123,
+        0.4098878212694606
+      ],
+      "changes": [
+        -0.016581864870141627,
+        -0.017218617520193324
+      ],
+      "mean_abs_change": 0.016900241195167476,
+      "most_severe_change": -0.017218617520193324,
+      "shape": "gradual",
+      "step_drops": [
+        0.016581864870141627,
+        0.0006367526500516973
+      ],
+      "largest_step_index": 0,
+      "collapse_level_index": null,
+      "class_fails_first": {
+        "level": "gain_1.5x",
+        "class": "normal",
+        "f1_drop": 0.06605406470315067,
+        "classes_dropping": [
+          "normal"
+        ]
+      }
+    },
+    "lowpass": {
+      "levels": [
+        "lowpass_2000hz",
+        "lowpass_1000hz",
+        "lowpass_500hz"
+      ],
+      "macro_f1": [
+        0.4276379485719041,
+        0.1734939792996144,
+        0.23998070624130657
+      ],
+      "changes": [
+        0.0005315097822501946,
+        -0.2536124594900395,
+        -0.18712573254834736
+      ],
+      "mean_abs_change": 0.14708990060687901,
+      "most_severe_change": -0.18712573254834736,
+      "shape": "collapse",
+      "step_drops": [
+        -0.0005315097822501946,
+        0.2541439692722897,
+        -0.06648672694169216
+      ],
+      "largest_step_index": 1,
+      "collapse_level_index": 1,
+      "collapse_level": "lowpass_1000hz",
+      "class_fails_first": {
+        "level": "lowpass_1000hz",
+        "class": "crackle",
+        "f1_drop": 0.5698778833107192,
+        "classes_dropping": [
+          "crackle",
+          "both",
+          "wheeze",
+          "normal"
+        ]
+      }
+    },
+    "temporal_dropout": {
+      "levels": [
+        "dropout_10pct",
+        "dropout_25pct",
+        "dropout_50pct"
+      ],
+      "macro_f1": [
+        0.3837543856272314,
+        0.25632166174432214,
+        0.1660196292257361
+      ],
+      "changes": [
+        -0.04335205316242252,
+        -0.1707847770453318,
+        -0.26108680956391783
+      ],
+      "mean_abs_change": 0.15840787992389072,
+      "most_severe_change": -0.26108680956391783,
+      "shape": "gradual",
+      "step_drops": [
+        0.04335205316242252,
+        0.12743272388290927,
+        0.09030203251858604
+      ],
+      "largest_step_index": 1,
+      "collapse_level_index": null,
+      "class_fails_first": {
+        "level": "dropout_10pct",
+        "class": "both",
+        "f1_drop": 0.09072580645161289,
+        "classes_dropping": [
+          "both"
+        ]
+      }
+    }
+  },
+  "findings": {
+    "hurts_most_condition": "dropout_50pct",
+    "hurts_most_family_at_most_severe": "temporal_dropout",
+    "tolerated_best_family": "amplitude_amplification",
+    "conditions_within_reference_scale": [
+      "lowpass_2000hz"
+    ],
+    "prediction_collapses": [
+      "noise_snr5db",
+      "noise_snr0db",
+      "lowpass_500hz",
+      "dropout_50pct"
+    ]
+  },
+  "bootstrap": {
+    "n_bootstrap": 2000,
+    "seed": 0,
+    "unit": "patient",
+    "n_patients": 19
+  },
+  "frozen_inputs": {
+    "files": {
+      "models/baseline_cnn_v3/best.pt": {
+        "sha256": "2c2c7c03ed00b6562c63ff88be12d43bd8f9ff890074f9dac4d4ce5874e3b567",
+        "unchanged": true
+      },
+      "reports/runs/baseline_cnn_v3/history.json": {
+        "sha256": "d182079ffd9a81b3a8781a639aabaa5a158ed35743aa10bcb0c3e67ca45c32c3",
+        "unchanged": true
+      },
+      "reports/runs/baseline_cnn_v3/run.json": {
+        "sha256": "54f73f6671ec9573b81a595bb3c5ea05c4cb73a0cb5d0043d7da807c1fa861bc",
+        "unchanged": true
+      },
+      "reports/runs/baseline_cnn_v3/train_stdout.log": {
+        "sha256": "c82364c4998f259f764c0133a365d61ba5f892d12d7f8ac7d02f613a333bdbd5",
+        "unchanged": true
+      },
+      "reports/runs/baseline_cnn_v3/val_analysis.json": {
+        "sha256": "5532fafe2dc8e5a1e3d49d93827cc5d69ce040cc8e9795941061137c62dbc6b5",
+        "unchanged": true
+      },
+      "reports/runs/baseline_cnn_v3/val_predictions.csv": {
+        "sha256": "3c6f74320e60a9811c1c5508c018d745a7838ecca643a28f60e60c32ef6cf674",
+        "unchanged": true
+      },
+      "data/metadata.csv": {
+        "sha256": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf",
+        "unchanged": true
+      },
+      "data/splits/patient_split.csv": {
+        "sha256": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4",
+        "unchanged": true
+      },
+      "data/normalization/logmel_primary_train_band_stats.json": {
+        "sha256": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c",
+        "unchanged": true
+      }
+    },
+    "all_unchanged": true,
+    "checkpoint_data_sha256_matches_inputs": true
+  },
+  "clean_check": {
+    "confusion_matrix_matches_checkpoint": true,
+    "reference_predictions": "reports\\runs\\baseline_cnn_v3\\val_predictions.csv",
+    "same_cycles_and_order": true,
+    "labels_identical": true,
+    "predictions_identical": true,
+    "max_abs_probability_difference": 0.0,
+    "ok": true
+  }
+}

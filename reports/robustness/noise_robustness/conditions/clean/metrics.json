@@ -1,0 +1,75 @@
+{
+  "condition": {
+    "name": "clean",
+    "family": "clean",
+    "param": null,
+    "unit": ""
+  },
+  "status": "completed",
+  "split": "val",
+  "model_run": "baseline_cnn_v3",
+  "checkpoint_epoch": 13,
+  "test_split_evaluated": false,
+  "started": "2026-10-24T01:14:32-04:00",
+  "finished": "2026-10-24T01:15:08-04:00",
+  "elapsed_s": 36.13624405860901,
+  "overall": {
+    "per_class": {
+      "normal": {
+        "precision": 0.6589147286821705,
+        "recall": 0.5019685039370079,
+        "f1": 0.5698324022346368,
+        "support": 508
+      },
+      "crackle": {
+        "precision": 0.525,
+        "recall": 0.6231454005934718,
+        "f1": 0.5698778833107192,
+        "support": 337
+      },
+      "wheeze": {
+        "precision": 0.2875,
+        "recall": 0.5655737704918032,
+        "f1": 0.38121546961325964,
+        "support": 122
+      },
+      "both": {
+        "precision": 0.3,
+        "recall": 0.13636363636363635,
+        "f1": 0.18749999999999997,
+        "support": 110
+      }
+    },
+    "macro_f1": 0.42710643878965393,
+    "balanced_accuracy": 0.4567628278464798,
+    "accuracy": 0.5097493036211699,
+    "confusion_matrix": [
+      [
+        255,
+        160,
+        83,
+        10
+      ],
+      [
+        67,
+        210,
+        44,
+        16
+      ],
+      [
+        34,
+        10,
+        69,
+        9
+      ],
+      [
+        31,
+        20,
+        44,
+        15
+      ]
+    ],
+    "n": 1077
+  },
+  "degradation_stats": {}
+}

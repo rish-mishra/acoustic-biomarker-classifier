@@ -1,0 +1,83 @@
+{
+  "condition": {
+    "name": "noise_snr0db",
+    "family": "gaussian_noise",
+    "param": 0.0,
+    "unit": "dB SNR"
+  },
+  "status": "completed",
+  "split": "val",
+  "model_run": "baseline_cnn_v3",
+  "checkpoint_epoch": 13,
+  "test_split_evaluated": false,
+  "started": "2026-10-24T01:17:23-04:00",
+  "finished": "2026-10-24T01:18:02-04:00",
+  "elapsed_s": 38.36514902114868,
+  "overall": {
+    "per_class": {
+      "normal": {
+        "precision": 0.5576923076923077,
+        "recall": 0.17125984251968504,
+        "f1": 0.2620481927710843,
+        "support": 508
+      },
+      "crackle": {
+        "precision": 0.3578485181119649,
+        "recall": 0.9673590504451038,
+        "f1": 0.5224358974358975,
+        "support": 337
+      },
+      "wheeze": {
+        "precision": 0.5,
+        "recall": 0.02459016393442623,
+        "f1": 0.046875,
+        "support": 122
+      },
+      "both": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 110
+      }
+    },
+    "macro_f1": 0.20783977255174546,
+    "balanced_accuracy": 0.29080226422480376,
+    "accuracy": 0.3862581244196843,
+    "confusion_matrix": [
+      [
+        87,
+        415,
+        3,
+        3
+      ],
+      [
+        11,
+        326,
+        0,
+        0
+      ],
+      [
+        34,
+        84,
+        3,
+        1
+      ],
+      [
+        24,
+        86,
+        0,
+        0
+      ]
+    ],
+    "n": 1077
+  },
+  "degradation_stats": {
+    "realized_snr_db": {
+      "mean": 1.2040699993200123e-10,
+      "min": -1.1813958450918468e-08,
+      "max": 1.1685977699404014e-08,
+      "n": 1077
+    },
+    "silent_inputs": 0
+  }
+}

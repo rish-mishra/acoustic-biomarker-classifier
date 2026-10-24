@@ -1,0 +1,75 @@
+{
+  "condition": {
+    "name": "lowpass_500hz",
+    "family": "lowpass",
+    "param": 500.0,
+    "unit": "Hz"
+  },
+  "status": "completed",
+  "split": "val",
+  "model_run": "baseline_cnn_v3",
+  "checkpoint_epoch": 13,
+  "test_split_evaluated": false,
+  "started": "2026-10-24T01:22:12-04:00",
+  "finished": "2026-10-24T01:23:23-04:00",
+  "elapsed_s": 70.28058958053589,
+  "overall": {
+    "per_class": {
+      "normal": {
+        "precision": 0.46559633027522934,
+        "recall": 0.7992125984251969,
+        "f1": 0.5884057971014492,
+        "support": 508
+      },
+      "crackle": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 337
+      },
+      "wheeze": {
+        "precision": 0.29850746268656714,
+        "recall": 0.4918032786885246,
+        "f1": 0.37151702786377705,
+        "support": 122
+      },
+      "both": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 110
+      }
+    },
+    "macro_f1": 0.23998070624130657,
+    "balanced_accuracy": 0.32275396927843036,
+    "accuracy": 0.43268337975858867,
+    "confusion_matrix": [
+      [
+        406,
+        4,
+        98,
+        0
+      ],
+      [
+        313,
+        0,
+        24,
+        0
+      ],
+      [
+        62,
+        0,
+        60,
+        0
+      ],
+      [
+        91,
+        0,
+        19,
+        0
+      ]
+    ],
+    "n": 1077
+  },
+  "degradation_stats": {}
+}

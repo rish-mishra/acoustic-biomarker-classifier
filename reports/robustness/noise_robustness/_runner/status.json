@@ -1,0 +1,142 @@
+{
+  "state": "all_done",
+  "pid": 46808,
+  "started": "2026-10-24T01:14:30-04:00",
+  "conditions": {
+    "clean": {
+      "state": "completed",
+      "started": "2026-10-24T01:14:32-04:00",
+      "finished": "2026-10-24T01:15:08-04:00",
+      "elapsed_s": 36.1,
+      "macro_f1": 0.42710643878965393,
+      "n": 1077
+    },
+    "noise_snr20db": {
+      "state": "completed",
+      "started": "2026-10-24T01:15:08-04:00",
+      "finished": "2026-10-24T01:15:54-04:00",
+      "elapsed_s": 45.8,
+      "macro_f1": 0.3582704815481931,
+      "n": 1077
+    },
+    "noise_snr10db": {
+      "state": "completed",
+      "started": "2026-10-24T01:15:54-04:00",
+      "finished": "2026-10-24T01:16:39-04:00",
+      "elapsed_s": 45.2,
+      "macro_f1": 0.30874304915396744,
+      "n": 1077
+    },
+    "noise_snr5db": {
+      "state": "completed",
+      "started": "2026-10-24T01:16:39-04:00",
+      "finished": "2026-10-24T01:17:23-04:00",
+      "elapsed_s": 44.7,
+      "macro_f1": 0.23959129327051892,
+      "n": 1077
+    },
+    "noise_snr0db": {
+      "state": "completed",
+      "started": "2026-10-24T01:17:23-04:00",
+      "finished": "2026-10-24T01:18:02-04:00",
+      "elapsed_s": 38.4,
+      "macro_f1": 0.20783977255174546,
+      "n": 1077
+    },
+    "gain_0.5x": {
+      "state": "completed",
+      "started": "2026-10-24T01:18:02-04:00",
+      "finished": "2026-10-24T01:18:29-04:00",
+      "elapsed_s": 27.1,
+      "macro_f1": 0.4047698278792374,
+      "n": 1077
+    },
+    "gain_0.25x": {
+      "state": "completed",
+      "started": "2026-10-24T01:18:29-04:00",
+      "finished": "2026-10-24T01:18:56-04:00",
+      "elapsed_s": 27.5,
+      "macro_f1": 0.34132409001472935,
+      "n": 1077
+    },
+    "gain_1.5x": {
+      "state": "completed",
+      "started": "2026-10-24T01:18:56-04:00",
+      "finished": "2026-10-24T01:19:24-04:00",
+      "elapsed_s": 27.3,
+      "macro_f1": 0.4105245739195123,
+      "n": 1077
+    },
+    "gain_2.0x": {
+      "state": "completed",
+      "started": "2026-10-24T01:19:24-04:00",
+      "finished": "2026-10-24T01:19:51-04:00",
+      "elapsed_s": 27.2,
+      "macro_f1": 0.4098878212694606,
+      "n": 1077
+    },
+    "lowpass_2000hz": {
+      "state": "completed",
+      "started": "2026-10-24T01:19:51-04:00",
+      "finished": "2026-10-24T01:21:01-04:00",
+      "elapsed_s": 69.5,
+      "macro_f1": 0.4276379485719041,
+      "n": 1077
+    },
+    "lowpass_1000hz": {
+      "state": "completed",
+      "started": "2026-10-24T01:21:01-04:00",
+      "finished": "2026-10-24T01:22:12-04:00",
+      "elapsed_s": 71.8,
+      "macro_f1": 0.1734939792996144,
+      "n": 1077
+    },
+    "lowpass_500hz": {
+      "state": "completed",
+      "started": "2026-10-24T01:22:12-04:00",
+      "finished": "2026-10-24T01:23:23-04:00",
+      "elapsed_s": 70.3,
+      "macro_f1": 0.23998070624130657,
+      "n": 1077
+    },
+    "dropout_10pct": {
+      "state": "completed",
+      "started": "2026-10-24T01:23:23-04:00",
+      "finished": "2026-10-24T01:23:50-04:00",
+      "elapsed_s": 26.9,
+      "macro_f1": 0.3837543856272314,
+      "n": 1077
+    },
+    "dropout_25pct": {
+      "state": "completed",
+      "started": "2026-10-24T01:23:50-04:00",
+      "finished": "2026-10-24T01:24:19-04:00",
+      "elapsed_s": 29.0,
+      "macro_f1": 0.25632166174432214,
+      "n": 1077
+    },
+    "dropout_50pct": {
+      "state": "completed",
+      "started": "2026-10-24T01:24:19-04:00",
+      "finished": "2026-10-24T01:24:48-04:00",
+      "elapsed_s": 29.4,
+      "macro_f1": 0.1660196292257361,
+      "n": 1077
+    }
+  },
+  "git_head": "2ae37e1e53898e5b00598ea4cd7a8b30d9937b56",
+  "frozen_sha256_before": {
+    "models/baseline_cnn_v3/best.pt": "2c2c7c03ed00b6562c63ff88be12d43bd8f9ff890074f9dac4d4ce5874e3b567",
+    "reports/runs/baseline_cnn_v3/history.json": "d182079ffd9a81b3a8781a639aabaa5a158ed35743aa10bcb0c3e67ca45c32c3",
+    "reports/runs/baseline_cnn_v3/run.json": "54f73f6671ec9573b81a595bb3c5ea05c4cb73a0cb5d0043d7da807c1fa861bc",
+    "reports/runs/baseline_cnn_v3/train_stdout.log": "c82364c4998f259f764c0133a365d61ba5f892d12d7f8ac7d02f613a333bdbd5",
+    "reports/runs/baseline_cnn_v3/val_analysis.json": "5532fafe2dc8e5a1e3d49d93827cc5d69ce040cc8e9795941061137c62dbc6b5",
+    "reports/runs/baseline_cnn_v3/val_predictions.csv": "3c6f74320e60a9811c1c5508c018d745a7838ecca643a28f60e60c32ef6cf674",
+    "data/metadata.csv": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf",
+    "data/splits/patient_split.csv": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4",
+    "data/normalization/logmel_primary_train_band_stats.json": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c"
+  },
+  "updated": "2026-10-24T01:30:32-04:00",
+  "frozen_inputs_unchanged": true,
+  "post_unittest_returncode": 0
+}

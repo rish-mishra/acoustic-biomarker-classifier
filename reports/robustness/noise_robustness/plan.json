@@ -1,0 +1,153 @@
+{
+  "study": "Validation-only robustness of the frozen baseline CNN to synthetic audio degradations",
+  "declared": "2026-10-24T01:14:17-04:00",
+  "git_commit": "2ae37e1e53898e5b00598ea4cd7a8b30d9937b56",
+  "model": {
+    "run": "baseline_cnn_v3",
+    "checkpoint": "models/baseline_cnn_v3/best.pt",
+    "why": "seed-study recommendation: baseline_cnn (no convincing winner; simplest within one pooled seed SD); baseline_cnn_v3 is its frozen seed-42 configuration"
+  },
+  "split": "val",
+  "conditions": [
+    {
+      "name": "clean",
+      "family": "clean",
+      "param": null,
+      "unit": ""
+    },
+    {
+      "name": "noise_snr20db",
+      "family": "gaussian_noise",
+      "param": 20.0,
+      "unit": "dB SNR"
+    },
+    {
+      "name": "noise_snr10db",
+      "family": "gaussian_noise",
+      "param": 10.0,
+      "unit": "dB SNR"
+    },
+    {
+      "name": "noise_snr5db",
+      "family": "gaussian_noise",
+      "param": 5.0,
+      "unit": "dB SNR"
+    },
+    {
+      "name": "noise_snr0db",
+      "family": "gaussian_noise",
+      "param": 0.0,
+      "unit": "dB SNR"
+    },
+    {
+      "name": "gain_0.5x",
+      "family": "amplitude",
+      "param": 0.5,
+      "unit": "x"
+    },
+    {
+      "name": "gain_0.25x",
+      "family": "amplitude",
+      "param": 0.25,
+      "unit": "x"
+    },
+    {
+      "name": "gain_1.5x",
+      "family": "amplitude",
+      "param": 1.5,
+      "unit": "x"
+    },
+    {
+      "name": "gain_2.0x",
+      "family": "amplitude",
+      "param": 2.0,
+      "unit": "x"
+    },
+    {
+      "name": "lowpass_2000hz",
+      "family": "lowpass",
+      "param": 2000.0,
+      "unit": "Hz"
+    },
+    {
+      "name": "lowpass_1000hz",
+      "family": "lowpass",
+      "param": 1000.0,
+      "unit": "Hz"
+    },
+    {
+      "name": "lowpass_500hz",
+      "family": "lowpass",
+      "param": 500.0,
+      "unit": "Hz"
+    },
+    {
+      "name": "dropout_10pct",
+      "family": "temporal_dropout",
+      "param": 0.1,
+      "unit": "fraction"
+    },
+    {
+      "name": "dropout_25pct",
+      "family": "temporal_dropout",
+      "param": 0.25,
+      "unit": "fraction"
+    },
+    {
+      "name": "dropout_50pct",
+      "family": "temporal_dropout",
+      "param": 0.5,
+      "unit": "fraction"
+    }
+  ],
+  "definitions": {
+    "applied_to": "16 kHz cycle waveform after frozen trimming/resampling, before frozen Log-Mel (PRIMARY_CONFIG, 50-2000 Hz) and frozen train-band normalization",
+    "gaussian_noise": "white Gaussian, full 0-8 kHz band; SNR from DC-free mean-square powers; noise mean-removed and rescaled so the realized SNR is exact",
+    "amplitude": "x * gain, no clipping",
+    "lowpass": "Blackman-windowed sinc FIR, 1025 taps, unit DC gain, centered (zero phase), cutoff = -6 dB point",
+    "temporal_dropout": "20 ms blocks; round-half-up(fraction x n_blocks) random blocks set to 0",
+    "randomness": "torch.Generator per cycle, seed = sha256(base_seed|family|recording|cycle_index), base_seed 42; shared within a family"
+  },
+  "severity_order": {
+    "gaussian_noise": [
+      "noise_snr20db",
+      "noise_snr10db",
+      "noise_snr5db",
+      "noise_snr0db"
+    ],
+    "amplitude_attenuation": [
+      "gain_0.5x",
+      "gain_0.25x"
+    ],
+    "amplitude_amplification": [
+      "gain_1.5x",
+      "gain_2.0x"
+    ],
+    "lowpass": [
+      "lowpass_2000hz",
+      "lowpass_1000hz",
+      "lowpass_500hz"
+    ],
+    "temporal_dropout": [
+      "dropout_10pct",
+      "dropout_25pct",
+      "dropout_50pct"
+    ]
+  },
+  "report_rules": {
+    "reference_scale": "pooled within-architecture seed SD of validation macro F1 from the seed study (reports/runs/seed_study/summary.json); changes smaller than this are of the same size as retraining with another seed",
+    "negligible": "a family is 'negligible' if |macro-F1 change vs clean| < reference_scale at every level",
+    "collapse": "otherwise, walking clean -> mild -> severe, a family shows a 'collapse threshold' at the level reached by its largest single-step macro-F1 drop if that step is >= 0.05 and >= twice the sum of all its other positive step drops; otherwise 'gradual'",
+    "hurts_most": "lowest macro F1 among degraded conditions; per family, the change at the most severe level",
+    "tolerated_best": "family with the smallest mean |macro-F1 change| over its levels",
+    "class_fails_first": "per family, the first level (mild -> severe) at which any class's F1 drops by >= 0.05 vs clean; the class with the largest drop there",
+    "prediction_collapse": "a condition 'collapses predictions' if >= 80% of cycles are predicted as one class",
+    "uncertainty": "patient-level bootstrap (compare_runs.patient_bootstrap, 2000 resamples, seed 0) of the paired macro-F1 difference vs clean; supporting only, not used by the rules"
+  },
+  "rules": [
+    "no retraining",
+    "test split never loaded or evaluated",
+    "frozen preprocessing, normalization statistics, split, labels and checkpoint unchanged",
+    "no conditions added, removed or tuned based on results"
+  ]
+}
