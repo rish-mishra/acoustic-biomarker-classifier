@@ -1,0 +1,6 @@
+baseline_cnn_v3_s1337: epoch 20 macro-F1 0.4226 reproduced=True sha_ok=True
+crnn_v1_s1337: epoch 10 macro-F1 0.4367 reproduced=True sha_ok=True
+mobilenetv3_pretrained_v1_s1337: epoch 18 macro-F1 0.4372 reproduced=True sha_ok=True
+baseline_cnn_v3_s2026: epoch 7 macro-F1 0.4225 reproduced=True sha_ok=True
+crnn_v1_s2026: epoch 23 macro-F1 0.3869 reproduced=True sha_ok=True
+mobilenetv3_pretrained_v1_s2026: epoch 4 macro-F1 0.4194 reproduced=True sha_ok=True

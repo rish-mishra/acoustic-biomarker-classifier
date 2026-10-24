@@ -178,9 +178,11 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="Validation-only analysis of trained runs.")
     p.add_argument("runs", nargs="+")
     p.add_argument("--device", default="cuda")
+    p.add_argument("--checkpoint-dir", type=Path, default=tr.DEFAULT_CHECKPOINT_DIR)
+    p.add_argument("--reports-dir", type=Path, default=tr.DEFAULT_REPORTS_DIR)
     a = p.parse_args(argv)
     for run in a.runs:
-        res = analyze(run, device=a.device)
+        res = analyze(run, a.checkpoint_dir, a.reports_dir, device=a.device)
         print(f"{run}: epoch {res['checkpoint_epoch']} macro-F1 {res['overall']['macro_f1']:.4f} "
               f"reproduced={res['reproduces_logged_val_confusion_matrix']} sha_ok={res['data_sha256_matches_checkpoint']}")
     return 0

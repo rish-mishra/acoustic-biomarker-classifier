@@ -1,0 +1,25 @@
+device=cuda params=353,365 class_weights=[0.477, 0.932, 1.785, 3.727]
+epoch   0 | train loss 1.3507 | val loss 1.3386 macro-F1 0.2938 bal-acc 0.3038 acc 0.3463 | 396.9s pad 4.2% *
+epoch   1 | train loss 1.2899 | val loss 1.3268 macro-F1 0.3219 bal-acc 0.3249 acc 0.4652 | 329.5s pad 4.4% *
+epoch   2 | train loss 1.2425 | val loss 1.3384 macro-F1 0.3186 bal-acc 0.3383 acc 0.4661 | 420.7s pad 5.3%
+epoch   3 | train loss 1.1667 | val loss 1.2795 macro-F1 0.3668 bal-acc 0.3968 acc 0.4596 | 419.2s pad 5.9% *
+epoch   4 | train loss 1.0631 | val loss 1.2500 macro-F1 0.4047 bal-acc 0.4022 acc 0.5181 | 446.2s pad 5.6% *
+epoch   5 | train loss 0.9969 | val loss 1.3012 macro-F1 0.3892 bal-acc 0.3945 acc 0.4903 | 460.3s pad 5.3%
+epoch   6 | train loss 0.9574 | val loss 1.3989 macro-F1 0.3748 bal-acc 0.3723 acc 0.4856 | 435.7s pad 5.6%
+epoch   7 | train loss 0.9241 | val loss 1.3435 macro-F1 0.4203 bal-acc 0.4247 acc 0.5255 | 432.3s pad 5.5% *
+epoch   8 | train loss 0.9043 | val loss 1.3888 macro-F1 0.3861 bal-acc 0.3972 acc 0.4605 | 425.9s pad 5.5%
+epoch   9 | train loss 0.8807 | val loss 1.4063 macro-F1 0.4154 bal-acc 0.4201 acc 0.5144 | 442.5s pad 5.5%
+epoch  10 | train loss 0.8574 | val loss 1.4247 macro-F1 0.4367 bal-acc 0.4383 acc 0.5506 | 439.9s pad 5.5% *
+epoch  11 | train loss 0.8243 | val loss 1.5293 macro-F1 0.3795 bal-acc 0.3791 acc 0.4810 | 406.2s pad 5.6%
+epoch  12 | train loss 0.7820 | val loss 1.5179 macro-F1 0.4019 bal-acc 0.4022 acc 0.5107 | 397.4s pad 4.6%
+epoch  13 | train loss 0.7794 | val loss 1.4820 macro-F1 0.3811 bal-acc 0.3791 acc 0.4810 | 413.0s pad 4.6%
+epoch  14 | train loss 0.7282 | val loss 1.5765 macro-F1 0.4050 bal-acc 0.3960 acc 0.5339 | 449.4s pad 5.6%
+epoch  15 | train loss 0.7230 | val loss 1.5383 macro-F1 0.4038 bal-acc 0.4097 acc 0.4995 | 401.5s pad 4.8%
+epoch  16 | train loss 0.6866 | val loss 1.7083 macro-F1 0.3883 bal-acc 0.3870 acc 0.4958 | 395.8s pad 4.5%
+epoch  17 | train loss 0.6407 | val loss 1.7379 macro-F1 0.3964 bal-acc 0.3966 acc 0.5051 | 407.2s pad 3.9%
+epoch  18 | train loss 0.6212 | val loss 1.7779 macro-F1 0.3719 bal-acc 0.3773 acc 0.4652 | 400.3s pad 5.6%
+epoch  19 | train loss 0.6009 | val loss 2.0697 macro-F1 0.3755 bal-acc 0.3680 acc 0.5311 | 436.1s pad 4.1%
+epoch  20 | train loss 0.5812 | val loss 1.9105 macro-F1 0.3905 bal-acc 0.3947 acc 0.5097 | 394.3s pad 5.8%
+early_stopping: no val macro-F1 improvement for 10 epochs
+best epoch 10: val macro-F1 0.4367; early_stopping: no val macro-F1 improvement for 10 epochs
+reports: reports\runs\seed_study\crnn_v1_s1337  checkpoint: models\seed_study\crnn_v1_s1337\best.pt

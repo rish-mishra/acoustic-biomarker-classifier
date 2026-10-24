@@ -1,0 +1,219 @@
+{
+  "run_name": "baseline_cnn_v3_s2026",
+  "status": "completed",
+  "started_utc": "2026-10-23T06:27:30+00:00",
+  "seed": 2026,
+  "config": {
+    "run_name": "baseline_cnn_v3_s2026",
+    "model": "baseline_cnn",
+    "seed": 2026,
+    "max_epochs": 60,
+    "patience": 10,
+    "batch_size": 32,
+    "lr": 0.0001,
+    "weight_decay": 0.01,
+    "dropout": 0.3,
+    "channels": [
+      16,
+      32,
+      64,
+      128
+    ],
+    "grad_clip_norm": 5.0,
+    "use_bucketing": true,
+    "bucket_pool_multiplier": 50,
+    "num_workers": 0,
+    "device": "cuda",
+    "checkpoint_dir": "models/seed_study",
+    "reports_dir": "reports/runs/seed_study",
+    "extra": {}
+  },
+  "max_train_batches": null,
+  "model": {
+    "name": "baseline_cnn",
+    "class": "BaselineCNN",
+    "parameter_count": 294740,
+    "architecture": "BaselineCNN(\n  (blocks): ModuleList(\n    (0): ConvBlock(\n      (conv1): Conv2d(1, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (norm1): MaskedGroupNorm()\n      (conv2): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (norm2): MaskedGroupNorm()\n      (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=True)\n    )\n    (1): ConvBlock(\n      (conv1): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (norm1): MaskedGroupNorm()\n      (conv2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (norm2): MaskedGroupNorm()\n      (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=True)\n    )\n    (2): ConvBlock(\n      (conv1): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (norm1): MaskedGroupNorm()\n      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (norm2): MaskedGroupNorm()\n      (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=True)\n    )\n    (3): ConvBlock(\n      (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (norm1): MaskedGroupNorm()\n      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (norm2): MaskedGroupNorm()\n      (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=True)\n    )\n  )\n  (dropout): Dropout(p=0.3, inplace=False)\n  (classifier): Linear(in_features=256, out_features=4, bias=True)\n)"
+  },
+  "class_names": [
+    "normal",
+    "crackle",
+    "wheeze",
+    "both"
+  ],
+  "class_weights": {
+    "normal": 0.4765782058238983,
+    "crackle": 0.9318003058433533,
+    "wheeze": 1.7850151062011719,
+    "both": 3.727201223373413
+  },
+  "class_weight_source": "train split label counts: N / (K * n_c)",
+  "optimizer": {
+    "type": "AdamW",
+    "lr": 0.0001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.01,
+    "amsgrad": false,
+    "maximize": false,
+    "capturable": false,
+    "differentiable": false,
+    "decoupled_weight_decay": true
+  },
+  "loss": "CrossEntropyLoss(weight=class_weights)",
+  "selection_metric": "val_macro_f1",
+  "test_split_evaluated": false,
+  "data": {
+    "metadata": {
+      "path": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\metadata.csv",
+      "sha256": "19b2f39ada720ee4e3ce2284ed6936ad1b3ea18eb0215ebec38e809f0643d1bf"
+    },
+    "split_file": {
+      "path": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\splits\\patient_split.csv",
+      "sha256": "a5f61582b9048af097db8ec64c3278954d698d251773109a2db78efb26950ab4"
+    },
+    "normalization_stats": {
+      "path": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\normalization\\logmel_primary_train_band_stats.json",
+      "sha256": "9f455708587724e6f7ccc37f088f2ed5978d1847a7000307aa5acf81bdf9bf9c"
+    },
+    "audio_dir": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\data\\raw\\Respiratory_Sound_Database\\Respiratory_Sound_Database\\audio_and_txt_files",
+    "checks": {
+      "normalizer_used_matches_stats_file": true,
+      "stats_file_fitted_on_current_split_file": true,
+      "stats_file_fitted_on_current_metadata": true,
+      "val_uses_same_split_file": true
+    },
+    "datasets": {
+      "train": {
+        "cycles": 4741,
+        "patients": 88,
+        "label_counts": {
+          "normal": 2487,
+          "crackle": 1272,
+          "wheeze": 664,
+          "both": 318
+        }
+      },
+      "val": {
+        "cycles": 1077,
+        "patients": 19,
+        "label_counts": {
+          "normal": 508,
+          "crackle": 337,
+          "wheeze": 122,
+          "both": 110
+        }
+      }
+    },
+    "log_mel_config": {
+      "sample_rate": 16000,
+      "win_length": 512,
+      "hop_length": 160,
+      "n_fft": 512,
+      "f_min": 50.0,
+      "f_max": 2000.0,
+      "n_mels": 64,
+      "log_floor": 1e-10
+    }
+  },
+  "code": {
+    "git_commit": "ac778e77fd03d73c69fa5c07f3b3b31f034f2ecd",
+    "git_dirty": true,
+    "git_uncommitted_paths": [
+      "rc/evaluation/analyze_run.py",
+      "reports/runs/seed_study/",
+      "src/evaluation/seed_study.py",
+      "src/models/run_seed_study.py",
+      "tests/test_seed_study.py"
+    ]
+  },
+  "environment": {
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.11.0+cu130",
+    "torchaudio": "2.11.0+cu130",
+    "numpy": "2.4.6",
+    "soundfile": "0.14.0",
+    "torch_cuda_build": "13.0",
+    "cudnn": 91900,
+    "cuda_available": true,
+    "device": "cuda",
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false,
+    "deterministic_algorithms": true,
+    "cublas_workspace_config": ":4096:8",
+    "gpu_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "gpu_total_memory_mb": 6140,
+    "gpu_compute_capability": "8.9",
+    "nvidia_driver": "595.97"
+  },
+  "checkpoint": "models\\seed_study\\baseline_cnn_v3_s2026\\best.pt",
+  "finished_utc": "2026-10-23T07:42:54+00:00",
+  "epochs_completed": 18,
+  "stop_reason": "early_stopping: no val macro-F1 improvement for 10 epochs",
+  "total_training_time_s": 4523.430825899995,
+  "best_epoch": 7,
+  "best_validation": {
+    "per_class": {
+      "normal": {
+        "precision": 0.5724137931034483,
+        "recall": 0.6535433070866141,
+        "f1": 0.6102941176470588,
+        "support": 508
+      },
+      "crackle": {
+        "precision": 0.5732899022801303,
+        "recall": 0.5222551928783383,
+        "f1": 0.546583850931677,
+        "support": 337
+      },
+      "wheeze": {
+        "precision": 0.32061068702290074,
+        "recall": 0.3442622950819672,
+        "f1": 0.3320158102766798,
+        "support": 122
+      },
+      "both": {
+        "precision": 0.288135593220339,
+        "recall": 0.15454545454545454,
+        "f1": 0.2011834319526627,
+        "support": 110
+      }
+    },
+    "macro_f1": 0.4225193027020196,
+    "balanced_accuracy": 0.41865156239809354,
+    "accuracy": 0.5264623955431755,
+    "confusion_matrix": [
+      [
+        332,
+        112,
+        51,
+        13
+      ],
+      [
+        126,
+        176,
+        19,
+        16
+      ],
+      [
+        58,
+        9,
+        42,
+        13
+      ],
+      [
+        64,
+        10,
+        19,
+        17
+      ]
+    ],
+    "n": 1077,
+    "loss": 1.2915039763145129
+  },
+  "peak_gpu_memory_mb": 3475.3720703125
+}

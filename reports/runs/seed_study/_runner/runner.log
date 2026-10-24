@@ -1,0 +1,21 @@
+[2026-10-22T21:48:13-04:00] RUNNER START pid 41132; git HEAD ac778e77fd03d73c69fa5c07f3b3b31f034f2ecd
+[2026-10-22T21:48:13-04:00] nvidia-smi: NVIDIA GeForce RTX 4050 Laptop GPU, 8 %, 930 MiB, 6141 MiB
+[2026-10-22T21:48:13-04:00] REUSE baseline_cnn_v3_s1337
+[2026-10-22T21:48:13-04:00] START crnn_v1_s1337 (pid 45232): C:\Users\HiRis\Documents\acoustic-biomarker-classifier\.venv\Scripts\python.exe -u src/models/train.py --run-name crnn_v1_s1337 --model crnn --lr 1e-4 --seed 1337 --checkpoint-dir models/seed_study --reports-dir reports/runs/seed_study
+[2026-10-23T00:14:46-04:00] COMPLETE crnn_v1_s1337: 21 epochs, best epoch 10, 146.5 min; early_stopping: no val macro-F1 improvement for 10 epochs
+[2026-10-23T00:14:46-04:00] START mobilenetv3_pretrained_v1_s1337 (pid 47024): C:\Users\HiRis\Documents\acoustic-biomarker-classifier\.venv\Scripts\python.exe -u src/models/train.py --run-name mobilenetv3_pretrained_v1_s1337 --model mobilenetv3_pretrained --lr 1e-4 --seed 1337 --checkpoint-dir models/seed_study --reports-dir reports/runs/seed_study
+[2026-10-23T02:27:18-04:00] COMPLETE mobilenetv3_pretrained_v1_s1337: 29 epochs, best epoch 18, 132.5 min; early_stopping: no val macro-F1 improvement for 10 epochs
+[2026-10-23T02:27:19-04:00] START baseline_cnn_v3_s2026 (pid 25536): C:\Users\HiRis\Documents\acoustic-biomarker-classifier\.venv\Scripts\python.exe -u src/models/train.py --run-name baseline_cnn_v3_s2026 --model baseline_cnn --lr 1e-4 --seed 2026 --checkpoint-dir models/seed_study --reports-dir reports/runs/seed_study
+[2026-10-23T03:43:20-04:00] COMPLETE baseline_cnn_v3_s2026: 18 epochs, best epoch 7, 76.0 min; early_stopping: no val macro-F1 improvement for 10 epochs
+[2026-10-23T03:43:21-04:00] START crnn_v1_s2026 (pid 47540): C:\Users\HiRis\Documents\acoustic-biomarker-classifier\.venv\Scripts\python.exe -u src/models/train.py --run-name crnn_v1_s2026 --model crnn --lr 1e-4 --seed 2026 --checkpoint-dir models/seed_study --reports-dir reports/runs/seed_study
+[2026-10-23T06:49:54-04:00] COMPLETE crnn_v1_s2026: 34 epochs, best epoch 23, 186.6 min; early_stopping: no val macro-F1 improvement for 10 epochs
+[2026-10-23T06:49:55-04:00] START mobilenetv3_pretrained_v1_s2026 (pid 38792): C:\Users\HiRis\Documents\acoustic-biomarker-classifier\.venv\Scripts\python.exe -u src/models/train.py --run-name mobilenetv3_pretrained_v1_s2026 --model mobilenetv3_pretrained --lr 1e-4 --seed 2026 --checkpoint-dir models/seed_study --reports-dir reports/runs/seed_study
+[2026-10-23T23:44:44-04:00] COMPLETE mobilenetv3_pretrained_v1_s2026: 15 epochs, best epoch 4, 1014.8 min; early_stopping: no val macro-F1 improvement for 10 epochs
+[2026-10-23T23:44:44-04:00] START post step analyze_run
+[2026-10-23T23:47:36-04:00] COMPLETE post step analyze_run (returncode 0)
+[2026-10-23T23:47:36-04:00] COMPLETE post step verify_reproduction: baseline_cnn_v3_s1337=ok, crnn_v1_s1337=ok, mobilenetv3_pretrained_v1_s1337=ok, baseline_cnn_v3_s2026=ok, crnn_v1_s2026=ok, mobilenetv3_pretrained_v1_s2026=ok
+[2026-10-23T23:47:36-04:00] START post step unittest
+[2026-10-23T23:50:12-04:00] COMPLETE post step unittest (returncode 0)
+[2026-10-23T23:50:12-04:00] START post step seed_study
+[2026-10-23T23:50:12-04:00] COMPLETE post step seed_study (returncode 0)
+[2026-10-23T23:50:12-04:00] RUNNER END: all_done

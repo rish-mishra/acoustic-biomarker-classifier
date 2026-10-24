@@ -1,0 +1,4 @@
+baseline_cnn: macro F1 0.4241 ± 0.0026 (0.4271, 0.4226, 0.4225)
+crnn: macro F1 0.4130 ± 0.0250 (0.4153, 0.4367, 0.3869)
+mobilenetv3_pretrained: macro F1 0.4316 ± 0.0105 (0.4381, 0.4372, 0.4194)
+pooled seed SD 0.0157; recommendation: baseline_cnn

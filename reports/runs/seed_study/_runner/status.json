@@ -1,0 +1,130 @@
+{
+  "state": "all_done",
+  "pid": 41132,
+  "started": "2026-10-22T21:48:12-04:00",
+  "updated": "2026-10-23T23:50:12-04:00",
+  "runs": {
+    "baseline_cnn_v3_s1337": {
+      "architecture": "baseline_cnn",
+      "seed": 1337,
+      "state": "reused_completed",
+      "cmd": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\.venv\\Scripts\\python.exe -u src/models/train.py --run-name baseline_cnn_v3_s1337 --model baseline_cnn --lr 1e-4 --seed 1337 --checkpoint-dir models/seed_study --reports-dir reports/runs/seed_study"
+    },
+    "crnn_v1_s1337": {
+      "architecture": "crnn",
+      "seed": 1337,
+      "state": "completed",
+      "cmd": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\.venv\\Scripts\\python.exe -u src/models/train.py --run-name crnn_v1_s1337 --model crnn --lr 1e-4 --seed 1337 --checkpoint-dir models/seed_study --reports-dir reports/runs/seed_study",
+      "started": "2026-10-22T21:48:13-04:00",
+      "child_pid": 45232,
+      "log": "reports\\runs\\seed_study\\crnn_v1_s1337\\train_stdout.log",
+      "elapsed_min": 146.5,
+      "last_log_line": "reports: reports\\runs\\seed_study\\crnn_v1_s1337  checkpoint: models\\seed_study\\crnn_v1_s1337\\best.pt",
+      "returncode": 0,
+      "finished": "2026-10-23T00:14:46-04:00",
+      "epochs_completed": 21,
+      "best_epoch": 10,
+      "stop_reason": "early_stopping: no val macro-F1 improvement for 10 epochs"
+    },
+    "mobilenetv3_pretrained_v1_s1337": {
+      "architecture": "mobilenetv3_pretrained",
+      "seed": 1337,
+      "state": "completed",
+      "cmd": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\.venv\\Scripts\\python.exe -u src/models/train.py --run-name mobilenetv3_pretrained_v1_s1337 --model mobilenetv3_pretrained --lr 1e-4 --seed 1337 --checkpoint-dir models/seed_study --reports-dir reports/runs/seed_study",
+      "started": "2026-10-23T00:14:46-04:00",
+      "child_pid": 47024,
+      "log": "reports\\runs\\seed_study\\mobilenetv3_pretrained_v1_s1337\\train_stdout.log",
+      "elapsed_min": 132.5,
+      "last_log_line": "reports: reports\\runs\\seed_study\\mobilenetv3_pretrained_v1_s1337  checkpoint: models\\seed_study\\mobilenetv3_pretrained_v1_s1337\\best.pt",
+      "returncode": 0,
+      "finished": "2026-10-23T02:27:18-04:00",
+      "epochs_completed": 29,
+      "best_epoch": 18,
+      "stop_reason": "early_stopping: no val macro-F1 improvement for 10 epochs"
+    },
+    "baseline_cnn_v3_s2026": {
+      "architecture": "baseline_cnn",
+      "seed": 2026,
+      "state": "completed",
+      "cmd": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\.venv\\Scripts\\python.exe -u src/models/train.py --run-name baseline_cnn_v3_s2026 --model baseline_cnn --lr 1e-4 --seed 2026 --checkpoint-dir models/seed_study --reports-dir reports/runs/seed_study",
+      "started": "2026-10-23T02:27:19-04:00",
+      "child_pid": 25536,
+      "log": "reports\\runs\\seed_study\\baseline_cnn_v3_s2026\\train_stdout.log",
+      "elapsed_min": 76.0,
+      "last_log_line": "reports: reports\\runs\\seed_study\\baseline_cnn_v3_s2026  checkpoint: models\\seed_study\\baseline_cnn_v3_s2026\\best.pt",
+      "returncode": 0,
+      "finished": "2026-10-23T03:43:20-04:00",
+      "epochs_completed": 18,
+      "best_epoch": 7,
+      "stop_reason": "early_stopping: no val macro-F1 improvement for 10 epochs"
+    },
+    "crnn_v1_s2026": {
+      "architecture": "crnn",
+      "seed": 2026,
+      "state": "completed",
+      "cmd": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\.venv\\Scripts\\python.exe -u src/models/train.py --run-name crnn_v1_s2026 --model crnn --lr 1e-4 --seed 2026 --checkpoint-dir models/seed_study --reports-dir reports/runs/seed_study",
+      "started": "2026-10-23T03:43:21-04:00",
+      "child_pid": 47540,
+      "log": "reports\\runs\\seed_study\\crnn_v1_s2026\\train_stdout.log",
+      "elapsed_min": 186.6,
+      "last_log_line": "reports: reports\\runs\\seed_study\\crnn_v1_s2026  checkpoint: models\\seed_study\\crnn_v1_s2026\\best.pt",
+      "returncode": 0,
+      "finished": "2026-10-23T06:49:54-04:00",
+      "epochs_completed": 34,
+      "best_epoch": 23,
+      "stop_reason": "early_stopping: no val macro-F1 improvement for 10 epochs"
+    },
+    "mobilenetv3_pretrained_v1_s2026": {
+      "architecture": "mobilenetv3_pretrained",
+      "seed": 2026,
+      "state": "completed",
+      "cmd": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\.venv\\Scripts\\python.exe -u src/models/train.py --run-name mobilenetv3_pretrained_v1_s2026 --model mobilenetv3_pretrained --lr 1e-4 --seed 2026 --checkpoint-dir models/seed_study --reports-dir reports/runs/seed_study",
+      "started": "2026-10-23T06:49:55-04:00",
+      "child_pid": 38792,
+      "log": "reports\\runs\\seed_study\\mobilenetv3_pretrained_v1_s2026\\train_stdout.log",
+      "elapsed_min": 1014.8,
+      "last_log_line": "reports: reports\\runs\\seed_study\\mobilenetv3_pretrained_v1_s2026  checkpoint: models\\seed_study\\mobilenetv3_pretrained_v1_s2026\\best.pt",
+      "returncode": 0,
+      "finished": "2026-10-23T23:44:44-04:00",
+      "epochs_completed": 15,
+      "best_epoch": 4,
+      "stop_reason": "early_stopping: no val macro-F1 improvement for 10 epochs"
+    }
+  },
+  "post": {
+    "analyze_run": {
+      "state": "completed",
+      "started": "2026-10-23T23:44:44-04:00",
+      "cmd": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\.venv\\Scripts\\python.exe src/evaluation/analyze_run.py baseline_cnn_v3_s1337 crnn_v1_s1337 mobilenetv3_pretrained_v1_s1337 baseline_cnn_v3_s2026 crnn_v1_s2026 mobilenetv3_pretrained_v1_s2026 --checkpoint-dir models/seed_study --reports-dir reports/runs/seed_study",
+      "returncode": 0,
+      "finished": "2026-10-23T23:47:36-04:00"
+    },
+    "verify_reproduction": {
+      "state": "completed",
+      "finished": "2026-10-23T23:47:36-04:00"
+    },
+    "unittest": {
+      "state": "completed",
+      "started": "2026-10-23T23:47:36-04:00",
+      "cmd": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\.venv\\Scripts\\python.exe -m unittest discover -s tests -v",
+      "returncode": 0,
+      "finished": "2026-10-23T23:50:12-04:00"
+    },
+    "seed_study": {
+      "state": "completed",
+      "started": "2026-10-23T23:50:12-04:00",
+      "cmd": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\.venv\\Scripts\\python.exe src/evaluation/seed_study.py",
+      "returncode": 0,
+      "finished": "2026-10-23T23:50:12-04:00"
+    }
+  },
+  "git_head": "ac778e77fd03d73c69fa5c07f3b3b31f034f2ecd",
+  "git_status": [
+    "M src/evaluation/analyze_run.py",
+    "?? reports/runs/seed_study/",
+    "?? src/evaluation/seed_study.py",
+    "?? src/models/run_seed_study.py",
+    "?? tests/test_seed_study.py"
+  ],
+  "python": "C:\\Users\\HiRis\\Documents\\acoustic-biomarker-classifier\\.venv\\Scripts\\python.exe"
+}

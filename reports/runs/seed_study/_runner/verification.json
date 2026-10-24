@@ -1,0 +1,74 @@
+{
+  "baseline_cnn_v3_s1337": {
+    "all_ok": true,
+    "split_is_val": true,
+    "checkpoint_epoch_is_best_epoch": true,
+    "confusion_matrix_identical": true,
+    "macro_f1_matches": true,
+    "balanced_accuracy_matches": true,
+    "accuracy_matches": true,
+    "reproduces_logged_val_confusion_matrix": true,
+    "data_sha256_matches_checkpoint": true,
+    "test_split_not_evaluated": true
+  },
+  "crnn_v1_s1337": {
+    "all_ok": true,
+    "split_is_val": true,
+    "checkpoint_epoch_is_best_epoch": true,
+    "confusion_matrix_identical": true,
+    "macro_f1_matches": true,
+    "balanced_accuracy_matches": true,
+    "accuracy_matches": true,
+    "reproduces_logged_val_confusion_matrix": true,
+    "data_sha256_matches_checkpoint": true,
+    "test_split_not_evaluated": true
+  },
+  "mobilenetv3_pretrained_v1_s1337": {
+    "all_ok": true,
+    "split_is_val": true,
+    "checkpoint_epoch_is_best_epoch": true,
+    "confusion_matrix_identical": true,
+    "macro_f1_matches": true,
+    "balanced_accuracy_matches": true,
+    "accuracy_matches": true,
+    "reproduces_logged_val_confusion_matrix": true,
+    "data_sha256_matches_checkpoint": true,
+    "test_split_not_evaluated": true
+  },
+  "baseline_cnn_v3_s2026": {
+    "all_ok": true,
+    "split_is_val": true,
+    "checkpoint_epoch_is_best_epoch": true,
+    "confusion_matrix_identical": true,
+    "macro_f1_matches": true,
+    "balanced_accuracy_matches": true,
+    "accuracy_matches": true,
+    "reproduces_logged_val_confusion_matrix": true,
+    "data_sha256_matches_checkpoint": true,
+    "test_split_not_evaluated": true
+  },
+  "crnn_v1_s2026": {
+    "all_ok": true,
+    "split_is_val": true,
+    "checkpoint_epoch_is_best_epoch": true,
+    "confusion_matrix_identical": true,
+    "macro_f1_matches": true,
+    "balanced_accuracy_matches": true,
+    "accuracy_matches": true,
+    "reproduces_logged_val_confusion_matrix": true,
+    "data_sha256_matches_checkpoint": true,
+    "test_split_not_evaluated": true
+  },
+  "mobilenetv3_pretrained_v1_s2026": {
+    "all_ok": true,
+    "split_is_val": true,
+    "checkpoint_epoch_is_best_epoch": true,
+    "confusion_matrix_identical": true,
+    "macro_f1_matches": true,
+    "balanced_accuracy_matches": true,
+    "accuracy_matches": true,
+    "reproduces_logged_val_confusion_matrix": true,
+    "data_sha256_matches_checkpoint": true,
+    "test_split_not_evaluated": true
+  }
+}

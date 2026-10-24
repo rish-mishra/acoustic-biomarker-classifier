@@ -20,3 +20,6 @@ data/raw/
 data/metadata.csv
 # Interrupted experiment runs
 reports/runs/_interrupted/
+# Seed-study runner runtime files (lock / atomic-write temp)
+reports/runs/seed_study/_runner/runner.lock
+reports/runs/seed_study/_runner/*.tmp
