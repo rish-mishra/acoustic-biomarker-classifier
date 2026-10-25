@@ -1,0 +1,26 @@
+{
+  "stage": "robustness-test",
+  "locked": "2026-10-24T19:49:40-04:00",
+  "protocol_sha256": "05f7fd0048f49d9a0d018319142fc6b07397b46dff97995e1bcda07eeb524f65",
+  "checkpoint_sha256": "2c2c7c03ed00b6562c63ff88be12d43bd8f9ff890074f9dac4d4ce5874e3b567",
+  "git_head": "ee3930e446b0283f5123749c773cdd46917d10d3",
+  "files": {
+    "summary.json": "582241d1db239f20fa8e40aed95fa50a9cede24f92e7e295141715147ca497a4",
+    "summary.md": "d8be91889d3890c4e333d3c03dc9bd4a3ca36840b6f6f02777ba781f9c996dd8",
+    "conditions/clean/predictions.csv": "a433f3463c10b0d2123b9bc18bb65d1d02c27f2bae05264b1aa40c5aa49b3453",
+    "conditions/noise_snr20db/predictions.csv": "a7904959f533be2cb08c19de93422d6ba7ec235d0443f07a1f404101ca1362be",
+    "conditions/noise_snr10db/predictions.csv": "faf6eb5fdffb2f15ce72209eec06a3832e7cb58362bef29cb5cb1ace05a04c18",
+    "conditions/noise_snr5db/predictions.csv": "06ca72d52dfcc66170c876bfb9865d3e5dfde77b710bd3c22a1bb0f47e2b9fc1",
+    "conditions/noise_snr0db/predictions.csv": "8e636db54231356cbbd38fcebfd8937d909a1b4c3e31d29e5003b92b5346c1b6",
+    "conditions/gain_0.5x/predictions.csv": "1526e31c6ab1009b4a2075564fff3d7da8dfc0b55de99faa28543765887b17ff",
+    "conditions/gain_0.25x/predictions.csv": "333c2c477bc830fe00902eb7c73ffd6c0128d0add04e93ca23c88ef98f361eca",
+    "conditions/gain_1.5x/predictions.csv": "eaa77f5b7fdf4d83500622fdeb8809cbd8680032e3ac212e8448f49347d2c9f5",
+    "conditions/gain_2.0x/predictions.csv": "dd73eb385a363678454e7f53089077be9ef0a19510cdd98b5914c6ff51ef1e38",
+    "conditions/lowpass_2000hz/predictions.csv": "9ca46ccc969aca7c3f701b4ff60de67ee1eaeb75f25b0d9a043dc5aa83af3366",
+    "conditions/lowpass_1000hz/predictions.csv": "62ed58d6eba20e5357939ac6d919b0d729a7a028a2786e7ed0016bf6da0b9158",
+    "conditions/lowpass_500hz/predictions.csv": "8c5df1ddcf1c2528e80339d559f03b8f1ecef8f4e48ccbc3ce8291111c90d6b7",
+    "conditions/dropout_10pct/predictions.csv": "e490931807d757a2995c2b63a59f5e3cc33ba5023940e56de719cb9c77490d8d",
+    "conditions/dropout_25pct/predictions.csv": "d9d030ead812de8cd84da7d4b9eb900c2b4823fe10ca7f221cd5ee48c39ef013",
+    "conditions/dropout_50pct/predictions.csv": "8139bfa73ed939084a809ccb64110fd3a22ce51d406ec785fe42386689d70377"
+  }
+}
