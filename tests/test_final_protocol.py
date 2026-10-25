@@ -120,9 +120,29 @@ class TestAuditAndProtocol(unittest.TestCase):
                                                            "soundfile", "cuda_build", "gpu", "pip_freeze")})
 
     def test_audit_passes(self):
-        self.assertTrue(self.audit["passed"], self.audit)
+        """Test-access audit in both states.
+
+        Pre-unlock (no clean_test/ or robustness_test/): the original requirement, i.e. the audit passes with no
+        test predictions, no callers of the test-unlock path and no committed test artifacts.
+        Post-unlock: every audit finding must be a sanctioned, lock-verified final-evaluation output or the frozen
+        evaluator itself; see TestPostUnlockAudit and reports/final_evaluation/post_evaluation_note.md.
+        """
         self.assertEqual(self.audit["datasets_used_by_any_training_run"], ["train", "val"])
         self.assertEqual(self.audit["test_patients"], 19)
+        # findings that must stay empty in BOTH states (test mentions / flags / splits outside final_evaluation/)
+        for key in ("report_or_model_files_mentioning_a_test_recording", "json_records_with_test_split_evaluated_true",
+                    "non_validation_split_values_in_report_json"):
+            self.assertEqual(self.audit[key], [], key)
+        if not any((FINAL / d).exists() for d in ("clean_test", "robustness_test")):
+            self.assertTrue(self.audit["passed"], self.audit)  # pre-unlock: original requirement, unchanged
+        else:
+            post = PostUnlock()
+            self.assertEqual(sorted(norm(p) for p in self.audit["prediction_csvs_containing_test_patients"]),
+                             sorted(post.sanctioned_prediction_csvs))
+            for line in self.audit["code_calling_evaluate_with_allow_test_true"]:
+                self.assertIn(line.split(":", 1)[0], ALLOW_TEST_FILES, line)
+            for path in self.audit["test_like_files_ever_committed"]:
+                self.assertTrue(path.startswith(SANCTIONED_TEST_DIRS) or path in TEST_NAMED_NON_OUTPUTS, path)
 
     def test_frozen_values_come_from_artifacts(self):
         cal = json.loads((REPO_ROOT / "reports/calibration_uncertainty/summary.json").read_text(encoding="utf-8"))
@@ -147,6 +167,164 @@ class TestAuditAndProtocol(unittest.TestCase):
         for text in ("Primary metric: macro F1", "Frozen temperature T = ", "τ80 =", "Test-access audit",
                      "Freeze manifest", "Unlock procedure", "cannot change any predicted class"):
             self.assertIn(text, md)
+
+
+# ---------------------------------------------------------------- post-unlock audit (sanctioned outputs only)
+
+FINAL = REPO_ROOT / "reports" / "final_evaluation"
+SANCTIONED_TEST_DIRS = ("reports/final_evaluation/clean_test/", "reports/final_evaluation/robustness_test/")
+EXPLORATORY_DIR = "reports/final_evaluation/exploratory/"
+EXPLORATORY_LABEL = "POST-HOC EXPLORATORY — NOT PREDECLARED"
+# files whose path contains "test" but which are code, not test outputs (explicit list, never a pattern)
+TEST_NAMED_NON_OUTPUTS = {"src/evaluation/exploratory_test_analysis.py"}
+# the only files allowed to call the unlock path; all of them are frozen in protocol v3 (checked below)
+ALLOW_TEST_FILES = {"src/evaluation/final_evaluation.py", "src/evaluation/final_protocol.py",
+                    "tests/test_final_evaluation.py"}
+# files allowed to differ from the protocol-v3 manifest: post-evaluation documentation / test maintenance only
+POST_EVALUATION_MAINTENANCE = {"README.md", "tests/test_final_protocol.py"}
+
+
+def norm(p) -> str:
+    return str(p).replace("\\", "/")
+
+
+def unsanctioned_test_outputs(root: Path, test_patients: set[str], sanctioned: list[str]) -> list[str]:
+    """CSV files under <root>/reports containing test-patient rows that are neither a sanctioned (lock-listed)
+    prediction file nor a labelled post-hoc exploratory derivative; also reports sanctioned files that are missing."""
+    import csv
+    found = set()
+    for p in (Path(root) / "reports").rglob("*.csv"):
+        with open(p, newline="", encoding="utf-8") as f:
+            lines = [line for line in f if not line.startswith("#")]
+        rows = list(csv.DictReader(lines))
+        if rows and "patient_id" in rows[0] and {r["patient_id"] for r in rows} & test_patients:
+            found.add(norm(p.relative_to(root)))
+    bad = []
+    for p in sorted(found):
+        if p in sanctioned:
+            continue
+        labelled = p.startswith(EXPLORATORY_DIR) and \
+            (Path(root) / p).read_text(encoding="utf-8").startswith(f"# {EXPLORATORY_LABEL}")
+        if not labelled:
+            bad.append(p)
+    return bad + [f"missing: {p}" for p in sanctioned if p not in found]
+
+
+class TestAuditRejectsViolations(unittest.TestCase):
+    """The post-unlock audit must not admit arbitrary test files."""
+
+    def test_scan_flags_unsanctioned_and_unlabelled_outputs(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            ok = "reports/final_evaluation/clean_test/predictions.csv"
+            for rel, header in ((ok, ""), ("reports/runs/x/val_predictions.csv", ""),
+                                ("reports/final_evaluation/exploratory/a.csv", f"# {EXPLORATORY_LABEL}\n"),
+                                ("reports/final_evaluation/exploratory/b.csv", ""),
+                                ("reports/other/leak.csv", "")):
+                (root / rel).parent.mkdir(parents=True, exist_ok=True)
+                pid = "999" if "val_predictions" in rel else "105"
+                (root / rel).write_text(f"{header}patient_id,pred\n{pid},0\n", encoding="utf-8")
+            self.assertEqual(unsanctioned_test_outputs(root, {"105"}, [ok]),
+                             ["reports/final_evaluation/exploratory/b.csv", "reports/other/leak.csv"])
+            self.assertEqual(unsanctioned_test_outputs(root, {"105"}, [ok, "reports/final_evaluation/robustness_test/"
+                                                                          "conditions/clean/predictions.csv"])[-1],
+                             "missing: reports/final_evaluation/robustness_test/conditions/clean/predictions.csv")
+
+    def test_test_named_files_outside_sanctioned_dirs_are_rejected(self):
+        for path in ("reports/test_predictions.csv", "reports/final_evaluation/test_rerun/metrics.json",
+                     "src/evaluation/test_inference.py"):
+            self.assertFalse(path.startswith(SANCTIONED_TEST_DIRS) or path in TEST_NAMED_NON_OUTPUTS, path)
+
+
+class PostUnlock:
+    def __init__(self):
+        import final_evaluation as fe
+        self.fe = fe
+        self.protocol_path = FINAL / "protocol.json"
+        self.protocol = json.loads(self.protocol_path.read_text(encoding="utf-8"))
+        self.clean_lock = fe.verify_lock(FINAL / "clean_test", self.protocol_path)
+        self.robust_lock = fe.verify_lock(FINAL / "robustness_test", self.protocol_path) \
+            if (FINAL / "robustness_test").exists() else None
+        self.sanctioned_prediction_csvs = sorted(
+            [f"reports/final_evaluation/clean_test/{n}" for n in self.clean_lock["files"] if n.endswith("predictions.csv")]
+            + ([f"reports/final_evaluation/robustness_test/{n}" for n in self.robust_lock["files"]
+                if n.endswith("predictions.csv")] if self.robust_lock else []))
+
+
+@unittest.skipUnless((FINAL / "clean_test").exists(), "pre-unlock state: covered by test_audit_passes")
+class TestPostUnlockAudit(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.post = PostUnlock()
+        cls.protocol = cls.post.protocol
+        cls.metrics = json.loads((FINAL / "clean_test" / "metrics.json").read_text(encoding="utf-8"))
+        cls.robust = json.loads((FINAL / "robustness_test" / "summary.json").read_text(encoding="utf-8")) \
+            if cls.post.robust_lock else None
+        import csv
+        with open(REPO_ROOT / "data" / "splits" / "patient_split.csv", newline="", encoding="utf-8") as f:
+            cls.test_patients = {r["patient_id"] for r in csv.DictReader(f) if r["split"] == "test"}
+
+    def test_locks_verify_and_are_linked(self):
+        self.assertEqual(self.post.clean_lock["protocol_sha256"], fp.sha256(self.post.protocol_path))
+        self.assertEqual(self.post.clean_lock["checkpoint_sha256"], self.protocol["1_frozen_model"]["checkpoint_sha256"])
+        self.assertTrue((FINAL / "clean_test" / "STARTED.json").exists())
+        if self.robust is not None:
+            self.assertEqual(self.robust["clean_lock"], self.post.clean_lock)  # robustness ran on the locked clean result
+            self.assertTrue(self.robust["clean_reproduction"]["ok"])
+            self.assertEqual(self.robust["clean_reproduction"]["max_abs_probability_difference"], 0.0)
+            self.assertTrue((FINAL / "robustness_test" / "STARTED.json").exists())
+
+    def test_no_unsanctioned_test_outputs_anywhere(self):
+        """Comment-aware scan of every output CSV under reports/ for test-patient rows (data/ holds only the
+        dataset definition: metadata and the split itself)."""
+        self.assertEqual(unsanctioned_test_outputs(REPO_ROOT, self.test_patients, self.post.sanctioned_prediction_csvs), [])
+        ex = json.loads((FINAL / "exploratory" / "summary.json").read_text(encoding="utf-8"))
+        self.assertEqual((ex["label"], ex["source"]), (EXPLORATORY_LABEL,
+                                                       "locked clean_test and robustness_test prediction files only"))
+
+    def test_results_correspond_to_the_frozen_protocol(self):
+        frozen_t = self.protocol["5_calibration"]["frozen_temperature"]
+        th = self.protocol["7_selective_prediction"]["frozen_validation_thresholds"]
+        ci = self.protocol["3_primary_endpoint"]["confidence_intervals"]
+        prov = self.metrics["provenance"]
+        self.assertEqual((prov["protocol_sha256"], prov["protocol_version"]), (fp.sha256(self.post.protocol_path), 3))
+        self.assertEqual(prov["checkpoint_sha256"], self.protocol["1_frozen_model"]["checkpoint_sha256"])
+        self.assertEqual(prov["git_status"], [])  # evaluated from a clean, committed tree
+        self.assertEqual(self.metrics["calibration"]["frozen_temperature"], frozen_t)
+        self.assertEqual(self.metrics["frozen_validation_thresholds"]["taus"], {"tau_80": th["tau_80"], "tau_50": th["tau_50"]})
+        self.assertEqual(self.metrics["selective_prediction"]["coverage_levels"],
+                         self.protocol["7_selective_prediction"]["coverage_levels"])
+        self.assertEqual(self.metrics["bootstrap"], {"unit": "patient", "n_resamples": ci["n_resamples"], "seed": ci["seed"]})
+        self.assertEqual(self.metrics["n_patients"], self.protocol["2_frozen_data_pipeline"]["patient_split"]["patients"]["test"])
+        self.assertEqual(self.metrics["n_cycles"], self.protocol["2_frozen_data_pipeline"]["metadata"]["test_rows"])
+        if self.robust is not None:
+            self.assertEqual(self.robust["frozen_temperature"], frozen_t)
+            self.assertEqual(self.robust["frozen_thresholds"], {"tau_80": th["tau_80"], "tau_50": th["tau_50"]})
+            self.assertEqual(list(self.robust["conditions"]), [c["name"] for c in self.protocol["8_robustness"]["conditions"]])
+
+    def test_no_training_selection_or_fitting_on_test(self):
+        cal = json.loads((REPO_ROOT / "reports/calibration_uncertainty/summary.json").read_text(encoding="utf-8"))
+        # temperature and thresholds are the validation-fitted values, not refitted
+        self.assertEqual(self.protocol["5_calibration"]["frozen_temperature"],
+                         cal["temperature_scaling"]["final_validation_temperature"]["temperature"])
+        th = self.protocol["7_selective_prediction"]["frozen_validation_thresholds"]
+        self.assertEqual({"tau_80": th["tau_80"], "tau_50": th["tau_50"]}, cal["part5_degradation"]["fixed_clean_thresholds"])
+        # the evaluated checkpoint is the frozen one; no training run ever used the test split
+        self.assertEqual(fp.sha256(REPO_ROOT / "models/baseline_cnn_v3/best.pt"), self.protocol["1_frozen_model"]["checkpoint_sha256"])
+        for p in (REPO_ROOT / "reports").rglob("run.json"):
+            run = json.loads(p.read_text(encoding="utf-8"))
+            self.assertFalse(run.get("test_split_evaluated"), p)
+            self.assertLessEqual(set(run.get("data", {}).get("datasets", {})), {"train", "val"}, p)
+
+    def test_frozen_artifacts_still_match_protocol_v3(self):
+        """Everything frozen still verifies; only documented post-evaluation maintenance files may differ."""
+        changed = set(fp.verify_manifest(self.protocol["11_freeze_manifest"], audio_dir=None))
+        self.assertLessEqual(changed, POST_EVALUATION_MAINTENANCE)
+        for rel in ALLOW_TEST_FILES - POST_EVALUATION_MAINTENANCE:  # the unlock path is the frozen evaluator
+            self.assertNotIn(rel, changed)
+        note = (FINAL / "post_evaluation_note.md").read_text(encoding="utf-8")
+        for rel in POST_EVALUATION_MAINTENANCE:
+            self.assertIn(f"`{rel}`", note)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,53 @@
+# Pin the exact line endings of files whose raw SHA-256 is checked (test locks, protocol hash, and the
+# split / normalization hashes stored in the checkpoint), so a fresh clone on any platform reproduces the
+# locked bytes. Generated from the files' actual bytes after the final evaluation; no content was changed.
+# See reports/final_evaluation/post_evaluation_note.md.
+data/splits/patient_split.csv eol=lf
+data/splits/split_summary.json eol=lf
+data/normalization/logmel_primary_train_band_stats.json eol=lf
+reports/final_evaluation/checkpoint_release.md eol=lf
+reports/final_evaluation/clean_test/lock.json eol=crlf
+reports/final_evaluation/clean_test/metrics.json eol=crlf
+reports/final_evaluation/clean_test/predictions.csv eol=lf
+reports/final_evaluation/clean_test/reliability_diagram.svg eol=crlf
+reports/final_evaluation/clean_test/risk_coverage_curves.csv eol=lf
+reports/final_evaluation/clean_test/STARTED.json eol=crlf
+reports/final_evaluation/clean_test/summary.md eol=crlf
+reports/final_evaluation/environment_pip_freeze.txt eol=crlf
+reports/final_evaluation/exploratory/gain_by_device.csv eol=lf
+reports/final_evaluation/exploratory/gain_by_patient.csv eol=lf
+reports/final_evaluation/exploratory/noise_by_device.csv eol=lf
+reports/final_evaluation/exploratory/noise_by_patient.csv eol=lf
+reports/final_evaluation/exploratory/normal_to_crackle_contribution.csv eol=lf
+reports/final_evaluation/exploratory/per_device_clean.csv eol=lf
+reports/final_evaluation/exploratory/per_patient_clean.csv eol=lf
+reports/final_evaluation/exploratory/summary.json eol=crlf
+reports/final_evaluation/exploratory/summary.md eol=crlf
+reports/final_evaluation/post_evaluation_note.md eol=lf
+reports/final_evaluation/protocol.json eol=crlf
+reports/final_evaluation/protocol.md eol=crlf
+reports/final_evaluation/protocol_v1_superseded.json eol=crlf
+reports/final_evaluation/protocol_v1_superseded.md eol=crlf
+reports/final_evaluation/protocol_v2_superseded.json eol=crlf
+reports/final_evaluation/protocol_v2_superseded.md eol=crlf
+reports/final_evaluation/robustness_test/conditions/clean/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/dropout_10pct/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/dropout_25pct/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/dropout_50pct/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/gain_0.25x/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/gain_0.5x/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/gain_1.5x/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/gain_2.0x/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/lowpass_1000hz/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/lowpass_2000hz/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/lowpass_500hz/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/noise_snr0db/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/noise_snr10db/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/noise_snr20db/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/conditions/noise_snr5db/predictions.csv eol=lf
+reports/final_evaluation/robustness_test/lock.json eol=crlf
+reports/final_evaluation/robustness_test/STARTED.json eol=crlf
+reports/final_evaluation/robustness_test/summary.json eol=crlf
+reports/final_evaluation/robustness_test/summary.md eol=crlf
+reports/final_evaluation/validation_dry_run/comparison.json eol=crlf
+reports/final_evaluation/validation_dry_run/predictions.csv eol=lf
