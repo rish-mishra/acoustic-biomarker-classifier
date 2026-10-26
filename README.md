@@ -4,7 +4,9 @@ I started this project with a simple question. If I train a model to recognize s
 
 > **This is a research and educational project, not a medical device or diagnostic system.** It hasn't been clinically validated, it makes no clinical or diagnostic claims, and it shouldn't be used for any medical decision.
 
-Short version: it generalized worse than validation suggested, it broke in systematic ways under degraded audio, and its confidence turned out to be a weak safety net. The model was developed only on validation data and then tested **once** on 19 patients it had never seen, under a protocol I froze and hash-verified beforehand. The full write-up is in **[reports/final_report/final_report.md](reports/final_report/final_report.md)**. The frozen model checkpoint is attached to the [v1.0.0 release](https://github.com/rish-mishra/acoustic-biomarker-classifier/releases/tag/v1.0.0).
+Short version: it generalized worse than validation suggested, it broke in systematic ways under degraded audio, and its confidence turned out to be a weak safety net. The model was developed only on validation data and then tested **once** on 19 patients it had never seen, under a protocol I froze and hash-verified beforehand. The full write-up is in **[reports/final_report/final_report.md](reports/final_report/final_report.md)**. A research manuscript based on it is in [`paper/`](paper/acoustic_biomarker_classifier_manuscript.md). It's an independent preprint and hasn't been peer reviewed; its DOI will be added once it's published.
+
+The current software and documentation release is [v1.0.1](https://github.com/rish-mishra/acoustic-biomarker-classifier/releases/tag/v1.0.1). The frozen model checkpoint was published once, as an asset of the [v1.0.0 release](https://github.com/rish-mishra/acoustic-biomarker-classifier/releases/tag/v1.0.0), and is unchanged.
 
 ## Why this question
 
@@ -20,7 +22,10 @@ The model sees one cycle at a time. I turn the cycle's audio into a **log-Mel sp
 
 ## The dataset, and why it's tricky
 
-I used the [ICBHI 2017 Respiratory Sound Database](https://bhichallenge.med.auth.gr/ICBHI_2017_Challenge): 126 patients, 920 recordings and 6,898 respiratory cycles. The labels are imbalanced, at roughly 53% normal, 27% crackle, 13% wheeze and 7% both. The raw audio isn't redistributed here; if you want to rerun things, it goes under `data/raw/`, which is git-ignored.
+I used the [ICBHI 2017 Respiratory Sound Database](https://bhichallenge.med.auth.gr/ICBHI_2017_Challenge): 126 patients, 920 recordings and 6,898 respiratory cycles. The labels are imbalanced, at roughly 53% normal, 27% crackle, 13% wheeze and 7% both. The raw audio and annotations aren't redistributed here; if you want to rerun things, get them from the dataset's official source and put them under `data/raw/`, which is git-ignored. The dataset was created by Rocha et al.; please cite their work if you use it:
+
+- B. M. Rocha et al., "A Respiratory Sound Database for the Development of Automated Classification," in *Precision Medicine Powered by pHealth and Connected Health* (IFMBE Proceedings), Springer, 2018, pp. 33–37. doi:[10.1007/978-981-10-7419-6_6](https://doi.org/10.1007/978-981-10-7419-6_6)
+- B. M. Rocha et al., "An open access database for the evaluation of respiratory sound classification algorithms," *Physiological Measurement*, 40(3):035001, 2019. doi:[10.1088/1361-6579/ab03ea](https://doi.org/10.1088/1361-6579/ab03ea)
 
 **Patient split.** The most important design choice was splitting by patient, 88 / 19 / 19 for train, validation and test (4,741 / 1,077 / 1,080 cycles). No patient appears in more than one split, so every validation and test score is about patients the model has never seen. Out of 5,000 random candidate splits, I kept the one whose mix of labels, recording devices and sample rates best matched the full dataset ([`data/splits/`](data/splits/)). Diagnosis was never used to build the split.
 
@@ -95,7 +100,7 @@ Here I was asking two questions. Do the model's probabilities match how often it
 | Error detection AUROC (1 − confidence / entropy) | 0.599 / 0.620 | 0.542 / 0.554 |
 | Error rate when keeping 100% → 50% of cycles | 0.490 → 0.416 | 0.606 → 0.561 |
 
-Temperature scaling carried over reasonably well: it roughly halved the model's average overconfidence on test. But being better calibrated on average isn't the same as knowing *which* predictions are wrong. As an error detector, confidence was close to a coin flip on test (an AUROC of 0.5 means no better than chance). Letting the model abstain on its least confident half of the cycles only lowered the error rate from 0.606 to 0.561. It got worse under degradation, too. Confidence thresholds learned on clean validation data kept *more* inputs as the noise got louder, and between 36% and 42% of noisy test cycles were confidently wrong.
+Temperature scaling carried over partially: it reduced the average overconfidence gap on test by about 40%, from +0.208 to +0.127. But being better calibrated on average isn't the same as knowing *which* predictions are wrong. As an error detector, confidence was close to a coin flip on test (an AUROC of 0.5 means no better than chance). Letting the model abstain on its least confident half of the cycles only lowered the error rate from 0.606 to 0.561. It got worse under degradation, too. Confidence thresholds learned on clean validation data kept *more* inputs as the noise got louder, and between 36% and 42% of noisy test cycles were confidently wrong.
 
 ## What I took away from it
 
@@ -124,7 +129,7 @@ The evaluator ([`src/evaluation/final_evaluation.py`](src/evaluation/final_evalu
 A few housekeeping details matter if you verify things yourself:
 - **Expected `--verify` differences.** After the test, I updated two files that the frozen manifest happened to include: this README and `tests/test_final_protocol.py`. So `final_protocol.py --verify` reports exactly those two and nothing else. Every inference, data, checkpoint, calibration and plan artifact still verifies. The frozen pre-test state is commit `9d36c12`, where verification matches exactly ([`post_evaluation_note.md`](reports/final_evaluation/post_evaluation_note.md)).
 - **Line endings.** `.gitattributes` pins the line endings of every hash-locked file, so a fresh clone on any platform reproduces the locked bytes.
-- **Checkpoint.** The reference checkpoint is attached to the [v1.0.0 release](https://github.com/rish-mishra/acoustic-biomarker-classifier/releases/tag/v1.0.0) as `baseline_cnn_v3_seed42_best.pt`. Its size and SHA-256 are in [`checkpoint_release.md`](reports/final_evaluation/checkpoint_release.md).
+- **Checkpoint.** The reference checkpoint is attached to the [v1.0.0 release](https://github.com/rish-mishra/acoustic-biomarker-classifier/releases/tag/v1.0.0) as `baseline_cnn_v3_seed42_best.pt`. It wasn't re-uploaded with v1.0.1, which changed only documentation and tests. Its size and SHA-256 are in [`checkpoint_release.md`](reports/final_evaluation/checkpoint_release.md).
 - **Tests.** The test suite (338/338 passing) runs on synthetic data and checks, among other things, that every number quoted here matches the stored results.
 
 ### Running it yourself
@@ -164,6 +169,7 @@ acoustic-biomarker-classifier/
 │   ├── splits/               # frozen patient-level split + composition summary
 │   └── normalization/        # train-only log-Mel band statistics
 ├── models/                   # checkpoints (git-ignored)
+├── paper/                    # research manuscript (preprint) + Zenodo metadata draft
 ├── reports/
 │   ├── runs/                 # training runs, model comparison, seed study
 │   ├── robustness/           # validation degradation study
@@ -175,7 +181,8 @@ acoustic-biomarker-classifier/
 │   ├── features/             # audio preprocessing, log-Mel, degradations
 │   ├── models/               # CNN / CRNN / MobileNetV3, training, seed-study runner
 │   └── evaluation/           # metrics, analyses, calibration, robustness, final protocol + evaluator
-└── tests/                    # unit and end-to-end tests (synthetic data)
+├── tests/                    # unit and end-to-end tests (synthetic data)
+└── LICENSE                   # MIT, original source code only (see License below)
 ```
 
 ## Limitations and what I'd do next
@@ -183,6 +190,17 @@ acoustic-biomarker-classifier/
 The biggest limitation is size. With only 19 validation and 19 test patients, the confidence intervals are wide, and the test "both" class comes almost entirely from two patients. Everything also rests on one dataset, one split and one frozen model. In ICBHI, device, diagnosis and sample rate are tangled together, and I didn't evaluate on an external dataset or on a held-out device. The degradations are synthetic, so they probe the model's sensitivities rather than measure real-world recording conditions. Accuracy-based calibration measures can also look deceptively good when predictions collapse onto the majority class. And there's no clinical validation of any kind.
 
 If I kept going, the next step would be a predeclared held-out-device evaluation to test the AKGC417L lead properly. After that, I'd look at saliency maps to see what the model actually attends to, try external datasets, and maybe build a small interactive demo.
+
+## License
+
+The original source code in this repository is released under the [MIT License](LICENSE). That licence covers the project's own code only. It does **not** grant any rights to:
+- the ICBHI 2017 Respiratory Sound Database, which isn't redistributed here and stays under its own terms;
+- any other third-party dataset;
+- third-party pretrained model weights, such as the ImageNet weights used to initialize MobileNetV3, which keep their own licences;
+- any other third-party material;
+- the research manuscript in `paper/`, which is released separately under CC BY 4.0.
+
+The MIT licence also isn't intended to cover the trained checkpoint attached to the v1.0.0 release. That checkpoint was trained on ICBHI 2017 data and is provided for research reproducibility; any use of it is subject to the dataset's own terms. Derived files included for reproducibility, such as the split, normalization statistics and prediction outputs, don't relicense the underlying dataset.
 
 ## Disclaimer
 
