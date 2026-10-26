@@ -80,9 +80,12 @@ class TestLineEndings(unittest.TestCase):
 
     def test_canonical_blob_matches_git_hash_object(self):
         for rel in ("README.md", "src/models/train.py"):
-            data = (REPO_ROOT / rel).read_bytes()
-            self.assertEqual(fp.canonical_blob_id(data), fp.git("hash-object", rel))
-            self.assertEqual(fp.canonical_blob_id(data.replace(b"\n", b"\r\n")), fp.git("hash-object", rel))
+            data = (REPO_ROOT / rel).read_bytes()  # the working copy may be LF or CRLF (core.autocrlf)
+            expected = fp.git("hash-object", rel)
+            self.assertEqual(fp.canonical_blob_id(data), expected)
+            lf = data.replace(b"\r\n", b"\n").replace(b"\r", b"\n")  # normalise first, so CRLF never becomes \r\r\n
+            self.assertEqual(fp.canonical_blob_id(lf), expected)
+            self.assertEqual(fp.canonical_blob_id(lf.replace(b"\n", b"\r\n")), expected)
 
     def test_repo_classification(self):
         self.assertTrue(fp.is_external("data/metadata.csv"))
@@ -177,6 +180,12 @@ EXPLORATORY_DIR = "reports/final_evaluation/exploratory/"
 EXPLORATORY_LABEL = "POST-HOC EXPLORATORY — NOT PREDECLARED"
 # files whose path contains "test" but which are code, not test outputs (explicit list, never a pattern)
 TEST_NAMED_NON_OUTPUTS = {"src/evaluation/exploratory_test_analysis.py"}
+# final-report figures rendered by src/evaluation/final_report_figures.py from already-locked outputs (no inference);
+# explicit paths, checked below to exist and to be produced only by that script
+REPORT_FIGURES_FROM_LOCKED_OUTPUTS = {"reports/final_report/figures/risk_coverage_validation_vs_test.svg",
+                                      "reports/final_report/figures/robustness_validation_vs_test.svg",
+                                      "reports/final_report/figures/test_confusion_matrix.svg"}
+TEST_NAMED_NON_OUTPUTS |= REPORT_FIGURES_FROM_LOCKED_OUTPUTS
 # the only files allowed to call the unlock path; all of them are frozen in protocol v3 (checked below)
 ALLOW_TEST_FILES = {"src/evaluation/final_evaluation.py", "src/evaluation/final_protocol.py",
                     "tests/test_final_evaluation.py"}
@@ -325,6 +334,25 @@ class TestPostUnlockAudit(unittest.TestCase):
         note = (FINAL / "post_evaluation_note.md").read_text(encoding="utf-8")
         for rel in POST_EVALUATION_MAINTENANCE:
             self.assertIn(f"`{rel}`", note)
+
+    def test_allowlisted_report_figures_are_rendered_from_locked_outputs(self):
+        """Each allowlisted figure must equal an in-memory re-render from the locked outputs (nothing is written,
+        no inference); so the allowlist cannot admit a different file under the same name."""
+        import final_report_figures as frf
+        metrics = self.metrics
+        test_rob = json.loads((FINAL / "robustness_test" / "summary.json").read_text(encoding="utf-8"))
+        val_rob = json.loads((REPO_ROOT / "reports/robustness/noise_robustness/summary.json").read_text(encoding="utf-8"))
+        cal = json.loads((REPO_ROOT / "reports/calibration_uncertainty/summary.json").read_text(encoding="utf-8"))
+        rendered = {
+            "reports/final_report/figures/robustness_validation_vs_test.svg": frf.robustness_svg(val_rob, test_rob),
+            "reports/final_report/figures/test_confusion_matrix.svg": frf.confusion_svg(metrics),
+            "reports/final_report/figures/risk_coverage_validation_vs_test.svg": frf.risk_coverage_svg(
+                cal["part3_error_detection"]["raw"]["error_rate"], metrics["error_detection"]["raw"]["error_rate"]),
+        }
+        self.assertEqual(set(rendered), REPORT_FIGURES_FROM_LOCKED_OUTPUTS)
+        for rel, svg in rendered.items():
+            on_disk = (REPO_ROOT / rel).read_text(encoding="utf-8").replace("\r\n", "\n")
+            self.assertEqual(on_disk, svg.replace("\r\n", "\n"), rel)
 
 
 if __name__ == "__main__":

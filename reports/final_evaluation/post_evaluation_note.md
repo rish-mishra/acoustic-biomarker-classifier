@@ -36,6 +36,10 @@ This note records what changed in the repository after the one-time final test e
 
   This post-unlock check lives in `TestPostUnlockAudit`. It allowlists explicit paths only, never patterns that would admit arbitrary test files.
 
+A later update (`v1.0.1`) changed two tests, with no effect on any result:
+- **Report figures.** The post-unlock allowlist was extended, by exact path, to three final-report figures derived from locked outputs: `risk_coverage_validation_vs_test.svg`, `robustness_validation_vs_test.svg` and `test_confusion_matrix.svg`. A test re-renders each one in memory from the locked outputs and requires the file to match.
+- **Line endings.** The line-ending regression test was made CRLF-safe: it normalises to LF before building its CRLF copy.
+
 ## Verifying against protocol v3
 
 `python src/evaluation/final_protocol.py --verify` compares the *current* working tree with the protocol-v3 manifest. At later documentation commits it reports these expected differences, all of them documentation or test maintenance:
